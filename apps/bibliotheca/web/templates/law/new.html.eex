@@ -1,0 +1,6 @@
+<h2>New law</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: law_path(@conn, :create) %>
+
+<%= link "Back", to: law_path(@conn, :index) %>

@@ -1,0 +1,33 @@
+<h2>Show law</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @law.name %>
+  </li>
+
+  <li>
+    <strong>Header:</strong>
+    <%= @law.header %>
+  </li>
+
+  <li>
+    <strong>Reform date:</strong>
+    <%= @law.reform_date %>
+  </li>
+
+  <li>
+    <strong>Original text:</strong>
+    <%= @law.original_text %>
+  </li>
+
+  <li>
+    <strong>Text:</strong>
+    <%= json @law.json_text %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: law_path(@conn, :edit, @law) %>
+<%= link "Back", to: law_path(@conn, :index) %>
