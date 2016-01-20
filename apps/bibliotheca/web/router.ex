@@ -18,6 +18,7 @@ defmodule Bibliotheca.Router do
 
     get "/", PageController, :index
     resources "/laws", LawController
+    get "/load", LawController, :load
   end
 
   # Other scopes may use custom stacks.

@@ -4,7 +4,7 @@ defmodule Bibliotheca.Law do
   schema "laws" do
     field :name, :string
     field :header, :string
-    field :reform_date, Ecto.Date
+    field :reform_date, :string
     field :original_text, :string
     field :json_text, :map
 

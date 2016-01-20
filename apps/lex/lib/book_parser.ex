@@ -19,7 +19,8 @@ defmodule Lex.BookParser do
 
     {book_title, parts_with_index} = extract_book_title(raw_parts)
     parts_map = Enum.map(parts_with_index, &parse_part(&1))
-    {"LIBRO #{index_to_word(index)}: " <> book_title, parts_map}
+    key = "LIBRO #{index_to_word(index)}: " <> book_title
+    %{key => parts_map}
   end
 
   defp parse_book_containing({book, index}, :titles) do
@@ -27,7 +28,8 @@ defmodule Lex.BookParser do
 
     {book_title, titles_with_index} = extract_book_title(raw_titles)
     titles_map = Enum.map(titles_with_index, &parse_title(&1))
-    {"LIBRO #{index_to_word(index)}: " <> book_title, titles_map}
+    key = "LIBRO #{index_to_word(index)}: " <> book_title
+    %{key => titles_map}
   end
 
   ####################

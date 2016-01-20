@@ -19,7 +19,7 @@
 
   <div class="form-group">
     <%= label f, :reform_date, class: "control-label" %>
-    <%= date_select f, :reform_date, class: "form-control" %>
+    <%= text_input f, :reform_date, class: "form-control" %>
     <%= error_tag f, :reform_date %>
   </div>
 

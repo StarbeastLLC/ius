@@ -19,7 +19,8 @@ defmodule Lex.ArticleParser do
   defp parse_article_containing(article, :text) do
     raw_article = split_article_using(article, @article_number_expression)
     {article_number, text} = extract_article_number(raw_article)
-    {"ARTICULO " <> article_number, text}
+    key = "ARTICULO " <> article_number
+    %{key => text}
   end
 
   ####################

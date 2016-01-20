@@ -23,7 +23,8 @@ defmodule Lex.SubHeadLandParser do
     |> Enum.with_index
 
     chapters_map = Enum.map(chapters_with_index, &parse_chapter(&1))
-    {"SUBAPARTADO: " <> subheadland_name, chapters_map}
+    key = "SUBAPARTADO: " <> subheadland_name
+    %{key => chapters_map}
   end
 
   ####################

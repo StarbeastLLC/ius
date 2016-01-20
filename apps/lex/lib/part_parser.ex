@@ -19,7 +19,8 @@ defmodule Lex.PartParser do
     end
 
     titles_map = Enum.map(titles_with_index, &parse_title(&1))
-    {"#{index_to_word(index)} PARTE: " <> part_title, titles_map}
+    key = "#{index_to_word(index)} PARTE: " <> part_title
+    %{key => titles_map}
   end
 
   def part_expression, do: @part_expression

@@ -23,7 +23,8 @@ defmodule Lex.ChapterParser do
 
     {chapter_name, subtitle, articles} = extract_chapter_name_and_subtitle(raw_articles)
     articles_map = Enum.map(articles, &parse_article(&1))
-    {"CAPITULO #{index_to_word(index)}: " <> chapter_name, {subtitle, articles_map}}
+    key = "CAPITULO #{index_to_word(index)}: " <> chapter_name
+    %{key => %{subtitle => articles_map}}
   end
 
   defp parse_chapter_containing({chapter, index}, :sections) do
@@ -31,7 +32,8 @@ defmodule Lex.ChapterParser do
 
     {chapter_name, sections} = extract_chapter_name(raw_sections)
     sections_map = Enum.map(sections, &parse_section(&1))
-    {"CAPITULO #{index_to_word(index)}: " <> chapter_name, sections_map}
+    key = "CAPITULO #{index_to_word(index)}: " <> chapter_name
+    %{key => sections_map}
   end
 
   defp parse_chapter_containing({chapter, index}, :articles) do
@@ -39,7 +41,8 @@ defmodule Lex.ChapterParser do
 
     {chapter_name, articles} = extract_chapter_name(raw_articles)
     articles_map = Enum.map(articles, &parse_article(&1))
-    {"CAPITULO #{index_to_word(index)}: " <> chapter_name, articles_map}
+    key = "CAPITULO #{index_to_word(index)}: " <> chapter_name
+    %{key => articles_map}
   end
 
   ####################

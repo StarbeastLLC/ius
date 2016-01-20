@@ -6,8 +6,6 @@
       <th>Name</th>
       <th>Header</th>
       <th>Reform date</th>
-      <th>Original text</th>
-      <th>Text</th>
 
       <th></th>
     </tr>
@@ -18,8 +16,6 @@
       <td><%= law.name %></td>
       <td><%= law.header %></td>
       <td><%= law.reform_date %></td>
-      <td><%= law.original_text %></td>
-      <td><%= json law.json_text %></td>
 
       <td class="text-right">
         <%= link "Show", to: law_path(@conn, :show, law), class: "btn btn-default btn-xs" %>
@@ -32,3 +28,5 @@
 </table>
 
 <%= link "New law", to: law_path(@conn, :new) %>
+</br>
+<%= link "Load Data", to: law_path(@conn, :load) %>

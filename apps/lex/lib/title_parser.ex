@@ -29,7 +29,8 @@ defmodule Lex.TitleParser do
     {title_name, headlands} = extract_title_name(raw_headlands)
     headlands_with_names = List.zip([headland_names | [headlands | []]])
     headlands_map = Enum.map(headlands_with_names, &parse_headland(&1))
-    {"TITULO #{index_to_word(index)}: " <> title_name, headlands_map}
+    key = "TITULO #{index_to_word(index)}: " <> title_name
+    %{key => headlands_map}
   end
 
   defp parse_title_containing({title, index}, :chapters) do
@@ -38,7 +39,8 @@ defmodule Lex.TitleParser do
     {title_name, chapters} = extract_title_name(raw_chapters)
     chapters_with_index = Enum.with_index(chapters)
     chapters_map = Enum.map(chapters_with_index, &parse_chapter(&1))
-    {"TITULO #{index_to_word(index)}: " <> title_name, chapters_map}
+    key = "TITULO #{index_to_word(index)}: " <> title_name
+    %{key => chapters_map}
   end
 
   defp parse_title_containing({title, index}, :articles) do
@@ -46,7 +48,8 @@ defmodule Lex.TitleParser do
 
     {title_name, articles} = extract_title_name(raw_articles)
     articles_map = Enum.map(articles, &parse_article(&1))
-    {"TITULO #{index_to_word(index)}: " <> title_name, articles_map}
+    key = "TITULO #{index_to_word(index)}: " <> title_name
+    %{key => articles_map}
   end
 
   ####################

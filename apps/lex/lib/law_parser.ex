@@ -25,23 +25,40 @@ defmodule Lex.LawParser do
   # Función principal de inicio del parseo del contenido del archivo
   ###################################################################
   def parse_file(file_name) do
-    {title, header, preliminar, books, transitories} = parse_sections_from_file(file_name)
-    preliminar_map = PreliminarParser.parse_preliminar(preliminar)
-    books_map = Enum.map(books, &BookParser.parse_book(&1))
-    transitories_map = TransitoriesParser.parse_transitories(transitories)
+    case parse_sections_from_file(file_name) do
+      {title, header, preliminar, books, transitories, content} ->
+        reform_date = parse_reform_date(header)
+        preliminar_map = PreliminarParser.parse_preliminar(preliminar)
+        books_map = Enum.map(books, &BookParser.parse_book(&1))
+        transitories_map = TransitoriesParser.parse_transitories(transitories)
+        {:ok, %{title: title, reform_date: reform_date, header: header, preliminar: preliminar_map, books: books_map, transitories: transitories_map, original_text: content}}
+      _otro ->
+        {:error, "File with unknown content: " <> file_name}
+    end
 
-    %{title: title, header: header, preliminar: preliminar_map, books: books_map, transitories: transitories_map}
   end
 
   ####################
   # Private functions
   ####################
+  defp parse_reform_date(header) do
+    reform_date = Regex.run(~r{DOF.*}, header)
+    if reform_date != nil do
+      reform_date
+      |> Enum.at(0)
+      |> String.split(" ", trim: true)
+      |> Enum.at(1)
+    else
+      "NO TIENE FECHA"
+    end
+  end
+
   defp parse_sections_from_file(file_name) do
     {title, content} = parse_content(file_name)
     {header, body} = parse_header_body(content, title)
     {preliminars, books, transitories} = parse_main_sections(body)
 
-    {title, header, preliminars, books, transitories}
+    {title, header, preliminars, books, transitories, content}
   end
 
   defp parse_content(file_name) do
@@ -52,8 +69,21 @@ defmodule Lex.LawParser do
   end
 
   defp parse_header_body(content, title) do
-    [header, body] = String.split(content, title, parts: 2, trim: true)
-    {String.strip(header), String.strip(body)}
+    # [header, body] = String.split(content, title, parts: 2, trim: true)
+    case String.split(content, title, parts: 2, trim: true) do
+      [header, body] ->
+        {String.strip(header), String.strip(body)}
+      _otro ->
+        # En algunos documentos el titulo trae acentos pero el mismo titulo en el cuerpo del documento no.
+        # Por lo tanto tenemos que probar quitando los acentos.
+        title = String.replace(title, "Á", "A")
+        title = String.replace(title, "É", "E")
+        title = String.replace(title, "Í", "I")
+        title = String.replace(title, "Ó", "O")
+        title = String.replace(title, "Ú", "U")
+        [header, body] = String.split(content, title, parts: 2, trim: true)
+        {String.strip(header), String.strip(body)}
+    end
   end
 
   defp parse_main_sections(body) do
@@ -61,7 +91,12 @@ defmodule Lex.LawParser do
     raw_books = String.split(body, books_exp, trim: true)
 
     {preliminars, books_with_trans} = parse_preliminars(raw_books)
-    {transitories, books} = parse_transitories(books_with_trans)
+    {transitories, books} =
+    if books_with_trans != nil do
+      parse_transitories(books_with_trans)
+    else
+      {"", []}
+    end
 
     books = Enum.with_index(books)
     {preliminars, books, transitories}
