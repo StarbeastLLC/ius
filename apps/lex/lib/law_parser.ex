@@ -3,7 +3,7 @@ defmodule Lex.LawParser do
 
   This parser takes into account the following file content structure:
 
-  LEY = ENCABEZADO TITULO_LEY PRELIMINAR LIBRO+ TRANSITORIOS
+  LEY = ENCABEZADO TITULO_LEY PRELIMINAR (LIBRO+ | TITULO+) TRANSITORIOS
   PRELIMINAR = ARTICULO+
   LIBRO = (PARTE+ | TITULO+)
   PARTE = TITLE? TITULO+
@@ -119,9 +119,9 @@ defmodule Lex.LawParser do
   defp parse_transitories(raw_books) do
     last_elem_index = length(raw_books) - 1
     last_elem = Enum.at(raw_books, last_elem_index)
-    transitories = ""
     raw_transitories = String.split(last_elem, ~r{(Transitorios|TRANSITORIOS)}, parts: 2, trim: true)
 
+    transitories = ""
     # Si hay mas de un elemento significa que hay transitorios, el split encontro la cadena
     # y pudo hacer la separación.
     if length(raw_transitories) == 2 do
