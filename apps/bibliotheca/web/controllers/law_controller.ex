@@ -13,23 +13,29 @@ defmodule Bibliotheca.LawController do
 
   def load(conn, _params) do
     {:ok, files} = File.ls("docs/federales")
-    Enum.each(files, &export_file(&1))
+    Enum.each(files, &export_file_async(&1))
+    # export_file("2_241213.txt")
 
     laws = Repo.all(Law)
     render(conn, "index.html", laws: laws)
+  end
+
+  defp export_file_async(file) do
+    spawn(fn -> export_file(file) end)
   end
 
   defp export_file(file) do
     IO.puts "Processing file: " <> file
     case LawParser.parse_file("docs/federales/" <> file) do
       {:ok, content} ->
-        law = %Law{name: content[:title],
+        law = %Law{file_name: file,
+                   name: content[:title],
                    header: content[:header],
                    reform_date: content[:reform_date],
                    original_text: content[:original_text],
                    json_text: content}
 
-        # Repo.insert(law)
+      Repo.insert(law)
       {:error, error} ->
         IO.puts error
     end

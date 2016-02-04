@@ -3,11 +3,12 @@ defmodule Bibliotheca.Repo.Migrations.CreateLaw do
 
   def change do
     create table(:laws) do
-      add :name, :string
-      add :header, :text
-      add :reform_date, :string
+      add :file_name,     :string
+      add :name,          :string
+      add :header,        :text
+      add :reform_date,   :string
       add :original_text, :text
-      add :json_text, :map
+      add :json_text,     :map
 
       timestamps
     end

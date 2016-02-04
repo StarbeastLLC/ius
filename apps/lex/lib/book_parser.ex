@@ -4,12 +4,16 @@ defmodule Lex.BookParser do
   import Lex.PartParser,  only: [parse_part: 1, part_expression: 0]
   import Lex.TitleParser, only: [parse_title: 1, title_expression: 0]
 
+  @book_expression ~r{LIBRO (PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SEPTIMO|OCTAVO|NOVENO|DECIMO)}
+
   ####################
   # Public functions
   ####################
   def parse_book(book_with_index) do
     parse_book_containing(book_with_index, book_has(book_with_index))
   end
+
+  def book_expression, do: @book_expression
 
   ####################
   # Branchs

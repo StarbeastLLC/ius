@@ -2,16 +2,17 @@ defmodule Bibliotheca.Law do
   use Bibliotheca.Web, :model
 
   schema "laws" do
-    field :name, :string
-    field :header, :string
-    field :reform_date, :string
+    field :file_name,     :string
+    field :name,          :string
+    field :header,        :string
+    field :reform_date,   :string
     field :original_text, :string
-    field :json_text, :map
+    field :json_text,     :map
 
     timestamps
   end
 
-  @required_fields ~w(name header reform_date original_text json_text)
+  @required_fields ~w(file_name name header reform_date original_text json_text)
   @optional_fields ~w()
 
   @doc """
