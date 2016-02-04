@@ -3,6 +3,7 @@ defmodule Lex.BodyParser do
 
   import Lex.BookParser, only: [parse_book: 1, book_expression: 0]
   import Lex.TitleParser, only: [parse_title: 1, title_expression: 0]
+  import Lex.ArticleParser, only: [parse_article: 1, article_expression: 0]
 
   # Se recibe el contenido del archivo sin el header.
   def parse_body(body) do
@@ -16,6 +17,7 @@ defmodule Lex.BodyParser do
     raw_books = String.split(body, book_expression, trim: true)
 
     {preliminars, books, transitories} = extract_elements(raw_books)
+    books = Enum.with_index(books)
     books_map = Enum.map(books, &parse_book(&1))
     {preliminars, books_map, transitories}
   end
@@ -24,32 +26,42 @@ defmodule Lex.BodyParser do
     raw_titles = String.split(body, title_expression, trim: true)
 
     {preliminars, titles, transitories} = extract_elements(raw_titles)
+    titles = Enum.with_index(titles)
     titles_map = Enum.map(titles, &parse_title(&1))
     {preliminars, titles_map, transitories}
   end
 
+  defp parse_body_containing(body, :articles) do
+    body = String.replace(body, "ARTICULO", "Artículo", global: true)
+    raw_articles = String.split(body, article_expression, trim: true)
+
+    {preliminars, articles, transitories} = extract_elements(raw_articles)
+    articles_map = Enum.map(articles, &parse_article(&1))
+    {preliminars, articles_map, transitories}
+  end
+
   defp parse_body_containing(_body, value) do
-    IO.puts "Error parsing body #{value}"
+    IO.puts "Parsing Error: body #{value}"
     {"",%{},""}
   end
 
   defp extract_elements(raw_elements) do
     {preliminars, body_with_trans} = parse_preliminars(raw_elements)
-    {transitories, titles} =
+    {transitories, raw_body} =
     if body_with_trans != nil do
       parse_transitories(body_with_trans)
     else
       {"", []}
     end
 
-    titles = Enum.with_index(titles)
-    {preliminars, titles, transitories}
+    {preliminars, raw_body, transitories}
   end
 
   defp body_has(body) do
     cond do
-      Regex.match?(book_expression, body) -> :books
+      Regex.match?(book_expression, body)  -> :books
       Regex.match?(title_expression, body) -> :titles
+      Regex.match?(~r{^ARTICULO}, body)     -> :articles
       true -> :unknown
     end
   end

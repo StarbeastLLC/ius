@@ -13,8 +13,10 @@ defmodule Bibliotheca.LawController do
 
   def load(conn, _params) do
     {:ok, files} = File.ls("docs/federales")
-    Enum.each(files, &export_file_async(&1))
     # export_file("2_241213.txt")
+    # export_file("100.txt")
+    Enum.each(files, &export_file_async(&1))
+    # Enum.each(files, &export_file(&1))
 
     laws = Repo.all(Law)
     render(conn, "index.html", laws: laws)
