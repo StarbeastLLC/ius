@@ -13,8 +13,8 @@ defmodule Bibliotheca.User do
     timestamps
   end
 
-  @required_fields ~w(password username email verification_token is_verified first_name last_name)
-  @optional_fields ~w()
+  @required_fields ~w(password username email is_verified first_name last_name)
+  @optional_fields ~w(verification_token)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

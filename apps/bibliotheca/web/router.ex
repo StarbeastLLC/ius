@@ -17,6 +17,8 @@ defmodule Bibliotheca.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    post "/register", RegistrationController, :create
+    
     resources "/laws", LawController
     get "/load", LawController, :load
   end

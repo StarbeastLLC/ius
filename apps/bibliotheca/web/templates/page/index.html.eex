@@ -1,1 +1,12 @@
-<h1>Lexi</h1>
+<h1>Welcome!</h1>
+
+<%= form_for @changeset, registration_path(@conn, :create), [multipart: true], fn f -> %>
+
+  <%= text_input f, :first_name, placeholder: "First name", required: true %>
+  <%= text_input f, :last_name, placeholder: "Last name", required: true %>
+  <%= text_input f, :email, placeholder: "Email", required: true %>
+  <%= text_input f, :password, placeholder: "Password", required: true %>
+  <%= text_input f, :username, placeholder: "Username", required: true %>
+  <%= submit "CREATE ACCOUNT"%>
+
+<% end %>

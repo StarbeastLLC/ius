@@ -7,4 +7,12 @@ defmodule Bibliotheca.RegistrationController do
     changeset = User.changeset(%User{})
     render conn, "index.html", changeset: changeset
   end
+
+  def create(conn, %{"user" => user_params}) do
+  	changeset = Elegua.changeset(%User{}, user_params)
+  	|> User.changeset(user_params)
+
+  	Elegua.register(changeset, :verify)
+  	redirect conn, to: "/"
+  end
 end
