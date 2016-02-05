@@ -19,6 +19,16 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+# Configures Elegua
+config :elegua,
+  user_model: Bibliotheca.User,
+  app_repo: Bibliotheca.Repo,
+  password_field: :password,
+  username_field: :username,
+  email_field: :email,
+  verification_token_field: :verification_token,
+  is_verified_field: :is_verified
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
