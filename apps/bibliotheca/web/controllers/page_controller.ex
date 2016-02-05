@@ -1,7 +1,9 @@
 defmodule Bibliotheca.PageController do
   use Bibliotheca.Web, :controller
 
+  alias Bibliotheca.RegistrationController
+
   def index(conn, _params) do
-    render conn, "index.html"
+    RegistrationController.new(conn, _params)
   end
 end
