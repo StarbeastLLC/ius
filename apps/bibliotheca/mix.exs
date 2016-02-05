@@ -41,7 +41,8 @@ defmodule Bibliotheca.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:lex, in_umbrella: true},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:elegua, git: "https://github.com/ZuraGuerra/elegua.git"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
