@@ -23,7 +23,7 @@ defmodule Bibliotheca.Mixfile do
   def application do
     [mod: {Bibliotheca, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :elegua]]
   end
 
   # Specifies which paths to compile per environment.
