@@ -12,7 +12,7 @@ defmodule Bibliotheca.RegistrationController do
   	changeset = Elegua.changeset(%User{}, user_params)
   	|> User.changeset(user_params)
 
-  	Elegua.register(changeset, :verify)
+  	Elegua.register(changeset)
   	redirect conn, to: "/"
   end
 end
