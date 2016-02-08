@@ -20,9 +20,9 @@ config :logger, :console,
   metadata: [:request_id]
 
 # Mailgun credentials
-config :bibliotheca, 
-  mailgun_domain: "https://api.mailgun.net/v3/sandbox9ddf700296ad4bf0a817cedfe2a09d99.mailgun.org",
-  mailgun_key: "key-0c056f5ddfd814fe0e9a1b831c26b561"
+config :mailgun, 
+  domain: "https://api.mailgun.net/v3/sandbox9ddf700296ad4bf0a817cedfe2a09d99.mailgun.org",
+  key: "key-0c056f5ddfd814fe0e9a1b831c26b561"
 
 # Configures Elegua
 config :elegua,

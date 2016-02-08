@@ -14,8 +14,8 @@ defmodule Bibliotheca.RegistrationController do
   	changeset = Elegua.changeset(%User{}, user_params)
   	|> User.changeset(user_params)
 
-  	Elegua.register(changeset, :verify)
-    verification_token = changeset.params["verification_token"]
+  	{:ok, user} = Elegua.register(changeset, :verify)
+    verification_token = user.verification_token
     user_email = changeset.params["email"]
     content = "Your token: #{verification_token}"
     Elegua.send_verification_email(user_email, @from, @welcome, {:text, content})
