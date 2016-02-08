@@ -35,6 +35,8 @@ defmodule Bibliotheca.User do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_format(:email, ~r/@/)
+    |> validate_format(:legal_email, ~r/@/)
     |> unique_constraint(:email, on: Bibliotheca.Repo, downcase: true)
     |> unique_constraint(:username, on: Bibliotheca.Repo, downcase: true)
   end

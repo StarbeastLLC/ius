@@ -14,15 +14,22 @@ defmodule Bibliotheca.RegistrationController do
     changeset = Elegua.changeset(%User{}, user_params)
     |> User.changeset(user_params)
 
-    {:ok, user} = Elegua.register(changeset, :verify)
-    verification_token = user.verification_token
-    user_email = changeset.params["email"]
-    content = "Your verification link: http://lexi.mx/register/#{verification_token}"
-    Elegua.send_verification_email(user_email, @from, @welcome, {:text, content})
+    case Elegua.register(changeset, :verify) do
+      {:ok, user} ->
+        verification_token = user.verification_token
+        user_email = changeset.params["email"]
+        content = "Your verification link: http://lexi.mx/register/#{verification_token}"
+        Elegua.send_verification_email(user_email, @from, @welcome, {:text, content})
 
-    conn
-    |> put_flash(:info, "We send you an email with your verification link!")
-    |> redirect(to: "/register")
+        conn
+        |> put_flash(:info, "We send you an email with your verification link!")
+        |> redirect(to: "/register")
+      {:error, changeset} ->
+        conn
+        |> put_flash(:error, "Invalid fields: #{inspect changeset.errors}")
+        |> render(Bibliotheca.PageView, "index.html", changeset: changeset)
+    end
+    
   end
 
   def verify(conn, %{"token" => verification_token}) do
