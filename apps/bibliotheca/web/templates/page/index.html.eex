@@ -3,10 +3,34 @@
 <%= form_for @changeset, registration_path(@conn, :create), [multipart: true], fn f -> %>
 
   <%= text_input f, :first_name, placeholder: "First name", required: true %>
+  <br>
   <%= text_input f, :last_name, placeholder: "Last name", required: true %>
-  <%= text_input f, :email, placeholder: "Email", required: true %>
-  <%= text_input f, :password, placeholder: "Password", required: true %>
+  <br>
+  <%= text_input f, :state, placeholder: "State", required: true %>
+  <br>
   <%= text_input f, :username, placeholder: "Username", required: true %>
+  <br>
+  <%= text_input f, :email, placeholder: "Email", required: true %>
+  <br>
+  <%= text_input f, :password, placeholder: "Password", required: true %>
+  <br>
+  <br>
+  <label>Terms and conditions?</label>
+  <%= checkbox f, :accepts_terms, required: true %>
+  <br>
+  <label>Cookies?</label>
+  <%= checkbox f, :accepts_terms, required: true %>
+  <br>
+  <br>
+  <%= text_input f, :legal_name, placeholder: "Legal name", required: true %>
+  <br>
+  <%= text_input f, :legal_address, placeholder: "Billing address", required: true %>
+  <br>
+  <%= text_input f, :rfc, placeholder: "RFC", required: true %>
+  <br>
+  <%= text_input f, :legal_email, placeholder: "Billing email", required: true %>
+  <br>
+  <br>
   <%= submit "CREATE ACCOUNT"%>
 
 <% end %>
