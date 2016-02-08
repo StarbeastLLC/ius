@@ -22,7 +22,7 @@ defmodule Bibliotheca.RegistrationController do
 
     conn
     |> put_flash(:info, "We send you an email with your verification link!")
-    |> redirect(to: "/")
+    |> redirect(to: "/register")
   end
 
   def verify(conn, %{"token" => verification_token}) do
@@ -30,11 +30,11 @@ defmodule Bibliotheca.RegistrationController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Verified! Thanks for using Lexi!")
-        |> redirect(to: "/")
+        |> redirect(to: "/register")
       {:error, _} ->
         conn
         |> put_flash(:error, "Invalid token!")
-        |> redirect(to: "/")
+        |> redirect(to: "/register")
     end
   end
     
