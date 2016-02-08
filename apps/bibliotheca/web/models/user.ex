@@ -5,15 +5,25 @@ defmodule Bibliotheca.User do
     field :password, :string
     field :username, :string
     field :email, :string
-    field :verification_token, :string
-    field :is_verified, :boolean, default: false
     field :first_name, :string
     field :last_name, :string
+    field :state, :string
+
+    field :verification_token, :string
+    field :is_verified, :boolean, default: false
+
+    field :accepts_terms, :boolean, default: false
+    field :accepts_cookies, :boolean, default: false
+
+    field :rfc, :string
+    field :legal_name, :string
+    field :legal_address, :string
+    field :legal_email, :string
 
     timestamps
   end
 
-  @required_fields ~w(password username email is_verified first_name last_name)
+  @required_fields ~w(password username email is_verified first_name last_name rfc legal_name legal_address legal_email accepts_terms accepts_cookies state)
   @optional_fields ~w(verification_token)
 
   @doc """
