@@ -35,5 +35,7 @@ defmodule Bibliotheca.User do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> unique_constraint(:email, on: Bibliotheca.Repo, downcase: true)
+    |> unique_constraint(:username, on: Bibliotheca.Repo, downcase: true)
   end
 end
