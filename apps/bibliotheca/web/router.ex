@@ -15,8 +15,9 @@ defmodule Bibliotheca.Router do
 
   scope "/", Bibliotheca do
     pipe_through :browser # Use the default browser stack
-
-    get "/", PageController, :index
+    
+    get "/", PageController, :admin?
+    get "/register", PageController, :index
     post "/register", RegistrationController, :create
     get "/register/:token", RegistrationController, :verify
     
