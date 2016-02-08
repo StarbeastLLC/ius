@@ -18,7 +18,7 @@ defmodule Bibliotheca.Router do
 
     get "/", PageController, :index
     post "/register", RegistrationController, :create
-    get "/register/:verification_token", RegistrationController, :verify
+    get "/register/:token", RegistrationController, :verify
     
     resources "/laws", LawController
     get "/load", LawController, :load
