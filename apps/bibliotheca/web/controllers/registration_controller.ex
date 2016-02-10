@@ -7,7 +7,7 @@ defmodule Bibliotheca.RegistrationController do
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})
-    render conn, "index.html", changeset: changeset
+    render conn, "new.html", changeset: changeset
   end
 
   def create(conn, %{"user" => user_params}) do
@@ -27,7 +27,7 @@ defmodule Bibliotheca.RegistrationController do
       {:error, changeset} ->
         conn
         |> put_flash(:error, "Invalid fields: #{inspect changeset.errors}")
-        |> render(Bibliotheca.PageView, "index.html", changeset: changeset)
+        |> render("new.html", changeset: changeset)
     end
     
   end
@@ -37,7 +37,7 @@ defmodule Bibliotheca.RegistrationController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Verified! Thanks for using Lexi!")
-        |> redirect(to: "/register")
+        |> redirect(to: "/")
       {:error, _} ->
         conn
         |> put_flash(:error, "Invalid token!")

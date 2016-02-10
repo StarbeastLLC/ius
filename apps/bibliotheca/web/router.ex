@@ -20,7 +20,7 @@ defmodule Bibliotheca.Router do
     post "/login", AuthController, :login
     get "/logout", AuthController, :logout
 
-    get "/register", PageController, :index
+    get "/register", RegistrationController, :new
     post "/register", RegistrationController, :create
     get "/register/:token", RegistrationController, :verify
     
