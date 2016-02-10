@@ -22,4 +22,11 @@ defmodule Bibliotheca.AuthController do
         |> redirect(to: "/") 
     end
   end
+
+  def logout(conn, _) do
+    conn
+    |> Elegua.logout
+    |> put_flash(:info, "Come back soon!")
+    |> redirect(to: "/")
+  end
 end

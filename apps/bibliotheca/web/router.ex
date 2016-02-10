@@ -18,6 +18,7 @@ defmodule Bibliotheca.Router do
     
     get "/", PageController, :index
     post "/login", AuthController, :login
+    get "/logout", AuthController, :logout
 
     get "/register", PageController, :index
     post "/register", RegistrationController, :create
