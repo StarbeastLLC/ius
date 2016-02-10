@@ -1,11 +1,16 @@
 <h1>Welcome!</h1>
+<%= if Elegua.logged_in?(@conn) do %>
+  <br>
+  <a href="/logout">LOGOUT</a>
+<% else %>
 
-<%= form_for @changeset, auth_path(@conn, :login), fn f -> %>
-  <%= text_input f, :email, placeholder: "Email", required: true %>
-  <br>
-  <%= text_input f, :password, placeholder: "Password", required: true %>
-  <br>
-  <br>
-  <%= submit "LOG IN"%>
+  <%= form_for @changeset, auth_path(@conn, :login), fn f -> %>
+    <%= text_input f, :email, placeholder: "Email", required: true %>
+    <br>
+    <%= text_input f, :password, placeholder: "Password", required: true %>
+    <br>
+    <br>
+    <%= submit "LOG IN"%>
+  <% end %>
 
 <% end %>

@@ -5,7 +5,7 @@ defmodule Bibliotheca.AuthController do
     case Elegua.authenticate({:email, user_params["email"]}, user_params["password"]) do
       {:ok, user} ->
         conn
-        |> put_session(:user, user.id)
+        |> put_session(:user_id, user.id)
         |> put_flash(:info, "Welcome back!")
         |> redirect(to: "/")
       {:error, :no_user} ->
