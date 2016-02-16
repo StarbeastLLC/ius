@@ -4,7 +4,7 @@
   "cowlib": {:hex, :cowlib, "1.0.2"},
   "decimal": {:hex, :decimal, "1.1.1"},
   "ecto": {:hex, :ecto, "1.1.1"},
-  "elegua": {:git, "https://github.com/ZuraGuerra/elegua.git", "fde33833c46d8caae4bb1277a58d3547970e4ffc", []},
+  "elegua": {:git, "https://github.com/ZuraGuerra/elegua.git", "83adb6a112dcb3c263cf5b6b83e5c34cabd2da58", []},
   "fs": {:hex, :fs, "0.9.2"},
   "gettext": {:hex, :gettext, "0.9.0"},
   "mailgun": {:hex, :mailgun, "0.1.2"},

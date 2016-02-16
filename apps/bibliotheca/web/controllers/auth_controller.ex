@@ -29,4 +29,21 @@ defmodule Bibliotheca.AuthController do
     |> put_flash(:info, "Come back soon!")
     |> redirect(to: "/")
   end
+
+  def new_password(conn, %{"user" => user_params}) do
+    case Elegua.new_password(user_params["email"], user_params["password"]) do
+      {:ok, user} ->
+        conn
+        |> put_flash(:info, "Check your mail to recover your account!")
+        |> redirect(to: "/")
+      {:error, :no_user} ->
+        conn
+        |> put_flash(:error, "You don't have an account, create one!")
+        |> redirect(to: "/register")
+      :else ->
+        conn
+        |> put_flash(:error, "Please try again")
+        |> redirect(to: "/")
+    end
+  end
 end
