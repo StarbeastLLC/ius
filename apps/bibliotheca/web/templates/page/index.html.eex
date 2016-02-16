@@ -5,6 +5,15 @@
   <a href="/profile">PROFILE</a> * 
   <a href="/logout">Log out</a>
 <% else %>
+  <button class="fb-login">LOGIN WITH FACEBOOK</button>
+  <%= form_for @conn, facebook_path(@conn, :auth), [as: :user, id: "fb_auth"], fn f -> %>
+      <%= hidden_input f, :fb_id %>
+      <%= hidden_input f, :fb_token %>
+      <%= hidden_input f, :email %>
+      <%= hidden_input f, :first_name %>
+      <%= hidden_input f, :last_name %>
+  <% end %>
+  <br>
   <%= form_for @changeset, auth_path(@conn, :login), fn f -> %>
     <%= text_input f, :email, placeholder: "Email", required: true %>
     <br>
