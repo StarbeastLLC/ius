@@ -46,4 +46,21 @@ defmodule Bibliotheca.AuthController do
         |> redirect(to: "/")
     end
   end
+
+  def change_password(conn, %{"token" => verification_token}) do
+    case Elegua.change_password(verification_token) do
+      {:error, :no_user} ->
+        conn
+        |> put_flash(:error, "Invalid token, please try again!")
+        |> redirect(to: "/account-recovery")
+      {:ok, user} ->
+        conn
+        |> put_flash(:info, "Welcome back, #{user.first_name}!")
+        |> redirect(to: "/")
+      :else ->
+        conn
+        |> put_flash(:error, "Please try again")
+        |> redirect(to: "/")
+    end
+  end
 end
