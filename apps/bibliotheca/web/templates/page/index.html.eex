@@ -11,6 +11,8 @@
     <br>
     <br>
     <%= submit "LOG IN"%> or <a href="/register">REGISTER</a>
+    <br>
+    <a href="/account-recovery">Forgot your password?</a>
   <% end %>
 
 <% end %>

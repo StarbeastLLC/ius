@@ -1,5 +1,14 @@
 defmodule Bibliotheca.AuthController do
   use Bibliotheca.Web, :controller
+  alias Bibliotheca.User
+
+  @from "postmaster@sandbox9ddf700296ad4bf0a817cedfe2a09d99.mailgun.org"
+  @recovery_greeting "Recover your Lexi account!"
+
+  def forgot_password(conn, _params) do
+    changeset = User.changeset(%User{})
+    render conn, "recover-account.html", changeset: changeset
+  end
 
   def login(conn, %{"user" => user_params}) do
     case Elegua.authenticate({:email, user_params["email"]}, user_params["password"]) do
@@ -33,6 +42,11 @@ defmodule Bibliotheca.AuthController do
   def new_password(conn, %{"user" => user_params}) do
     case Elegua.new_password(user_params["email"], user_params["password"]) do
       {:ok, user} ->
+        verification_token = user.verification_token
+        user_email = user.email
+        content = "Your recovery link: http://lexi.mx/account-recovery/#{verification_token}"
+        Elegua.send_verification_email(user_email, @from, @recovery_greeting, {:text, content})
+
         conn
         |> put_flash(:info, "Check your mail to recover your account!")
         |> redirect(to: "/")
