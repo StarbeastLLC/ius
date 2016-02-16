@@ -24,3 +24,16 @@
   <%= submit "UPDATE PROFILE"%>
 
 <% end %>
+
+---
+
+<h2>Change password</h2>
+
+<%= form_for @changeset, profile_path(@conn, :change_password), fn f -> %>
+  <%= text_input f, :email, placeholder: "Email", required: true %>
+  <br>
+  <%= text_input f, :password, placeholder: "New password", required: true %>
+  <br>
+  <br>
+  <%= submit "CHANGE PASSWORD"%>
+<% end %>

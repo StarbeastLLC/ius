@@ -30,6 +30,8 @@ defmodule Bibliotheca.Router do
 
     get "/profile", ProfileController, :profile
     put "/profile", ProfileController, :update_profile
+    post "/profile-password", ProfileController, :new_password
+    get "/change-password/:token", ProfileController, :change_password
     
     resources "/laws", LawController
     get "/load", LawController, :load
