@@ -21,17 +21,24 @@ defmodule Bibliotheca.ProfileController do
   def update_profile(conn, %{"user" => user_params}) do
     id = get_session(conn, :user_id)
     user = Repo.get_by(User, id: id)
+    password_changeset = User.changeset(%User{})
     changeset = User.changeset(user, user_params)
-
+    IO.puts inspect changeset
     case Repo.update(changeset) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Your profile has been updated")
         |> redirect(to: "/profile")
       {:error, changeset} ->
-        conn
-        |> put_flash(:error, "Please try again!")
-        |> render("profile.html", user: user, changeset: changeset)
+        if changeset.constraints != [] do
+          conn
+          |> put_flash(:error, "Email is already taken!")
+          |> render("profile.html", user: user, changeset: changeset, password_changeset: password_changeset)
+        else
+          conn
+          |> put_flash(:error, "Please try again!")
+          |> render("profile.html", user: user, changeset: changeset, password_changeset: password_changeset)
+        end
     end
   end
 
