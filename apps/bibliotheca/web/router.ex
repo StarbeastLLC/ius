@@ -29,6 +29,7 @@ defmodule Bibliotheca.Router do
     get "/register/:token", RegistrationController, :verify
 
     get "/profile", ProfileController, :profile
+    put "/profile", ProfileController, :update_profile
     
     resources "/laws", LawController
     get "/load", LawController, :load

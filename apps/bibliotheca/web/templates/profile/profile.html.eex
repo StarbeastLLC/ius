@@ -1,0 +1,26 @@
+<h1>Your profile</h1>
+
+<%= form_for @changeset, profile_path(@conn, :update_profile), [multipart: true], fn f -> %>
+
+  <%= text_input f, :first_name, placeholder: "First name", required: true %>
+  <br>
+  <%= text_input f, :last_name, placeholder: "Last name", required: true %>
+  <br>
+  <%= text_input f, :state, placeholder: "State", required: true %>
+  <br>
+  <%= text_input f, :email, placeholder: "Email", required: true %>
+  <br>
+  <br>
+  <p>Billing info</p>
+  <%= text_input f, :legal_name, placeholder: "Legal name", required: true %>
+  <br>
+  <%= text_input f, :legal_address, placeholder: "Billing address", required: true %>
+  <br>
+  <%= text_input f, :rfc, placeholder: "RFC", required: true %>
+  <br>
+  <%= text_input f, :legal_email, placeholder: "Billing email", required: true %>
+  <br>
+  <br>
+  <%= submit "UPDATE PROFILE"%>
+
+<% end %>
