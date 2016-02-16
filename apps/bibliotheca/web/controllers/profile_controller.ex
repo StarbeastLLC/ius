@@ -14,7 +14,7 @@ defmodule Bibliotheca.ProfileController do
     end
     user = Repo.get_by(User, id: id)
     changeset = User.changeset(user)
-    password_changeset = User.changeset(user)
+    password_changeset = User.changeset(%User{})
     render(conn, "profile.html", user: user, changeset: changeset, password_changeset: password_changeset)
   end
   
@@ -36,7 +36,9 @@ defmodule Bibliotheca.ProfileController do
   end
 
   def new_password(conn, %{"user" => user_params}) do
-    case Elegua.new_password(user_params["email"], user_params["password"]) do
+    id = get_session(conn, :user_id)
+    user = Repo.get_by(User, id: id)
+    case Elegua.new_password(user.email, user_params["password"]) do
       {:ok, user} ->
         verification_token = user.verification_token
         user_email = user.email
@@ -50,6 +52,24 @@ defmodule Bibliotheca.ProfileController do
         conn
         |> put_flash(:error, "You don't have an account, create one!")
         |> redirect(to: "/register")
+      :else ->
+        conn
+        |> put_flash(:error, "Please try again")
+        |> redirect(to: "/")
+    end
+  end
+
+  def change_password(conn, %{"token" => verification_token}) do
+    case Elegua.change_password(verification_token) do
+      {:error, :no_user} ->
+        conn
+        |> put_flash(:error, "Invalid token, please try again!")
+        |> redirect(to: "/account-recovery")
+      {:ok, user} ->
+        conn
+        |> put_session(:user_id, user.id)
+        |> put_flash(:info, "You changed your password!")
+        |> redirect(to: "/profile")
       :else ->
         conn
         |> put_flash(:error, "Please try again")
