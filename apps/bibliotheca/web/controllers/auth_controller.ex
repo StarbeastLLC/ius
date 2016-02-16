@@ -69,6 +69,7 @@ defmodule Bibliotheca.AuthController do
         |> redirect(to: "/account-recovery")
       {:ok, user} ->
         conn
+        |> put_session(:user_id, user.id)
         |> put_flash(:info, "You recovered your account, #{user.first_name}!")
         |> redirect(to: "/")
       :else ->

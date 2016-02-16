@@ -2,7 +2,8 @@
 
 <%= if Elegua.logged_in?(@conn) do %>
   <br>
-  <a href="/logout">LOGOUT</a>
+  <a href="/profile">PROFILE</a> * 
+  <a href="/logout">Log out</a>
 <% else %>
   <%= form_for @changeset, auth_path(@conn, :login), fn f -> %>
     <%= text_input f, :email, placeholder: "Email", required: true %>
