@@ -11,6 +11,9 @@ defmodule Bibliotheca.User do
     field :last_name, :string
     field :state, :string
 
+    field :fb_id, :string
+    field :fb_token, :string
+
     field :verification_token, :string
     field :is_verified, :boolean, default: false
 
@@ -26,7 +29,7 @@ defmodule Bibliotheca.User do
   end
 
   @required_fields ~w(password username email is_verified first_name last_name rfc legal_name legal_address legal_email accepts_terms accepts_cookies state)
-  @optional_fields ~w(verification_token new_password)
+  @optional_fields ~w(verification_token new_password fb_id fb_token)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
