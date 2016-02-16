@@ -3,6 +3,8 @@ defmodule Bibliotheca.User do
 
   schema "users" do
     field :password, :string
+    field :new_password, :string
+
     field :username, :string
     field :email, :string
     field :first_name, :string
@@ -24,7 +26,7 @@ defmodule Bibliotheca.User do
   end
 
   @required_fields ~w(password username email is_verified first_name last_name rfc legal_name legal_address legal_email accepts_terms accepts_cookies state)
-  @optional_fields ~w(verification_token)
+  @optional_fields ~w(verification_token new_password)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

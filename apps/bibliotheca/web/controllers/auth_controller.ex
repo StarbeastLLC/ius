@@ -15,7 +15,7 @@ defmodule Bibliotheca.AuthController do
       {:ok, user} ->
         conn
         |> put_session(:user_id, user.id)
-        |> put_flash(:info, "Welcome back!")
+        |> put_flash(:info, "Welcome back, #{user.first_name}!")
         |> redirect(to: "/")
       {:error, :no_user} ->
         conn
@@ -69,7 +69,7 @@ defmodule Bibliotheca.AuthController do
         |> redirect(to: "/account-recovery")
       {:ok, user} ->
         conn
-        |> put_flash(:info, "Welcome back, #{user.first_name}!")
+        |> put_flash(:info, "You recovered your account, #{user.first_name}!")
         |> redirect(to: "/")
       :else ->
         conn
