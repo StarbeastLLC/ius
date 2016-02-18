@@ -1,10 +1,13 @@
 defmodule Bibliotheca.FacebookController do
   use Bibliotheca.Web, :controller
-  import Ecto.Changeset, only: [put_change: 3, change: 2]
+  import Ecto.Changeset, only: [put_change: 3, cast: 4]
   alias Bibliotheca.User
 
-  def auth(conn, user_params) do
-    user = Repo.get_by(User, user_params["email"])
+  @fb_fields ~w(email first_name last_name fb_id fb_token is_verified)
+
+  def auth(conn, %{"user" => user_params}) do
+    user_params = Map.put(user_params, "is_verified", true)
+    user = Repo.get_by(User, email: user_params["email"])
     cond do
       user && user.fb_id == user_params["fb_id"] ->
         login(conn, user)
@@ -47,18 +50,18 @@ defmodule Bibliotheca.FacebookController do
       :fb_id => user_params["fb_id"],
       :fb_token => user_params["fb_token"]
     }
-    changeset = change(user, fb_params)
+    changeset = cast(user, fb_params, @fb_fields, [])
     case Repo.update(changeset) do
       {:ok, user} -> {:ok, user}
-      {:error, changeset} -> :error
+      {:error, _} -> :error
     end
   end
 
   defp register(user_params) do
-    changeset = change(%User{}, user_params)
+    changeset = cast(%User{}, user_params, @fb_fields, [])
     case Repo.insert(changeset) do
       {:ok, user} -> {:ok, user}
-      {:error, changeset} -> :error
+      {:error, _} -> :error
     end
   end
 

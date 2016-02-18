@@ -17,6 +17,5 @@ import "phoenix_html"
 //
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
-import "./jquery-2.2.0.min"
 import "./facebook"
 // import socket from "./socket"
