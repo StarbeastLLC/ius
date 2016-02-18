@@ -34,6 +34,10 @@ config :facebook,
   app_id: 489333437934185 #TEST APP / Ask Zura for credentials to add testers
   #app_id: 974600135936002
 
+# Google Application
+config :google,
+  client_id: "949655055702-fosndqc9vv5ft6rh3mtdb7e63cimouks" # Ask Zura for credentials
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
