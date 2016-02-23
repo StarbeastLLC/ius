@@ -1,28 +1,121 @@
-<h1>Welcome!</h1>
-
 <%= if Elegua.logged_in?(@conn) do %>
-  <br>
-  <a href="/profile">PROFILE</a> * 
-  <a href="/logout">Log out</a>
+
+<br>
+<br>
+
+<div class="row">
+  <div class="text-right">
+    <a href="/profile">
+      <h5>
+        PROFILE
+      </h5>
+    </a> 
+    <a href="/logout">
+     <h5>
+        LOG OUT
+      </h5>
+    </a>
+  </div>
+  <div class="text-center">
+    <h1>
+      Welcome to Lexi!
+    </h1>
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+
+<div class="row">
+  <div class="col-md-2">
+    <div class="text-center">
+      <a href="/logout">
+        <h4>
+          Legislación Federal
+        </h4>
+      </a>
+    </div>
+  </div> 
+  <div class="col-md-2">
+    <div class="text-center">
+      <a href="/logout">
+        <h4>
+          Legislación Estatal
+        </h4>
+      </a>
+    </div>
+  </div> 
+  <div class="col-md-4">
+    <div class="text-center">
+      <a href="/logout">
+        <h4>
+          Sentencias de la Corte Interamericana de Derechos Humanos
+        </h4>
+      </a>
+    </div>
+  </div> 
+  <div class="col-md-2">
+    <div class="text-center">
+      <a href="/logout">
+        <h4>
+          Tratados Internacionales
+        </h4>
+      </a>
+    </div>
+  </div> 
+  <div class="col-md-2">
+    <div class="text-center">
+      <a href="/logout">
+        <h4>
+          Tesis y Jurisprudencias
+        </h4>
+      </a>
+    </div>
+  </div>
+</div>
+
 <% else %>
-  <button class="fb-login">LOGIN WITH FACEBOOK</button>
-  <%= form_for @conn, facebook_path(@conn, :auth), [as: :user, id: "fb_auth"], fn f -> %>
+
+<div class="row">
+  <div class="text-center">
+<br>
+    <button class="fb-login">
+      LOGIN USING FACEBOOK
+    </button>
+    <%= form_for @conn, facebook_path(@conn, :auth), [as: :user, id: "fb_auth"], fn f -> %>
       <%= hidden_input f, :fb_id %>
       <%= hidden_input f, :fb_token %>
       <%= hidden_input f, :email %>
       <%= hidden_input f, :first_name %>
       <%= hidden_input f, :last_name %>
-  <% end %>
-  <br>
-  <%= form_for @changeset, auth_path(@conn, :login), fn f -> %>
-    <%= text_input f, :email, placeholder: "Email", required: true %>
-    <br>
-    <%= text_input f, :password, placeholder: "Password", required: true %>
-    <br>
-    <br>
-    <%= submit "LOG IN"%> or <a href="/register">REGISTER</a>
-    <br>
-    <a href="/account-recovery">Forgot your password?</a>
-  <% end %>
+    <% end %>
+
+    -OR-
+
+    <%= form_for @changeset, auth_path(@conn, :login), fn f -> %>
+      <%= text_input f, :email, placeholder: "Email", required: true%>
+      <%= text_input f, :password, placeholder: "Password", required: true %>
+<br>
+<br>
+      <%= submit "LOG IN"%>
+<br>
+<br> 
+<br> 
+    <a href="/register">
+      <h4>
+        REGISTER
+      </h4>
+      </a>
+    <a href="/account-recovery">
+      <h6>
+        <small>
+          Forgot your password?
+        </small>
+      </h6>
+    </a>
+    <% end %>
+  </div>
+</div>
 
 <% end %>

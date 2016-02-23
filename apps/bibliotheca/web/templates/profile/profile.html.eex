@@ -1,37 +1,47 @@
-<h1>Your profile</h1>
+<div class="row">
+  <div class="text-center">
+  <h1>
+    Your profile
+  </h1>
 
 <%= form_for @changeset, profile_path(@conn, :update_profile), [multipart: true], fn f -> %>
 
   <%= text_input f, :first_name, placeholder: "First name", required: true %>
-  <br>
+<br>
   <%= text_input f, :last_name, placeholder: "Last name", required: true %>
-  <br>
+<br>
   <%= text_input f, :state, placeholder: "State", required: true %>
-  <br>
+<br>
   <%= text_input f, :email, placeholder: "Email", required: true %>
-  <br>
-  <br>
-  <p>Billing info</p>
+<br>
+<br>
+  <p>
+    Billing info
+  </p>
   <%= text_input f, :legal_name, placeholder: "Legal name", required: true %>
-  <br>
+<br>
   <%= text_input f, :legal_address, placeholder: "Billing address", required: true %>
-  <br>
+<br>
   <%= text_input f, :rfc, placeholder: "RFC", required: true %>
-  <br>
+<br>
   <%= text_input f, :legal_email, placeholder: "Billing email", required: true %>
-  <br>
-  <br>
+<br>
+<br>
   <%= submit "UPDATE PROFILE"%>
 
 <% end %>
 
----
 
-<h2>Change password</h2>
+  <h2>
+    Change password
+  </h2>
 
-<%= form_for @password_changeset, profile_path(@conn, :new_password), fn f -> %>
-  <%= text_input f, :password, placeholder: "New password", required: true %>
-  <br>
-  <br>
-  <%= submit "CHANGE PASSWORD"%>
-<% end %>
+  <%= form_for @password_changeset, profile_path(@conn, :new_password), fn f -> %>
+    <%= text_input f, :password, placeholder: "New password", required: true %>
+<br>
+<br>
+    <%= submit "CHANGE PASSWORD"%>
+  <% end %>
+
+  </div>
+</div>
