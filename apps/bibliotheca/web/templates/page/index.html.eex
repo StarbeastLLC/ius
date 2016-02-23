@@ -5,6 +5,7 @@
   <a href="/profile">PROFILE</a> * 
   <a href="/logout">Log out</a>
 <% else %>
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
   <button class="fb-login">LOGIN WITH FACEBOOK</button>
   <%= form_for @conn, facebook_path(@conn, :auth), [as: :user, id: "fb_auth"], fn f -> %>
       <%= hidden_input f, :fb_id %>
