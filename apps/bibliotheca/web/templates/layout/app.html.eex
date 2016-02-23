@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <meta name="fb-app-id" content="<%= Application.get_env(:facebook, :app_id) %>">
     <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="<%= Application.get_env(:google, :client_id) <> ".apps.googleusercontent.com" %>">
+    <meta name="google-signin-client_id" content="<%= Application.get_env(:google, :client_id) %>">
 
     <title>LEXI</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">

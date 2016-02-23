@@ -5,7 +5,27 @@
   <a href="/profile">PROFILE</a> * 
   <a href="/logout">Log out</a>
 <% else %>
-  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+  <div id="gConnect">
+    <div id="signin-button"></div>
+  </div>
+  <div id="authOps" style="display:none">
+    <h2>User is now signed in to the app using Google+</h2>
+    <button id="signOut" onclick="auth2.signOut()">Sign Out</button>
+    <p>If the user chooses to disconnect, the app must delete all stored
+    information retrieved from Google for the given user.</p>
+    <button id="disconnect" >Disconnect your Google account from this app</button>
+
+    <h2>User's profile information</h2>
+    <div id="profile"></div>
+
+    <h2>User's friends that are visible to this app</h2>
+    <div id="visiblePeople"></div>
+
+    <h2>Authentication Logs</h2>
+    <pre id="authResult"></pre>
+  </div>
+
   <button class="fb-login">LOGIN WITH FACEBOOK</button>
   <%= form_for @conn, facebook_path(@conn, :auth), [as: :user, id: "fb_auth"], fn f -> %>
       <%= hidden_input f, :fb_id %>
@@ -28,5 +48,10 @@
 
 <% end %>
 
-<!-- Load Google SDK, only used here -->
-<script src="https://apis.google.com/js/platform.js"></script>
+<!-- Google+ scripts, only used there -->
+   <script type="text/javascript">
+        window.gclientLoaded = function () {
+          window.startApp();
+        }
+    </script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=gclientLoaded"></script>
