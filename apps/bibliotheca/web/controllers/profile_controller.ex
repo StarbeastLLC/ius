@@ -22,8 +22,7 @@ defmodule Bibliotheca.ProfileController do
     id = get_session(conn, :user_id)
     user = Repo.get_by(User, id: id)
     password_changeset = User.changeset(%User{})
-    changeset = User.changeset(user, user_params)
-    IO.puts inspect changeset
+    changeset = User.update_changeset(user, user_params)
     case Repo.update(changeset) do
       {:ok, user} ->
         conn
