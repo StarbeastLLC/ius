@@ -36,7 +36,9 @@ config :facebook,
 
 # Google Application
 config :google,
-  client_id: "949655055702-fosndqc9vv5ft6rh3mtdb7e63cimouks" # Ask Zura for credentials
+  # Ask Zura for credentials
+  client_id: "516881522852-m6p2l99r5110j7d0vasf8d1il6iqi4ts.apps.googleusercontent.com",
+  client_secret: "Tq0KuC8ZB9h6ZXb1FEkPM3Bh"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

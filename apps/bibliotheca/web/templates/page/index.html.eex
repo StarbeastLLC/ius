@@ -29,4 +29,4 @@
 <% end %>
 
 <!-- Load Google SDK, only used here -->
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://apis.google.com/js/platform.js"></script>
