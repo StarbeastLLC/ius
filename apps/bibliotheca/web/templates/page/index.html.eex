@@ -9,6 +9,13 @@
   <div id="gConnect">
     <div id="signin-button"></div>
   </div>
+  <%= form_for @conn, facebook_path(@conn, :auth), [as: :user, id: "fb_auth"], fn f -> %>
+      <%= hidden_input f, :fb_id %>
+      <%= hidden_input f, :fb_token %>
+      <%= hidden_input f, :email %>
+      <%= hidden_input f, :first_name %>
+      <%= hidden_input f, :last_name %>
+  <% end %>
   <div id="authOps" style="display:none">
     <h2>User is now signed in to the app using Google+</h2>
     <button id="signOut" onclick="auth2.signOut()">Sign Out</button>
@@ -38,7 +45,7 @@
   <%= form_for @changeset, auth_path(@conn, :login), fn f -> %>
     <%= text_input f, :email, placeholder: "Email", required: true %>
     <br>
-    <%= text_input f, :password, placeholder: "Password", required: true %>
+    <%= password_input f, :password, placeholder: "Password", required: true %>
     <br>
     <br>
     <%= submit "LOG IN"%> or <a href="/register">REGISTER</a>

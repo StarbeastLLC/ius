@@ -12,7 +12,7 @@
   <br>
   <%= text_input f, :email, placeholder: "Email", required: true %>
   <br>
-  <%= text_input f, :password, placeholder: "Password", required: true %>
+  <%= password_input f, :password, placeholder: "Password", required: true %>
   <br>
   <br>
   <label>Terms and conditions?</label>
@@ -22,13 +22,13 @@
   <%= checkbox f, :accepts_terms, required: true %>
   <br>
   <br>
-  <%= text_input f, :legal_name, placeholder: "Legal name", required: true %>
+  <%= text_input f, :legal_name, placeholder: "Legal name" %>
   <br>
-  <%= text_input f, :legal_address, placeholder: "Billing address", required: true %>
+  <%= text_input f, :legal_address, placeholder: "Billing address" %>
   <br>
-  <%= text_input f, :rfc, placeholder: "RFC", required: true %>
+  <%= text_input f, :rfc, placeholder: "RFC" %>
   <br>
-  <%= text_input f, :legal_email, placeholder: "Billing email", required: true %>
+  <%= text_input f, :legal_email, placeholder: "Billing email" %>
   <br>
   <br>
   <%= submit "CREATE ACCOUNT"%>
