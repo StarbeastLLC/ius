@@ -9,7 +9,7 @@
   <div id="gConnect">
     <div id="signin-button"></div>
   </div>
-  <%= form_for @conn, facebook_path(@conn, :auth), [as: :user, id: "fb_auth"], fn f -> %>
+  <%= form_for @conn, google_path(@conn, :auth), [as: :user, id: "google_auth"], fn f -> %>
       <%= hidden_input f, :fb_id %>
       <%= hidden_input f, :fb_token %>
       <%= hidden_input f, :email %>
