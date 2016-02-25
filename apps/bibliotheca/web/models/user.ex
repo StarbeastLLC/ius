@@ -13,6 +13,7 @@ defmodule Bibliotheca.User do
 
     field :fb_id, :string
     field :fb_token, :string
+    field :google_id, :string
 
     field :verification_token, :string
     field :is_verified, :boolean, default: false

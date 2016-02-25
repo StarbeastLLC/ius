@@ -19,7 +19,7 @@ defmodule Bibliotheca.FacebookController do
           {:ok, user} ->
             conn
             |> put_session(:user_id, user.id)
-            |> put_flash(:info, "You connected Facebook to your account!")
+            |> put_flash(:info, "You connected #{determine_service(user_params)} to your account!")
             |> redirect(to: "/")
           :else -> 
             conn
@@ -47,6 +47,13 @@ defmodule Bibliotheca.FacebookController do
     |> put_flash(:info, "Welcome back!")
     |> redirect(to: "/")
   end
+
+  defp determine_service(user_params) do
+    cond do
+      Map.has_key?(user_params, "fb_id") == true -> "Facebook"
+      Map.has_key?(user_params, "google_id") == true -> "Google+"
+    end
+  end
   
   defp bind_account(user, user_params) do
     cond do
@@ -59,8 +66,7 @@ defmodule Bibliotheca.FacebookController do
       Map.has_key?(user_params, "google_id") == true ->
         google_params = %{:google_id => user_params["google_id"]}
         update_user(user, google_params, @google_fields)
-    end
-    
+    end   
   end
 
   defp update_user(user, params, fields) do

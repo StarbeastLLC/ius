@@ -29,7 +29,7 @@ defmodule Bibliotheca.Router do
     get "/register/:token", RegistrationController, :verify
 
     post "/facebook-login", FacebookController, :auth
-    post "/google-login", GoogleController, :auth
+    post "/google-login", FacebookController, :auth
 
     get "/profile", ProfileController, :profile
     put "/profile", ProfileController, :update_profile
