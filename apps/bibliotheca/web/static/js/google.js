@@ -53,6 +53,7 @@ $(function () {
               $('#profile').append(
                   $('<p><img src=\"' + profile.cover.coverPhoto.url + '\"></p>'));
             }
+            $('#google_auth').submit();
           }, function(err) {
             var error = err.result;
             $('#profile').empty();
