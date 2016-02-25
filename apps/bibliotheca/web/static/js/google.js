@@ -10,25 +10,14 @@ $(function () {
          *   other authentication information.
          */
         onSignInCallback: function(authResult) {
-          $('#authResult').html('Auth Result:<br/>');
-          for (var field in authResult) {
-            $('#authResult').append(' ' + field + ': ' +
-                authResult[field] + '<br/>');
-          }
           if (authResult.isSignedIn.get()) {
-            $('#authOps').show('slow');
-            $('#gConnect').hide();
             helper.profile();
-            helper.people();
           } else {
               if (authResult['error'] || authResult.currentUser.get().getAuthResponse() == null) {
                 // There was an error, which means the user is not signed in.
                 // As an example, you can handle by writing to the console:
                 console.log('There was an error: ' + authResult['error']);
               }
-              $('#authResult').append('Logged out');
-              $('#authOps').hide('slow');
-              $('#gConnect').show();
           }
 
           console.log('authResult', authResult);
@@ -50,19 +39,15 @@ $(function () {
             'userId': 'me'
           }).then(function(res) {
             var profile = res.result;
-            console.log(profile);
-            $('#profile').empty();
-            $('#profile').append(
-                $('<p><img src=\"' + profile.image.url + '\"></p>'));
-            $('#profile').append(
-                $('<p>Hello ' + profile.displayName + '!<br />Tagline: ' +
-                profile.tagline + '<br />About: ' + profile.aboutMe + '</p>'));
+            if (profile.name) {
+                $('#google_auth #user_first_name').val(profile.name.givenName);
+                $('#google_auth #user_last_name').val(profile.name.familyName);
+            }
             if (profile.emails) {
-              $('#profile').append('<br/>Emails: ');
-              for (var i=0; i < profile.emails.length; i++){
-                $('#profile').append(profile.emails[i].value).append(' ');
-              }
-              $('#profile').append('<br/>');
+                $('#google_auth #user_email').val(profile.emails[0].value);
+            }
+            if (profile.id) {
+                $('#google_auth #user_google_id').val(profile.id);
             }
             if (profile.cover && profile.coverPhoto) {
               $('#profile').append(
@@ -98,12 +83,9 @@ $(function () {
      * @param {boolean} isSignedIn The new signed in state.
      */
     var updateSignIn = function() {
-      console.log('update sign in state');
       if (auth2.isSignedIn.get()) {
-        console.log('signed in');
         helper.onSignInCallback(gapi.auth2.getAuthInstance());
       }else{
-        console.log('signed out');
         helper.onSignInCallback(gapi.auth2.getAuthInstance());
       }
     }
@@ -129,6 +111,5 @@ $(function () {
     }
 
     window.startApp = startApp;
-    console.log("startApp defined");
 
 });
