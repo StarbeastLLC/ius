@@ -78,7 +78,12 @@ defmodule Bibliotheca.FacebookController do
   end
 
   defp register(user_params) do
-    changeset = cast(%User{}, user_params, @fb_fields, [])
+    cond do
+      Map.has_key?(user_params, "fb_id") == true ->
+        changeset = cast(%User{}, user_params, @fb_fields, [])
+      Map.has_key?(user_params, "google_id") == true ->
+        changeset = cast(%User{}, user_params, @google_fields, [])
+    end
     case Repo.insert(changeset) do
       {:ok, user} -> {:ok, user}
       {:error, _} -> :error
