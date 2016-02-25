@@ -53,7 +53,7 @@ $(function () {
               $('#profile').append(
                   $('<p><img src=\"' + profile.cover.coverPhoto.url + '\"></p>'));
             }
-            $('#google_auth').submit();
+            loginAndDisconnect();
           }, function(err) {
             var error = err.result;
             $('#profile').empty();
@@ -62,6 +62,12 @@ $(function () {
         }
       };
     })();
+    
+    // Gets Google+ auth info and revokes the token
+    function loginAndDisconnect(){
+      $('#google_auth').submit();
+      auth2.disconnect();
+    }
 
     /**
      * jQuery initialization
