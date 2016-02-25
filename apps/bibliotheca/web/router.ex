@@ -28,8 +28,8 @@ defmodule Bibliotheca.Router do
     post "/register", RegistrationController, :create
     get "/register/:token", RegistrationController, :verify
 
-    post "/facebook-login", FacebookController, :auth
-    post "/google-login", FacebookController, :auth
+    post "/facebook-login", SocialConnectController, :auth
+    post "/google-login", SocialConnectController, :auth
 
     get "/profile", ProfileController, :profile
     put "/profile", ProfileController, :update_profile

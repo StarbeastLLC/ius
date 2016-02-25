@@ -1,4 +1,4 @@
-defmodule Bibliotheca.FacebookController do
+defmodule Bibliotheca.SocialConnectController do
   use Bibliotheca.Web, :controller
   import Ecto.Changeset, only: [put_change: 3, cast: 4]
   alias Bibliotheca.User
