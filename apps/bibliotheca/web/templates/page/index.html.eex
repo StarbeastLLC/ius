@@ -105,7 +105,7 @@
     <!-- Email login -->
     <%= form_for @changeset, auth_path(@conn, :login), fn f -> %>
       <%= text_input f, :email, placeholder: "Email", required: true %>
-      <%= text_input f, :password, placeholder: "Password", required: true %>
+      <%= password_input f, :password, placeholder: "Password", required: true %>
 <br>
 <br>
       <%= submit "LOG IN"%>

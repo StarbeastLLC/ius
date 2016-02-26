@@ -37,7 +37,7 @@
   </h2>
 
   <%= form_for @password_changeset, profile_path(@conn, :new_password), fn f -> %>
-    <%= text_input f, :password, placeholder: "New password", required: true %>
+    <%= password_input f, :password, placeholder: "New password", required: true %>
 <br>
 <br>
     <%= submit "CHANGE PASSWORD"%>
