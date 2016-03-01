@@ -26,6 +26,8 @@ defmodule Bibliotheca.User do
     field :legal_address, :string
     field :legal_email, :string
 
+    field :sessions, {:array, :string}, default: []
+
     timestamps
   end
 
