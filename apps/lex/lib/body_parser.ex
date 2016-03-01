@@ -3,11 +3,16 @@ defmodule Lex.BodyParser do
 
   import Lex.BookParser, only: [parse_book: 1, book_expression: 0]
   import Lex.TitleParser, only: [parse_title: 1, title_expression: 0]
-  import Lex.ArticleParser, only: [parse_article: 1, article_expression: 0]
+  import Lex.ArticleParser, only: [parse_article: 2, article_expression: 0]
 
   # Se recibe el contenido del archivo sin el header.
-  def parse_body(body) do
+  def parse_nested_body(body) do
     parse_body_containing(body, body_has(body))
+  end
+
+  def parse_body(body) do
+    {preliminars, raw_articles, transitories} = parse_body_containing_articles(body)
+    {preliminars, raw_articles, transitories}
   end
 
   ####################
@@ -36,13 +41,30 @@ defmodule Lex.BodyParser do
     raw_articles = String.split(body, article_expression, trim: true)
 
     {preliminars, articles, transitories} = extract_elements(raw_articles)
-    articles_map = Enum.map(articles, &parse_article(&1))
+    articles_map = Enum.reduce(articles, %{}, &parse_article(&1, &2))
     {preliminars, articles_map, transitories}
   end
 
   defp parse_body_containing(_body, value) do
     IO.puts "Parsing Error: body #{value}"
     {"",%{},""}
+  end
+
+  defp parse_body_containing_articles(body) do
+    body = String.replace(body, "ARTICULO", "Artículo", global: true)
+    {raw_articles, transitories} = extract_transitories(body)
+    articles = String.split(raw_articles, article_expression, trim: true)
+    articles_map = Enum.reduce(articles, %{}, &parse_article(&1, &2))
+    {"", articles_map, transitories}
+  end
+
+  defp extract_transitories(body) do
+    raw_transitories = String.split(body, ~r{(\nTransitorios|\nTRANSITORIOS)}, parts: 2, trim: true)
+    if length(raw_transitories) == 1 do
+      {List.first(raw_transitories), ""}
+    else
+      {List.first(raw_transitories), List.last(raw_transitories)}
+    end
   end
 
   defp extract_elements(raw_elements) do

@@ -7,8 +7,8 @@ defmodule Lex.ArticleParser do
   ####################
   # Public functions
   ####################
-  def parse_article(article) do
-    parse_article_containing(article, :text)
+  def parse_article(article, acc \\ %{}) do
+    parse_article_containing(article, acc, :text)
   end
 
   def article_expression, do: @article_expression
@@ -16,11 +16,16 @@ defmodule Lex.ArticleParser do
   ####################
   # Branchs
   ####################
-  defp parse_article_containing(article, :text) do
+  defp parse_article_containing(article, acc, :text) do
     raw_article = split_article_using(article, @article_number_expression)
-    {article_number, text} = extract_article_number(raw_article)
-    key = "ARTICULO " <> article_number
-    %{key => text}
+    {article_number, raw_text} = extract_article_number(raw_article)
+    unless raw_text == nil do
+      text = clean_text(raw_text)
+      key = "ARTICULO " <> article_number
+      acc = Map.put(acc, key, text)
+    end
+
+    acc
   end
 
   ####################
@@ -38,6 +43,28 @@ defmodule Lex.ArticleParser do
     |> String.strip
 
     elements = raw_element |> Enum.drop(1)
-    {article_number, elements}
+    {article_number, Enum.at(elements, 0)}
+  end
+
+  defp clean_text(raw_text) do
+    expression = expression_to_split(raw_text)
+    raw_articles = String.split(raw_text, expression, trim: true)
+    List.first(raw_articles)
+  end
+
+  defp expression_to_split(raw_text) do
+    book_expression = ~r{LIBRO (PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SEPTIMO|OCTAVO|NOVENO|DECIMO)}
+    title_expression = ~r{TITULO (PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SEPTIMO|OCTAVO|NOVENO|DECIMO)}
+    transitories_expression = ~r(\s\s\sTRANSITORIO\n|\s\s\sTRANSITORIOS\n)
+    article_expression = ~r{NADA_FACTIBLE_DE_ENCONTRAR}
+    chapter_expression = ~r{CAPITULO (UNICO|PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SEPTIMO|OCTAVO|NOVENO|DECIMO|I|II|III|IV|V|VI|VII|VIII|IX|X)}
+
+    cond do
+      Regex.match?(book_expression, raw_text)         -> book_expression
+      Regex.match?(title_expression, raw_text)        -> title_expression
+      Regex.match?(transitories_expression, raw_text) -> transitories_expression
+      Regex.match?(chapter_expression, raw_text) -> chapter_expression
+      true -> article_expression
+    end
   end
 end

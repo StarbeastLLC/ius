@@ -7,12 +7,13 @@ defmodule Bibliotheca.Law do
     field :header,        :string
     field :reform_date,   :string
     field :original_text, :string
-    field :json_text,     :map
+    field :articles,      :map
+    field :contents,      :map
 
     timestamps
   end
 
-  @required_fields ~w(file_name name header reform_date original_text json_text)
+  @required_fields ~w(file_name name header reform_date original_text articles contents)
   @optional_fields ~w()
 
   @doc """

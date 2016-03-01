@@ -8,11 +8,12 @@ defmodule Bibliotheca.Repo.Migrations.CreateLaw do
       add :header,        :text
       add :reform_date,   :string
       add :original_text, :text
-      add :json_text,     :map
+      add :articles,      :map
+      add :contents,      :map
 
       timestamps
     end
 
-    create index(:laws, [:json_text], using: :gin)
+    create index(:laws, [:articles], using: :gin)
   end
 end
