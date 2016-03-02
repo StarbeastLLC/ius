@@ -52,6 +52,7 @@ defmodule Lex.BodyParser do
 
   defp parse_body_containing_articles(body) do
     body = String.replace(body, "ARTICULO", "Artículo", global: true)
+    body = String.replace(body, "ARTÍCULO", "Artículo", global: true)
     {raw_articles, transitories} = extract_transitories(body)
     articles = String.split(raw_articles, article_expression, trim: true)
     articles_map = Enum.reduce(articles, %{}, &parse_article(&1, &2))
@@ -59,7 +60,7 @@ defmodule Lex.BodyParser do
   end
 
   defp extract_transitories(body) do
-    raw_transitories = String.split(body, ~r{(\nTransitorios|\nTRANSITORIOS)}, parts: 2, trim: true)
+    raw_transitories = String.split(body, ~r{(\nTransitorios|\nTRANSITORIOS|\s\sTRANSITORIOS)}, parts: 2, trim: true)
     if length(raw_transitories) == 1 do
       {List.first(raw_transitories), ""}
     else

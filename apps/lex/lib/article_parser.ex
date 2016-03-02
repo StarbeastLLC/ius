@@ -1,8 +1,8 @@
 defmodule Lex.ArticleParser do
   @docmodule "ARTICULO = NUMERO TEXTO"
 
-  @article_expression ~r{Artículo\s}
-  @article_number_expression ~r{(\.-|\.)}
+  @article_expression ~r{\n\s\s\sArtículo\s}
+  @article_number_expression ~r{(\.-|\.|:|\n)}
 
   ####################
   # Public functions

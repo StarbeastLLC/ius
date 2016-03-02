@@ -1,7 +1,7 @@
-defmodule Bibliotheca.Law do
+defmodule Bibliotheca.FederalLaw do
   use Bibliotheca.Web, :model
 
-  schema "laws" do
+  schema "federal_laws" do
     field :file_name,     :string
     field :name,          :string
     field :header,        :string
@@ -10,6 +10,7 @@ defmodule Bibliotheca.Law do
     field :articles,      :map
     field :contents,      :map
 
+    has_many :federal_articles, Bibliotheca.FederalArticle
     timestamps
   end
 
