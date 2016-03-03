@@ -1,18 +1,15 @@
-defmodule Bibliotheca.Law do
+defmodule Bibliotheca.FederalArticle do
   use Bibliotheca.Web, :model
 
-  schema "laws" do
-    field :file_name,     :string
-    field :name,          :string
-    field :header,        :string
-    field :reform_date,   :string
-    field :original_text, :string
-    field :json_text,     :map
+  schema "federal_articles" do
+    field :article_number,  :string
+    field :article_body,    :string
+    belongs_to :federal_law, Bibliotheca.FederalLaw
 
     timestamps
   end
 
-  @required_fields ~w(file_name name header reform_date original_text json_text)
+  @required_fields ~w(article_body)
   @optional_fields ~w()
 
   @doc """

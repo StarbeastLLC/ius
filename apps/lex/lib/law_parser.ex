@@ -22,32 +22,34 @@ defmodule Lex.LawParser do
   ###################################################################
   # Función principal de inicio del parseo del contenido del archivo
   ###################################################################
-  def parse_file(file_name) do
-    case parse_sections_from_file(file_name) do
-      {title, header, preliminar, body_map, transitories, content} ->
-        reform_date = parse_reform_date(header)
-        preliminar_map = PreliminarParser.parse_preliminar(preliminar)
-        transitories_map = TransitoriesParser.parse_transitories(transitories)
-        {:ok, %{title: title,
-                reform_date: reform_date,
-                header: header,
-                preliminar: preliminar_map,
-                body: body_map,
-                transitories: transitories_map,
-                original_text: content}}
-      _otro ->
-        {:error, "File with unknown content: " <> file_name}
-    end
+  def parse_file(file_name, nested \\ true) do
+    {title, header, preliminar, body_map, transitories, content} = parse_sections_from_file(file_name, nested)
+    reform_date = parse_reform_date(header)
+    preliminar_map = PreliminarParser.parse_preliminar(preliminar)
+    transitories_map = TransitoriesParser.parse_transitories(transitories)
+    {:ok, %{title: title,
+            reform_date: reform_date,
+            header: header,
+            preliminar: preliminar_map,
+            body: body_map,
+            transitories: transitories_map,
+            original_text: content}}
   end
 
   ####################
   # Private functions
   ####################
-  defp parse_sections_from_file(file_name) do
+  defp parse_sections_from_file(file_name, nested) do
     {title, content} = parse_content(file_name)
     IO.puts title
-    {header, body} = parse_header_body(content, title)
-    {preliminars, body, transitories} = BodyParser.parse_body(body)
+    {header, body} = parse_header_body_new(content)
+
+    {preliminars, body, transitories} =
+    if nested do
+      BodyParser.parse_nested_body(body)
+    else
+      BodyParser.parse_body(body)
+    end
 
     {title, header, preliminars, body, transitories, content}
   end
@@ -81,6 +83,12 @@ defmodule Lex.LawParser do
         [header, body] = String.split(content, title, parts: 2, trim: true)
         {String.strip(header), String.strip(body)}
     end
+  end
+
+  defp parse_header_body_new(content) do
+    content = String.replace(content, "ARTICULO", "Artículo", global: true)
+    [header, body] = String.split(content, "Artículo", parts: 2, trim: true)
+    {String.strip(header), String.strip(body)}
   end
 
   defp parse_reform_date(header) do
