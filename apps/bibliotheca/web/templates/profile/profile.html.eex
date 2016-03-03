@@ -42,6 +42,12 @@
 <br>
     <%= submit "CHANGE PASSWORD"%>
   <% end %>
+<br>
+<br>
+  <h2>
+    Delete account
+  </h2>
 
+  <a href="/account-deletion"><button>DELETE ACCOUNT</button></a>
   </div>
 </div>

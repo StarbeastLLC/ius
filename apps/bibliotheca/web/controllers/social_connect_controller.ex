@@ -2,6 +2,7 @@ defmodule Bibliotheca.SocialConnectController do
   use Bibliotheca.Web, :controller
   import Ecto.Changeset, only: [put_change: 3, cast: 4]
   alias Bibliotheca.User
+  alias Bibliotheca.AuthController
 
   @fb_fields ~w(email first_name last_name fb_id fb_token is_verified)
   @google_fields ~w(email first_name last_name google_id is_verified)
@@ -11,16 +12,14 @@ defmodule Bibliotheca.SocialConnectController do
     user = Repo.get_by(User, email: user_params["email"])
     cond do
       user && user.fb_id == user_params["fb_id"] ->
-        login(conn, user)
+        AuthController.check_session_and_login(conn, user)
       user && user.google_id == user_params["google_id"] ->
-        login(conn, user)
+        AuthController.check_session_and_login(conn, user)
       user ->
         case bind_account(user, user_params) do
           {:ok, user} ->
-            conn
-            |> put_session(:user_id, user.id)
-            |> put_flash(:info, "You connected #{determine_service(user_params)} to your account!")
-            |> redirect(to: "/")
+            message = "You connected #{determine_service(user_params)} to your account!"
+            AuthController.check_session_and_login(conn, user, message)
           :else -> 
             conn
             |> put_flash(:error, "Please try again")
@@ -29,23 +28,14 @@ defmodule Bibliotheca.SocialConnectController do
       user == nil ->
         case register(user_params) do
           {:ok, user} ->
-            conn
-            |> put_session(:user_id, user.id)
-            |> put_flash(:info, "Welcome to Lexi!")
-            |> redirect(to: "/") 
+            message = "Welcome to Lexi!"
+            AuthController.check_session_and_login(conn, user, message)
           :else -> 
             conn
             |> put_flash(:error, "Please try again")
             |> redirect(to: "/")        
         end
     end
-  end
-
-  defp login(conn, user) do
-    conn
-    |> put_session(:user_id, user.id)
-    |> put_flash(:info, "Welcome back!")
-    |> redirect(to: "/")
   end
 
   defp determine_service(user_params) do

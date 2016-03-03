@@ -26,11 +26,13 @@ defmodule Bibliotheca.User do
     field :legal_address, :string
     field :legal_email, :string
 
+    field :sessions, {:array, :string}, default: []
+
     timestamps
   end
 
   @required_fields ~w(password username email is_verified first_name last_name accepts_terms accepts_cookies state)
-  @optional_fields ~w(verification_token new_password fb_id fb_token legal_name legal_address legal_email rfc)
+  @optional_fields ~w(verification_token new_password fb_id fb_token legal_name legal_address legal_email rfc sessions)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

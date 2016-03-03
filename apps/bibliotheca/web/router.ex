@@ -28,6 +28,9 @@ defmodule Bibliotheca.Router do
     post "/register", RegistrationController, :create
     get "/register/:token", RegistrationController, :verify
 
+    get "/account-deletion", ProfileController, :close_account
+    get "/account-deletion/:token", ProfileController, :delete_account
+
     post "/facebook-login", SocialConnectController, :auth
     post "/google-login", SocialConnectController, :auth
 
