@@ -1,10 +1,12 @@
 defmodule Bibliotheca.AuthController do
   use Bibliotheca.Web, :controller
   alias Bibliotheca.User
+  alias Bibliotheca.Repo
   alias Bibliotheca.SessionService
 
   @from "postmaster@sandbox9ddf700296ad4bf0a817cedfe2a09d99.mailgun.org"
   @recovery_greeting "Recover your Lexi account!"
+  @deletion_message "It's sad to let you go! -Lexi"
 
   def forgot_password(conn, _params) do
     changeset = User.changeset(%User{})

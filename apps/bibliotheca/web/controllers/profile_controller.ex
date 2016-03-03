@@ -82,4 +82,29 @@ defmodule Bibliotheca.ProfileController do
         |> redirect(to: "/")
     end
   end
+
+  def close_account(conn, _params) do
+    user_id = get_session(conn, :user_id)
+    user = Repo.get(User, user_id)
+    verification_token = user.verification_token
+    user_email = user.email
+    content = "Confirm your account deletion by clicking on this link: http://lexi.mx/account-deletion/#{verification_token}"
+    Elegua.send_verification_email(user_email, @from, @deletion_message, {:text, content})
+  end
+
+  def delete_account(conn, %{"token" => token}) do
+    user = Repo.get_by(User, verification_token: token)
+    case Repo.delete(user) do
+      {:ok, _} -> 
+        conn
+        |> delete_session(:user_id)
+        |> delete_session(:session_token)
+        |> put_flash(:info, "Your account was deleted!")
+        |> redirect(to: "/")
+      {:error, _} ->
+        conn
+        |> put_flash(:info, "Please try again")
+        |> redirect(to: "/")
+    end
+  end
 end
