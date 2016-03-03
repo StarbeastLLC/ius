@@ -31,8 +31,10 @@ defmodule Bibliotheca.AuthController do
   end
 
   def logout(conn, _) do
+    user_id = get_session(conn, :user_id)
     conn
     |> Elegua.logout
+    |> SessionService.delete_session_token(user_id)
     |> put_flash(:info, "Come back soon!")
     |> redirect(to: "/")
   end
@@ -76,7 +78,7 @@ defmodule Bibliotheca.AuthController do
   end
 
   def check_session_and_login(conn, user, flash_message \\ "Welcome back!") do
-    case SessionService.save_session_token(conn, user.id) do
+    case SessionService.check_session_token(conn, user.id) do
       {:ok, conn} ->
         conn
         |> put_session(:user_id, user.id)
@@ -84,7 +86,7 @@ defmodule Bibliotheca.AuthController do
         |> redirect(to: "/")
       {:error, :sessions_full} ->
         conn
-        |> put_flash(:error, "Log out from another session to open one in this device")
+        |> put_flash(:error, "Log out from another active session to open one in this device")
         |> redirect(to: "/") 
       :else ->
         conn
