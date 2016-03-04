@@ -2,11 +2,10 @@ defmodule Bibliotheca.Repo.Migrations.AddFederalLawArticleIndex do
   use Ecto.Migration
 
   def up do
-    execute "CREATE extension if not exists pg_trgm;"
-    execute "CREATE INDEX federal_articles_article_body_trgm_index ON federal_articles USING gin (article_body gin_trgm_ops);"
+    execute "CREATE INDEX article_body_index ON federal_articles USING gin(to_tsvector('spanish',article_body));"
   end
 
   def down do
-    execute "DROP INDEX federal_articles_article_body_trgm_index;"
+    execute "DROP INDEX article_body_index;"
   end
 end
