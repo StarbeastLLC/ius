@@ -2,7 +2,7 @@
 
   <strong style="letter-spacing:5px; font-size:20px;"><%= @law.name %></strong>
   <br><br>
-  <p><%= @law.header %></p>
+  <p style="text-transform:uppercase; letter-spacing:2px; font-size:12px;"><%= @law.header %></p>
   <br>
 
   <%= for article <- @articles do %>
