@@ -1,1 +1,25 @@
-<h1>Search 1</h1>
+<center>
+
+  <h1>Legislatura Federal</h1>
+
+  <%= form_for @conn, page_path(@conn, :search_federal), [as: :search], fn f -> %>
+    <%= search_input f, :term %>
+    <%= submit "Search" %>
+  <% end %>
+  <p>Artículos encontrados: <%= Enum.count(@articles) %></p>
+  <br><br>
+
+  <%= for article <- @articles do %>
+    <a href="/leyes-federales/<%= article.federal_law_id %>">
+      <strong><%= article.federal_law.name %></strong>
+    </a>
+    
+    -
+    <em><%= article.article_number %></em>
+    <br>
+    <%= article.article_body %>
+    <br>
+    <br>
+  <% end %>
+
+</center>

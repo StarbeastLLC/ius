@@ -2,15 +2,20 @@ defmodule Bibliotheca.PageController do
   use Bibliotheca.Web, :controller
 
   alias Bibliotheca.RegistrationController
-  alias Bibliotheca.User
+  alias Bibliotheca.{User, FederalArticle}
 
   def index(conn, _params) do
     changeset = User.changeset(%User{})
     render conn, "index.html", changeset: changeset
   end
 
+  def search_federal(conn, %{"search" => %{"term" => search_term}}) do
+    articles = FederalArticle.search(search_term)
+    render conn, "federal.html", articles: articles
+  end
+
   def search_federal(conn, _params) do
-    render conn, "federal.html"
+    render conn, "federal.html", articles: []
   end
 
   def search_2(conn, _params) do

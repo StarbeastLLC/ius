@@ -76,7 +76,8 @@ defmodule Bibliotheca.LawController do
 
   def show(conn, %{"id" => id}) do
     law = Repo.get!(FederalLaw, id)
-    render(conn, "show.html", law: law)
+    articles = FederalArticle.by_law(id)
+    render(conn, "show.html", law: law, articles: articles)
   end
 
   def edit(conn, %{"id" => id}) do
