@@ -39,7 +39,7 @@ defmodule Bibliotheca.Router do
     post "/profile-password", ProfileController, :new_password
     get "/change-password/:token", ProfileController, :change_password
 
-    get "/search-1", PageController, :search_1
+    get "/federal", PageController, :search_federal
     get "/search-2", PageController, :search_2
     get "/search-3", PageController, :search_3
     get "/search-4", PageController, :search_4

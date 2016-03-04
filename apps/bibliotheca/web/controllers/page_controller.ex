@@ -9,8 +9,8 @@ defmodule Bibliotheca.PageController do
     render conn, "index.html", changeset: changeset
   end
 
-  def search_1(conn, _params) do
-    render conn, "search-1.html"
+  def search_federal(conn, _params) do
+    render conn, "federal.html"
   end
 
   def search_2(conn, _params) do
