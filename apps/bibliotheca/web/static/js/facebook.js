@@ -11,6 +11,7 @@ $(function () {
     };
 
     var csrf_token = $('meta[name="fb-csrf-token"]').attr('content');
+    var app_id = $('meta[name="fb-app-id"]').attr('content');
 
     // obtains fb current user and creates a session
     // at our app.
@@ -29,6 +30,11 @@ $(function () {
     }
 
     function fbLogin() {
+  
+    // fix iOS Chrome
+    if( navigator.userAgent.match('CriOS') )
+      window.open('https://www.facebook.com/dialog/oauth?client_id='+app_id+'&redirect_uri='+ document.location.href +'&scope=email,public_profile', '', null);
+    else
       FB.getLoginStatus(function (statusResponse) {
         if (statusResponse.status === 'connected') {
             fbAuth(statusResponse);
