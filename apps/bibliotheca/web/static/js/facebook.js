@@ -15,9 +15,11 @@ $(function () {
 
     // obtains fb current user and creates a session
     // at our app.
-    if( !!navigator.userAgent.match('CriOS') )
+    if( !!navigator.userAgent.match('CriOS') ) {
+      console.log(window.navigator.userAgent.match('CriOS'));
       window.open('https://www.facebook.com/dialog/oauth?client_id='+app_id+'&redirect_uri=http://lexi.mx/facebook-login/&scope=email,public_profile', '', null);
-    else
+    } else {
+      console.log(navigator.userAgent.match('CriOS'));
       function fbAuth(statusResponse) {
           FB.api('/me', {fields: 'email,first_name,last_name'}, function (response) {
             console.log('fb-me', response);
@@ -36,9 +38,9 @@ $(function () {
     function fbLogin() {
   
       // fix iOS Chrome
-      if( !!navigator.userAgent.match('CriOS') )
+      if( !!navigator.userAgent.match('CriOS') ) {
         window.open('https://www.facebook.com/dialog/oauth?client_id='+app_id+'&redirect_uri=http://lexi.mx/facebook-login/&scope=email,public_profile', '', null);
-      else
+      } else {
         FB.getLoginStatus(function (statusResponse) {
           if (statusResponse.status === 'connected') {
               fbAuth(statusResponse);
