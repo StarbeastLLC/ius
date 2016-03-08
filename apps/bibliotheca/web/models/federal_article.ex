@@ -29,7 +29,7 @@ defmodule Bibliotheca.FederalArticle do
   # In doubt, refer to the docs: http://www.postgresql.org/docs/9.1/static/pgtrgm.html
   def search(search_term) do
     query = from(article in FederalArticle,
-    where: fragment("to_tsvector('spanish', article_body) @@ plainto_tsquery('spanish', ?)", ^search_term),
+    where: fragment("to_tsvector('spanish', article_body) @@ to_tsquery('spanish', ?)", ^search_term),
     preload: [:federal_law])
     #where: fragment("similarity(?, ?) > ?", article.article_body, ^search_term, ^threshold),
     #order_by: fragment("similarity(?, ?) DESC", article.article_body, ^search_term))

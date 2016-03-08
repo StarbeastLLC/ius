@@ -10,7 +10,10 @@ defmodule Bibliotheca.PageController do
   end
 
   def search_federal(conn, %{"search" => %{"term" => search_term}}) do
-    articles = FederalArticle.search(search_term)
+    articles = search_term
+             |> String.replace(" ", " & ")
+             |> FederalArticle.search
+    
     render conn, "federal.html", articles: articles
   end
 
