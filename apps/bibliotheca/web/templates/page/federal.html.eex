@@ -17,7 +17,8 @@
     -
     <em><%= article.article_number %></em>
     <br>
-    <%= article.article_body %>
+    <%= IO.puts highlighted_article(article.article_body, @terms)%>
+    <%= raw highlighted_article(article.article_body, @terms) %>
     <br>
     <br>
   <% end %>

@@ -10,11 +10,12 @@ defmodule Bibliotheca.PageController do
   end
 
   def search_federal(conn, %{"search" => %{"term" => search_term}}) do
+    terms = SearchService.separate_terms(search_term)
     articles = search_term
              |> SearchService.clean_search_term
              |> FederalArticle.search
     
-    render conn, "federal.html", articles: articles
+    render conn, "federal.html", articles: articles, terms: terms
   end
 
   def search_federal(conn, _params) do

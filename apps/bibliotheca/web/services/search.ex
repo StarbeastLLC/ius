@@ -12,6 +12,10 @@ defmodule Bibliotheca.SearchService do
     |> parse_or_operator
   end
 
+  def separate_terms(search_term) do
+    String.split(search_term, ~r( [&|] ))
+  end
+
   defp remove_final_space(search_term) do
     if String.ends_with?(search_term, " ") do
       String.replace_suffix(search_term, " ", "")
