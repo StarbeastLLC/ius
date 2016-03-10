@@ -1,0 +1,58 @@
+<center>
+
+  <h1>Tesis y Jurisprudencias</h1>
+
+  <%= form_for @conn, page_path(@conn, :search_tesis), [as: :search], fn f -> %>
+    <p>Buscar por texto</p>
+    <%= search_input f, :texto_term %>
+    <%= submit "Search" %>
+  <% end %>
+  <p>Tesis encontradas: <%= Enum.count(@tesis_) %></p>
+  <br><br>
+
+  <%= for tesis <- @tesis_ do %>
+    <a href="/tesis/<%= tesis.ius %>">
+      <strong><%= tesis.rubro %></strong>
+    </a>
+    <br>
+    <%= tesis.texto %>
+    <br>
+    <br>
+  <% end %>
+
+  <%= form_for @conn, page_path(@conn, :search_tesis), [as: :search], fn f -> %>
+    <p>Buscar por rubro</p>
+    <%= search_input f, :rubro_term %>
+    <%= submit "Search" %>
+  <% end %>
+  <p>Tesis encontradas: <%= Enum.count(@tesis_) %></p>
+  <br><br>
+
+  <%= for tesis <- @tesis_ do %>
+    <a href="/tesis/<%= tesis.ius %>">
+      <strong><%= tesis.rubro %></strong>
+    </a>
+    <br>
+    <%= tesis.texto %>
+    <br>
+    <br>
+  <% end %>
+
+  <%= form_for @conn, page_path(@conn, :search_tesis), [as: :search], fn f -> %>
+    <p>Buscar por precedentes</p>
+    <%= search_input f, :precedentes_term %>
+    <%= submit "Search" %>
+  <% end %>
+  <p>Tesis encontradas: <%= Enum.count(@tesis_) %></p>
+  <br><br>
+
+  <%= for tesis <- @tesis_ do %>
+    <a href="/tesis/<%= tesis.ius %>">
+      <strong><%= tesis.rubro %></strong>
+    </a>
+    <br>
+    <%= tesis.precedentes %>
+    <br>
+    <br>
+  <% end %>
+</center>

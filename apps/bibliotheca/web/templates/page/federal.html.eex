@@ -37,11 +37,12 @@
   <%= for article <- @articles_by_law do %>
     <em><%= article.article_number %></em>
     <br>
-    <%= IO.puts highlighted_article(article.article_body, @terms)%>
     <%= raw highlighted_article(article.article_body, @terms) %>
     <br>
     <br>
   <% end %>
+
+  <!-- General search -->
   <br><hr><br>
 
   <%= form_for @conn, page_path(@conn, :search_federal), [as: :search], fn f -> %>
@@ -60,7 +61,6 @@
     -
     <em><%= article.article_number %></em>
     <br>
-    <%= IO.puts highlighted_article(article.article_body, @terms)%>
     <%= raw highlighted_article(article.article_body, @terms) %>
     <br>
     <br>

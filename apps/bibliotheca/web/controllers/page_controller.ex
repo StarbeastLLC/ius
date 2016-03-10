@@ -2,7 +2,7 @@ defmodule Bibliotheca.PageController do
   use Bibliotheca.Web, :controller
 
   alias Bibliotheca.RegistrationController
-  alias Bibliotheca.{User, FederalArticle, SearchService, FederalLaw}
+  alias Bibliotheca.{User, FederalArticle, SearchService, FederalLaw, Tesis}
 
   def index(conn, _params) do
     changeset = User.changeset(%User{})
@@ -38,8 +38,32 @@ defmodule Bibliotheca.PageController do
     render conn, "federal.html", articles: [], terms: terms, laws: laws, articles_by_law: []
   end
 
-  def search_2(conn, _params) do
-    render conn, "search-2.html"
+  def search_tesis(conn, %{"search" => %{"texto_term" => search_term}}) do
+    terms = SearchService.separate_terms(search_term)
+    tesis_ = search_term
+           |> SearchService.clean_search_term
+           |> Tesis.search_texto
+    render conn, "tesis.html", tesis_: tesis_
+  end
+
+  def search_tesis(conn, %{"search" => %{"rubro_term" => search_term}}) do
+    terms = SearchService.separate_terms(search_term)
+    tesis_ = search_term
+           |> SearchService.clean_search_term
+           |> Tesis.search_rubro
+    render conn, "tesis.html", tesis_: tesis_
+  end
+
+  def search_tesis(conn, %{"search" => %{"precedentes_term" => search_term}}) do
+    terms = SearchService.separate_terms(search_term)
+    tesis_ = search_term
+           |> SearchService.clean_search_term
+           |> Tesis.search_precedentes
+    render conn, "tesis.html", tesis_: tesis_
+  end
+
+  def search_tesis(conn, _params) do
+    render conn, "tesis.html", tesis_: []
   end
 
   def search_3(conn, _params) do
