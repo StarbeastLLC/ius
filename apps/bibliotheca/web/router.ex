@@ -40,6 +40,9 @@ defmodule Bibliotheca.Router do
     get "/change-password/:token", ProfileController, :change_password
 
     get "/leyes-federales", PageController, :search_federal
+    
+    post "/leyes-federales", PageController, :search_federal_title
+    post "/leyes-federales", PageController, :search_federal_title
     post "/leyes-federales", PageController, :search_federal
     get "/leyes-federales/:id", LawController, :show
 

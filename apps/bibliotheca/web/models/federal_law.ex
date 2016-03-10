@@ -1,6 +1,8 @@
 defmodule Bibliotheca.FederalLaw do
   use Bibliotheca.Web, :model
 
+  alias Bibliotheca.{FederalLaw, Repo}
+
   schema "federal_laws" do
     field :file_name,     :string
     field :name,          :string
@@ -26,5 +28,14 @@ defmodule Bibliotheca.FederalLaw do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def search_title(search_term) do
+    query = from(law in FederalLaw,
+    where: fragment("to_tsvector('spanish', name) @@ to_tsquery('spanish', ?)", ^search_term),
+    preload: [:federal_articles])
+    #where: fragment("similarity(?, ?) > ?", article.article_body, ^search_term, ^threshold),
+    #order_by: fragment("similarity(?, ?) DESC", article.article_body, ^search_term))
+    Repo.all(query) 
   end
 end

@@ -2,7 +2,50 @@
 
   <h1>Legislatura Federal</h1>
 
+  <%= form_for @conn, page_path(@conn, :search_federal_title), [as: :search], fn f -> %>
+    <p>Buscar ley por título</p>
+    <%= search_input f, :title_term %>
+    <%= submit "Search" %>
+  <% end %>
+  <p>Leyes encontradas: <%= Enum.count(@laws) %></p>
+
+
+  <%= form_for @conn, page_path(@conn, :search_federal_title), [as: :search], fn f -> %>
+    <%= for law <- @laws do %>
+      <a href="/leyes-federales/<%= law.id %>">
+        <strong><%= law.name %></strong>
+      </a> - <%= radio_button f, :law_id, law.id %>
+      <br>
+    <% end %>
+    <%= if @articles_by_law != [] do %>
+      <%= hidden_input f, :law_id, value: law_id(@articles_by_law) %>
+    <% end %>
+    <br>
+    <p>Buscar dentro de esa ley</p>
+    <%= search_input f, :term %>
+    <%= submit "Search" %>
+  <% end %>
+  
+  <%= if @articles_by_law != [] do %>
+    <a href="/leyes-federales/<%= law_id(@articles_by_law) %>">
+      <strong><%= law_name(@articles_by_law) %></strong>
+    </a>
+  <% end %>
+  <p>Artículos encontrados: <%= Enum.count(@articles_by_law) %></p>
+  <br>
+
+  <%= for article <- @articles_by_law do %>
+    <em><%= article.article_number %></em>
+    <br>
+    <%= IO.puts highlighted_article(article.article_body, @terms)%>
+    <%= raw highlighted_article(article.article_body, @terms) %>
+    <br>
+    <br>
+  <% end %>
+  <br><hr><br>
+
   <%= form_for @conn, page_path(@conn, :search_federal), [as: :search], fn f -> %>
+    <p>Buscar dentro de todas las leyes federales</p>
     <%= search_input f, :term %>
     <%= submit "Search" %>
   <% end %>
