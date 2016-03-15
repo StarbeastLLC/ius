@@ -13,7 +13,7 @@
     <span class="tesis-checkbox">
       <label>PRECEDENTES</label> <%= checkbox f, :precedentes, default: true %>
     </span>
-    <br>
+    <br><br>
     <%= search_input f, :term %>
     
     <%= submit "Search" %>
@@ -22,11 +22,13 @@
   <br><br>
 
   <%= for tesis <- @tesis_ do %>
+    <strong>Registro <%= tesis.ius %></strong>
+    <br>
     <a href="/tesis/<%= tesis.ius %>">
       <strong><%= tesis.rubro %></strong>
     </a>
     <br>
-    <%= tesis.texto %>
+    <%= tesis.locabr %>
     <br>
     <br>
   <% end %>
