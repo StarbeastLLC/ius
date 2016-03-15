@@ -40,6 +40,21 @@ defmodule Bibliotheca.AuthController do
     |> redirect(to: "/")
   end
 
+  def reset_sessions(conn, %{"user" => user_params}) do
+    user = Repo.get_by(User, email: user_params["email"])
+    cond do
+      user == nil ->
+        conn
+        |> put_flash(:error, "No user found using this email")
+        |> redirect(to: "/")
+      :else ->
+        conn 
+        |> SessionService.delete_session_token(user.id)
+        |> put_flash(:info, "Your other sessions were deactivated")
+        |> redirect(to: "/")
+    end
+  end
+
   def new_password(conn, %{"user" => user_params}) do
     case Elegua.new_password(user_params["email"], user_params["password"]) do
       {:ok, user} ->

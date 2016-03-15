@@ -30,8 +30,8 @@ defmodule Bibliotheca.SessionService do
     token = Ecto.UUID.generate
     conn = put_session(conn, :session_token, token)
     user = Repo.get(User, user_id)
-    cond do
-      Enum.count(user.sessions) < 2 ->
+    #cond do
+      #Enum.count(user.sessions) < 2 ->
         sessions = Enum.into(user.sessions, [token])
         changeset = user
                   |> change(%{})
@@ -40,9 +40,9 @@ defmodule Bibliotheca.SessionService do
           {:ok, _} -> {:ok, conn}
           {:error, _} -> :error
         end
-      :else ->
-        {:error, :sessions_full}
-    end
+      #:else ->
+      #  {:error, :sessions_full}
+    #end
   end
 
 end
