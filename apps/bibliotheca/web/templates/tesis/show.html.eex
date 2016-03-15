@@ -6,6 +6,6 @@
     <br>
     <p><%= @tesis.texto %></p>
     <br><br>
-    <p><%= @tesis.precedentes %></p>
+    <p><em><%= @tesis.precedentes %></em></p>
 
 </center>
