@@ -5,7 +5,8 @@
     <h3><%= @tesis.rubro %></h3>
     <br>
     <p><%= @tesis.texto %></p>
-    <br><br>
+    <br>
+    <p>SALA <%= @tesis.sala %></p>
     <p><em><%= @tesis.precedentes %></em></p>
 
 </center>

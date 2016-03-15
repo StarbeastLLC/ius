@@ -9,6 +9,7 @@ defmodule Bibliotheca.Tesis do
     field :texto, :string
     field :precedentes, :string
     field :locabr, :string
+    field :sala, :integer
   end
 
   alias Bibliotheca.{Tesis, Repo}
