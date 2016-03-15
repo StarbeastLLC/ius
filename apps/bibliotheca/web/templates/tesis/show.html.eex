@@ -1,5 +1,5 @@
 <center>
-    
+    <strong>Registro <%= @tesis.ius %></strong>
     <p><em><%= @tesis.locabr %></em></p>
     <br>
     <h3><%= @tesis.rubro %></h3>
