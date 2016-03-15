@@ -1,7 +1,7 @@
 defmodule Bibliotheca.LawController do
   use Bibliotheca.Web, :controller
 
-  alias Bibliotheca.{FederalLaw, FederalArticle}
+  alias Bibliotheca.{User, FederalArticle, SearchService, FederalLaw, Tesis}
   alias Lex.LawParser
 
   plug :scrub_params, "law" when action in [:create, :update]
@@ -110,5 +110,15 @@ defmodule Bibliotheca.LawController do
     conn
     |> put_flash(:info, "Law deleted successfully.")
     |> redirect(to: law_path(conn, :index))
+  end
+
+  # SEARCHES
+  def search_federal(conn, %{"search" => %{"term" => search_term}}) do
+    terms = SearchService.separate_terms(search_term)
+    articles = search_term
+             |> SearchService.clean_search_term
+             |> FederalArticle.search
+    
+    render conn, Bibliotheca.PageView, "federal.html", articles: articles, terms: terms, laws: [], articles_by_law: []
   end
 end

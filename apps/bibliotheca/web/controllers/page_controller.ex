@@ -9,19 +9,6 @@ defmodule Bibliotheca.PageController do
     render conn, "index.html", changeset: changeset
   end
 
-  def search_federal(conn, %{"search" => %{"term" => search_term}}) do
-    terms = SearchService.separate_terms(search_term)
-    articles = search_term
-             |> SearchService.clean_search_term
-             |> FederalArticle.search
-    
-    render conn, "federal.html", articles: articles, terms: terms, laws: [], articles_by_law: []
-  end
-
-  def search_federal(conn, _params) do
-    render conn, "federal.html", articles: [], laws: [], articles_by_law: [] 
-  end
-
   def search_federal_title(conn, %{"search" => %{"term" => search_term, "law_id" => law_id}}) do
     terms = SearchService.separate_terms(search_term)
     articles_by_law = search_term
@@ -36,6 +23,10 @@ defmodule Bibliotheca.PageController do
          |> SearchService.clean_search_term
          |> FederalLaw.search_title
     render conn, "federal.html", articles: [], terms: terms, laws: laws, articles_by_law: []
+  end
+
+  def search_federal(conn, _params) do
+    render conn, "federal.html", articles: [], laws: [], articles_by_law: [] 
   end
 
   def search_tesis(conn, %{"search" => %{"texto_term" => search_term}}) do
