@@ -48,6 +48,7 @@ defmodule Bibliotheca.Router do
 
     post "/tesis", PageController, :search_tesis
     get "/tesis", PageController, :search_tesis
+    get "/tesis/:ius", TesisController, :show
 
     get "/search-3", PageController, :search_3
     get "/search-4", PageController, :search_4
