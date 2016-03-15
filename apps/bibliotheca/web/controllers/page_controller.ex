@@ -29,27 +29,20 @@ defmodule Bibliotheca.PageController do
     render conn, "federal.html", articles: [], laws: [], articles_by_law: [] 
   end
 
-  def search_tesis(conn, %{"search" => %{"texto_term" => search_term}}) do
-    terms = SearchService.separate_terms(search_term)
-    tesis_ = search_term
-           |> SearchService.clean_search_term
-           |> Tesis.search_texto
-    render conn, "tesis.html", tesis_: tesis_
-  end
-
-  def search_tesis(conn, %{"search" => %{"rubro_term" => search_term}}) do
-    terms = SearchService.separate_terms(search_term)
-    tesis_ = search_term
-           |> SearchService.clean_search_term
-           |> Tesis.search_rubro
-    render conn, "tesis.html", tesis_: tesis_
-  end
-
-  def search_tesis(conn, %{"search" => %{"precedentes_term" => search_term}}) do
-    terms = SearchService.separate_terms(search_term)
-    tesis_ = search_term
-           |> SearchService.clean_search_term
-           |> Tesis.search_precedentes
+  def search_tesis(conn, %{"search" => search_params}) do
+    search_term = search_params["term"]
+                |> SearchService.clean_search_term
+    search_columns = [search_params["rubro"], 
+                      search_params["texto"],
+                      search_params["precedentes"]]
+    term_by_column = Enum.map(search_columns, fn(x) -> 
+                       if x == "true" do
+                         search_term
+                       else
+                         ""
+                       end
+                     end)
+    tesis_ = Tesis.search(term_by_column)
     render conn, "tesis.html", tesis_: tesis_
   end
 
