@@ -28,15 +28,27 @@ defmodule Bibliotheca.Router do
     post "/register", RegistrationController, :create
     get "/register/:token", RegistrationController, :verify
 
-    post "/facebook-login", FacebookController, :auth
+    get "/account-deletion", ProfileController, :close_account
+    get "/account-deletion/:token", ProfileController, :delete_account
+
+    post "/facebook-login", SocialConnectController, :auth
+    post "/google-login", SocialConnectController, :auth
 
     get "/profile", ProfileController, :profile
     put "/profile", ProfileController, :update_profile
     post "/profile-password", ProfileController, :new_password
     get "/change-password/:token", ProfileController, :change_password
 
-    get "/search-1", PageController, :search_1
-    get "/search-2", PageController, :search_2
+    get "/leyes-federales", PageController, :search_federal
+    
+    post "/leyes-federales/articulos", LawController, :search_federal
+    post "/leyes-federales/articulos-por-ley", PageController, :search_federal_title
+    get "/leyes-federales/:id", LawController, :show
+
+    post "/tesis", PageController, :search_tesis
+    get "/tesis", PageController, :search_tesis
+    get "/tesis/:ius", TesisController, :show
+
     get "/search-3", PageController, :search_3
     get "/search-4", PageController, :search_4
     get "/search-5", PageController, :search_5

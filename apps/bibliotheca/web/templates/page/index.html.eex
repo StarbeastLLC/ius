@@ -30,7 +30,7 @@
 <div class="row">
   <div class="col-md-2">
     <div class="text-center">
-      <a href="/logout">
+      <a href="/leyes-federales">
         <h4>
           Legislación Federal
         </h4>
@@ -66,7 +66,7 @@
   </div> 
   <div class="col-md-2">
     <div class="text-center">
-      <a href="/logout">
+      <a href="/tesis">
         <h4>
           Tesis y Jurisprudencias
         </h4>
@@ -80,25 +80,36 @@
 <div class="row">
   <div class="text-center">
 <br>
-    <button class="fb-login">
-      LOGIN USING FACEBOOK
-    </button>
-    <%= form_for @conn, facebook_path(@conn, :auth), [as: :user, id: "fb_auth"], fn f -> %>
-      <%= hidden_input f, :fb_id %>
-      <%= hidden_input f, :fb_token %>
+
+  <!-- Google+ login -->
+  <div id="gConnect">
+    <div id="signin-button"></div>
+  </div>
+  <%= form_for @conn, social_connect_path(@conn, :auth), [as: :user, id: "google_auth"], fn f -> %>
+      <%= hidden_input f, :google_id %>
       <%= hidden_input f, :email %>
       <%= hidden_input f, :first_name %>
       <%= hidden_input f, :last_name %>
-    <% end %>
+  <% end %>
+  <!-- FB login -->
+  <button class="fb-login">LOGIN WITH FACEBOOK</button>
+  <%= form_for @conn, social_connect_path(@conn, :auth), [as: :user, id: "fb_auth"], fn f -> %>
+    <%= hidden_input f, :fb_id %>
+    <%= hidden_input f, :fb_token %>
+    <%= hidden_input f, :email %>
+    <%= hidden_input f, :first_name %>
+    <%= hidden_input f, :last_name %>
+  <% end %>
 
     -OR-
-
+    <!-- Email login -->
     <%= form_for @changeset, auth_path(@conn, :login), fn f -> %>
-      <%= text_input f, :email, placeholder: "Email", required: true%>
-      <%= text_input f, :password, placeholder: "Password", required: true %>
+      <%= text_input f, :email, placeholder: "Email", required: true %>
+      <%= password_input f, :password, placeholder: "Password", required: true %>
 <br>
 <br>
       <%= submit "LOG IN"%>
+    <% end %>
 <br>
 <br> 
 <br> 
@@ -114,8 +125,15 @@
         </small>
       </h6>
     </a>
-    <% end %>
   </div>
 </div>
 
 <% end %>
+
+<!-- Google+ SDK, only used there -->
+   <script type="text/javascript">
+        window.gclientLoaded = function () {
+          window.startApp();
+        }
+    </script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=gclientLoaded"></script>

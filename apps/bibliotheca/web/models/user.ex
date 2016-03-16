@@ -13,6 +13,7 @@ defmodule Bibliotheca.User do
 
     field :fb_id, :string
     field :fb_token, :string
+    field :google_id, :string
 
     field :verification_token, :string
     field :is_verified, :boolean, default: false
@@ -25,11 +26,13 @@ defmodule Bibliotheca.User do
     field :legal_address, :string
     field :legal_email, :string
 
+    field :sessions, {:array, :string}, default: []
+
     timestamps
   end
 
-  @required_fields ~w(password username email is_verified first_name last_name rfc legal_name legal_address legal_email accepts_terms accepts_cookies state)
-  @optional_fields ~w(verification_token new_password fb_id fb_token)
+  @required_fields ~w(password username email is_verified first_name last_name accepts_terms accepts_cookies state)
+  @optional_fields ~w(verification_token new_password fb_id fb_token legal_name legal_address legal_email rfc sessions)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -43,6 +46,12 @@ defmodule Bibliotheca.User do
     |> validate_format(:email, ~r/@/)
     |> validate_format(:legal_email, ~r/@/)
     |> unique_constraint(:email, on: Bibliotheca.Repo, downcase: true)
-    |> unique_constraint(:username, on: Bibliotheca.Repo, downcase: true)
+  end
+
+  def update_changeset(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(email first_name last_name state), ~w(legal_name legal_email legal_address rfc))
+    |> validate_format(:email, ~r/@/)
+    |> validate_format(:legal_email, ~r/@/)
   end
 end

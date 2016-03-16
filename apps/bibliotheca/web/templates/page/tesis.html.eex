@@ -1,0 +1,35 @@
+<center>
+
+  <h1>Tesis y Jurisprudencias</h1>
+
+  <%= form_for @conn, page_path(@conn, :search_tesis), [as: :search], fn f -> %>
+    <p>Buscar en</p>
+    <span class="tesis-checkbox">
+      <label>RUBRO</label> <%= checkbox f, :rubro, default: true %>
+    </span>
+    <span class="tesis-checkbox">
+      <label>TEXTO</label> <%= checkbox f, :texto, default: true %>
+    </span>
+    <span class="tesis-checkbox">
+      <label>PRECEDENTES</label> <%= checkbox f, :precedentes, default: true %>
+    </span>
+    <br><br>
+    <%= search_input f, :term %>
+    
+    <%= submit "Search" %>
+  <% end %>
+  <p>Tesis encontradas: <%= Enum.count(@tesis_) %></p>
+  <br><br>
+
+  <%= for tesis <- @tesis_ do %>
+    <strong>Registro <%= tesis.ius %></strong>
+    <br>
+    <a href="/tesis/<%= tesis.ius %>">
+      <strong><%= tesis.rubro %></strong>
+    </a>
+    <br>
+    <%= tesis.locabr %>
+    <br>
+    <br>
+  <% end %>
+</center>

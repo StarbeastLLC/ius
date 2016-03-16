@@ -1,0 +1,12 @@
+<center>
+    <strong>Registro <%= @tesis.ius %></strong>
+    <p><em><%= @tesis.locabr %></em></p>
+    <br>
+    <h3><%= @tesis.rubro %></h3>
+    <br>
+    <p><%= @tesis.texto %></p>
+    <br>
+    <p>SALA <%= @tesis.sala %></p>
+    <p><em><%= @tesis.precedentes %></em></p>
+
+</center>

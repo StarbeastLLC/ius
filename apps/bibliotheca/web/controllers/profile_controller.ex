@@ -1,9 +1,11 @@
 defmodule Bibliotheca.ProfileController do
   use Bibliotheca.Web, :controller
   alias Bibliotheca.User
+  import Ecto.Changeset, only: [put_change: 3, change: 2]
 
   @from "postmaster@sandbox9ddf700296ad4bf0a817cedfe2a09d99.mailgun.org"
   @password_greeting "You changed your Lexi password!"
+  @deletion_message "It's sad to let you go! -Lexi"
 
   def profile(conn, _params) do
     id = get_session(conn, :user_id)
@@ -22,8 +24,7 @@ defmodule Bibliotheca.ProfileController do
     id = get_session(conn, :user_id)
     user = Repo.get_by(User, id: id)
     password_changeset = User.changeset(%User{})
-    changeset = User.changeset(user, user_params)
-    IO.puts inspect changeset
+    changeset = User.update_changeset(user, user_params)
     case Repo.update(changeset) do
       {:ok, user} ->
         conn
@@ -80,6 +81,46 @@ defmodule Bibliotheca.ProfileController do
       :else ->
         conn
         |> put_flash(:error, "Please try again")
+        |> redirect(to: "/")
+    end
+  end
+
+  def close_account(conn, _params) do
+    user_id = get_session(conn, :user_id)
+    user = Repo.get(User, user_id)
+    token = Ecto.UUID.generate
+    changeset = user
+                  |> change(%{})
+                  |> put_change(:verification_token, token)
+    case Repo.update(changeset) do
+      {:ok, user} ->
+        verification_token = user.verification_token
+        user_email = user.email
+        content = "Confirm your account deletion by clicking on this link: http://lexi.mx/account-deletion/#{verification_token}"
+        Elegua.send_verification_email(user_email, @from, @deletion_message, {:text, content})
+
+        conn
+        |> put_flash(:info, "We emailed you a link to verify this action")
+        |> redirect(to: "/")
+      {:error, _} ->
+        conn
+        |> put_flash(:error, "Please try again")
+        |> redirect(to: "/")
+    end
+  end
+
+  def delete_account(conn, %{"token" => token}) do
+    user = Repo.get_by(User, verification_token: token)
+    case Repo.delete(user) do
+      {:ok, _} -> 
+        conn
+        |> delete_session(:user_id)
+        |> delete_session(:session_token)
+        |> put_flash(:info, "Your account was deleted!")
+        |> redirect(to: "/")
+      {:error, _} ->
+        conn
+        |> put_flash(:info, "Please try again")
         |> redirect(to: "/")
     end
   end

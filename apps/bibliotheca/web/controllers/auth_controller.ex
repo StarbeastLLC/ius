@@ -1,6 +1,8 @@
 defmodule Bibliotheca.AuthController do
   use Bibliotheca.Web, :controller
   alias Bibliotheca.User
+  alias Bibliotheca.Repo
+  alias Bibliotheca.SessionService
 
   @from "postmaster@sandbox9ddf700296ad4bf0a817cedfe2a09d99.mailgun.org"
   @recovery_greeting "Recover your Lexi account!"
@@ -13,10 +15,7 @@ defmodule Bibliotheca.AuthController do
   def login(conn, %{"user" => user_params}) do
     case Elegua.authenticate({:email, user_params["email"]}, user_params["password"]) do
       {:ok, user} ->
-        conn
-        |> put_session(:user_id, user.id)
-        |> put_flash(:info, "Welcome back, #{user.first_name}!")
-        |> redirect(to: "/")
+        check_session_and_login(conn, user)
       {:error, :no_user} ->
         conn
         |> put_flash(:error, "Please create an account")
@@ -33,10 +32,27 @@ defmodule Bibliotheca.AuthController do
   end
 
   def logout(conn, _) do
+    user_id = get_session(conn, :user_id)
     conn
     |> Elegua.logout
+    |> SessionService.delete_session_token(user_id)
     |> put_flash(:info, "Come back soon!")
     |> redirect(to: "/")
+  end
+
+  def reset_sessions(conn, %{"user" => user_params}) do
+    user = Repo.get_by(User, email: user_params["email"])
+    cond do
+      user == nil ->
+        conn
+        |> put_flash(:error, "No user found using this email")
+        |> redirect(to: "/")
+      :else ->
+        conn 
+        |> SessionService.delete_session_token(user.id)
+        |> put_flash(:info, "Your other sessions were deactivated")
+        |> redirect(to: "/")
+    end
   end
 
   def new_password(conn, %{"user" => user_params}) do
@@ -68,14 +84,30 @@ defmodule Bibliotheca.AuthController do
         |> put_flash(:error, "Invalid token, please try again!")
         |> redirect(to: "/account-recovery")
       {:ok, user} ->
-        conn
-        |> put_session(:user_id, user.id)
-        |> put_flash(:info, "You recovered your account, #{user.first_name}!")
-        |> redirect(to: "/")
+        message = "You recovered your account, #{user.first_name}!"
+        check_session_and_login(conn, user, message)
       :else ->
         conn
         |> put_flash(:error, "Please try again")
         |> redirect(to: "/")
+    end
+  end
+
+  def check_session_and_login(conn, user, flash_message \\ "Welcome back!") do
+    case SessionService.check_session_token(conn, user.id) do
+      {:ok, conn} ->
+        conn
+        |> put_session(:user_id, user.id)
+        |> put_flash(:info, flash_message)
+        |> redirect(to: "/")
+      {:error, :sessions_full} ->
+        conn
+        |> put_flash(:error, "Log out from another active session to open one in this device")
+        |> redirect(to: "/") 
+      :else ->
+        conn
+        |> put_flash(:error, "Please try again")
+        |> redirect(to: "/") 
     end
   end
 end
