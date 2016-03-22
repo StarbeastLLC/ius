@@ -22,7 +22,7 @@ defmodule Lex.ArticleParser do
     unless raw_text == nil do
       text = clean_text(raw_text)
       key = "ARTICULO " <> article_number
-      acc = Map.put(acc, key, text)
+      acc = [{key, text} | acc]
     end
 
     acc

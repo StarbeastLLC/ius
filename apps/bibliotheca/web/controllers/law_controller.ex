@@ -37,7 +37,7 @@ defmodule Bibliotheca.LawController do
             header: content[:header],
             reform_date: content[:reform_date],
             original_text: content[:original_text],
-            articles: content[:body],
+            articles: %{}, #content[:body],
             contents: %{}
           }
         Repo.transaction fn ->

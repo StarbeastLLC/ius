@@ -23,7 +23,7 @@ defmodule Lex.LawParser do
   # Función principal de inicio del parseo del contenido del archivo
   ###################################################################
   def parse_file(file_name, nested \\ true) do
-    {title, header, preliminar, body_map, transitories, content} = parse_sections_from_file(file_name, nested)
+    {title, header, preliminar, body_list, transitories, content} = parse_sections_from_file(file_name, nested)
     reform_date = parse_reform_date(header)
     preliminar_map = PreliminarParser.parse_preliminar(preliminar)
     transitories_map = TransitoriesParser.parse_transitories(transitories)
@@ -31,7 +31,7 @@ defmodule Lex.LawParser do
             reform_date: reform_date,
             header: header,
             preliminar: preliminar_map,
-            body: body_map,
+            body: body_list,
             transitories: transitories_map,
             original_text: content}}
   end
