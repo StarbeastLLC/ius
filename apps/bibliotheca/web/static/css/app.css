@@ -12,6 +12,10 @@ body, form, ul, table {
 
 .tesis-checkbox {
   margin: 15px;
+  text-align: center;
+}
+.search{
+  text-align: center;
 }
 
 /* Phoenix flash messages */
@@ -79,4 +83,61 @@ form.link, form.button {
   .jumbotron {
     border-bottom: 0;
   }
+  .precedentes {
+    margin-left: 22%;
+    margin-right: 22%;
+    text-align: justify;
+  }
+  .ius{
+    margin-left: 30%;
+    margin-right: 30%;
+    text-align: center;
+  }
+  .rubro{
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: center;
+    font-size:24px;
+  }
+  .texto{
+    margin-left: 22%;
+    margin-right:22%;
+    text-align: justify;
+  }
+  .lawname {
+    text-transform:uppercase;
+    font-size:24px;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: center;
+
+  }
+  .lawhead {
+    font-size:14px;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: justify;
+
+  }
+  .numarticulo {
+    text-align: left;
+    font-size:14px;
+    margin-left: 22%;
+  }
+  .textoarticulo {
+    font-size:14px;
+    margin-left: 22%;
+    margin-right: 22%;
+    text-align: justify;
+  } 
 }
+
+
+
+
+
+
+
+
+
+
