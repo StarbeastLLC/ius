@@ -30,7 +30,9 @@ defmodule Bibliotheca.FederalArticle do
   def search(search_term) do
     query = from(article in FederalArticle,
     where: fragment("to_tsvector('spanish', article_body) @@ to_tsquery('spanish', ?)", ^search_term),
-    order_by: [article.article_number],
+    #select: {article, (fragment("ts_headline('spanish', article_body, plainto_tsquery(?))", ^search_term))},
+    #order_by: [article.article_number],
+    order_by: [desc: fragment("ts_rank(to_tsvector('spanish', article_body), plainto_tsquery('spanish', ?))", ^search_term)],
     preload: [:federal_law])
     #where: fragment("similarity(?, ?) > ?", article.article_body, ^search_term, ^threshold),
     #order_by: fragment("similarity(?, ?) DESC", article.article_body, ^search_term))
