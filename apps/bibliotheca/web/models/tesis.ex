@@ -18,7 +18,8 @@ defmodule Bibliotheca.Tesis do
     query = from(tesis in Tesis,
     where: fragment("to_tsvector('spanish', rubro) @@ to_tsquery('spanish', ?)", ^rubro_term) 
            or fragment("to_tsvector('spanish', texto) @@ to_tsquery('spanish', ?)", ^texto_term)
-           or fragment("to_tsvector('spanish', precedentes) @@ to_tsquery('spanish', ?)", ^precedentes_term))
+           or fragment("to_tsvector('spanish', precedentes) @@ to_tsquery('spanish', ?)", ^precedentes_term),
+    order_by: [desc: fragment("ts_rank(to_tsvector('spanish', rubro), plainto_tsquery('spanish', ?))", ^rubro_term)])
     Repo.all(query) 
   end
 
