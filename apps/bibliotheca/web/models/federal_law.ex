@@ -33,6 +33,7 @@ defmodule Bibliotheca.FederalLaw do
   def search_title(search_term) do
     query = from(law in FederalLaw,
     where: fragment("to_tsvector('spanish', name) @@ to_tsquery('spanish', ?)", ^search_term),
+    order_by: [desc: fragment("ts_rank(to_tsvector('spanish', name), plainto_tsquery('spanish', ?))", ^search_term)],
     preload: [:federal_articles])
     #where: fragment("similarity(?, ?) > ?", article.article_body, ^search_term, ^threshold),
     #order_by: fragment("similarity(?, ?) DESC", article.article_body, ^search_term))

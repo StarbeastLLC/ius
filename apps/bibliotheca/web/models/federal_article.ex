@@ -42,7 +42,8 @@ defmodule Bibliotheca.FederalArticle do
   def search_by_law(search_term, law_id) do
     query = from(article in FederalArticle,
     where: article.federal_law_id == ^law_id and fragment("to_tsvector('spanish', article_body) @@ to_tsquery('spanish', ?)", ^search_term),
-    order_by: [article.article_number],
+    #order_by: [article.article_number],
+    order_by: [desc: fragment("ts_rank(to_tsvector('spanish', article_body), plainto_tsquery('spanish', ?))", ^search_term)],
     preload: [:federal_law])
     Repo.all(query)
   end
