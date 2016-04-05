@@ -9,12 +9,12 @@ defmodule Bibliotheca.PageController do
     render conn, "index.html", changeset: changeset
   end
 
-  def search_federal_title(conn, %{"search" => %{"term" => search_term, "law_id" => law_id}}) do
+  def search_federal_title(conn, %{"search" => %{"term" => search_term, "law_id" => law_id, "ranking" => ranking}}) do
     terms = SearchService.separate_terms(search_term)
     articles_by_law = search_term
                     |> SearchService.clean_search_term
-                    |> FederalArticle.search_by_law(law_id)
-    render conn, "federal.html", articles: [], terms: terms, laws: [], articles_by_law: articles_by_law
+                    |> FederalArticle.search_by_law(law_id, String.to_integer(ranking))
+    render conn, "federal.html", articles: [], terms: terms, laws: [], articles_by_law: articles_by_law, ranking: ranking
   end
 
   def search_federal_title(conn, %{"search" => %{"title_term" => search_term}}) do

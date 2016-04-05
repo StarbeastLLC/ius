@@ -23,6 +23,11 @@
     <br>
     <p>Buscar dentro de esa ley</p>
     <%= search_input f, :term %>
+    <br>
+    <br>
+    << Resultados similares | Resultados exactos >>
+    <%= range_input f, :ranking, class: "ranking-slider", min: 0, max: 30 %>
+    <br>
     <%= submit "Search" %>
   <% end %>
   
@@ -48,6 +53,11 @@
   <%= form_for @conn, law_path(@conn, :search_federal), [as: :search], fn f -> %>
     <p>Buscar dentro de todas las leyes federales</p>
     <%= search_input f, :term %>
+    <br>
+    <br>
+    << Resultados similares | Resultados exactos >>
+    <%= range_input f, :ranking, class: "ranking-slider", min: 0, max: 30 %>
+    <br>
     <%= submit "Search" %>
   <% end %>
   <p>Artículos encontrados: <%= Enum.count(@articles) %></p>
