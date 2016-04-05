@@ -39,4 +39,5 @@ config :bibliotheca, Bibliotheca.Repo,
   password: "postgres",
   database: "bibliotheca_dev",
   hostname: "localhost",
-  pool_size: 10
+  pool_size: 10,
+  connect_timeout: 30_000
