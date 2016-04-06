@@ -113,12 +113,12 @@ defmodule Bibliotheca.LawController do
   end
 
   # SEARCHES
-  def search_federal(conn, %{"search" => %{"term" => search_term}}) do
+  def search_federal(conn, %{"search" => %{"term" => search_term, "ranking" => ranking}}) do
     terms = SearchService.separate_terms(search_term)
     articles = search_term
              |> SearchService.clean_search_term
-             |> FederalArticle.search
+             |> FederalArticle.search(String.to_integer(ranking))
     
-    render conn, Bibliotheca.PageView, "federal.html", articles: articles, terms: terms, laws: [], articles_by_law: []
+    render conn, Bibliotheca.PageView, "federal.html", articles: articles, terms: terms, laws: [], articles_by_law: [], ranking: ranking
   end
 end
