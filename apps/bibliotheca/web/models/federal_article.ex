@@ -34,7 +34,7 @@ defmodule Bibliotheca.FederalArticle do
        and fragment("(ts_rank_cd(to_tsvector('spanish', article_body), to_tsquery('spanish', ?)) * 100) > ?",
                      ^search_term, ^ranking),
     limit: 1000,
-    update: [set: [article_body: fragment("ts_headline('spanish', article.article_body, ?))", ^search_term)]],
+    #update: [set: [article_body: fragment("ts_headline('spanish', article.article_body, ?))", ^search_term)]],
     # AND article_body LIKE 'cometan actos de violencia' <- Esto va en el fragment
     #select: {article, (fragment("ts_headline('spanish', article_body, plainto_tsquery(?))", ^search_term))},
     #order_by: [article.article_number],
