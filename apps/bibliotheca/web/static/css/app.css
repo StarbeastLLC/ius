@@ -18,6 +18,10 @@ body, form, ul, table {
   text-align: center;
 }
 
+.ranking-slider {
+  max-width: 300px;
+}
+
 /* Phoenix flash messages */
 .alert:empty { display: none; }
 

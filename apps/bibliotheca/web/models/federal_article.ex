@@ -27,23 +27,33 @@ defmodule Bibliotheca.FederalArticle do
   # Postgres' 'set_limit' sets a threshold for the search term
   # If 'threshold = 1' and we search "laborales", it will look for the exact word
   # In doubt, refer to the docs: http://www.postgresql.org/docs/9.1/static/pgtrgm.html
-  def search(search_term) do
+  def search(search_term, ranking) do
     query = from(article in FederalArticle,
-    where: fragment("to_tsvector('spanish', article_body) @@ to_tsquery('spanish', ?)", ^search_term),
+    where: fragment("to_tsvector('spanish', article_body) @@ plainto_tsquery('spanish', ?)",
+                     ^search_term) 
+       and fragment("(ts_rank_cd(to_tsvector('spanish', article_body), to_tsquery('spanish', ?)) * 100) > ?",
+                     ^search_term, ^ranking),
+    limit: 1000,
+    update: [set: [article_body: fragment("ts_headline('spanish', article.article_body, ?))", ^search_term)]],
+    # AND article_body LIKE 'cometan actos de violencia' <- Esto va en el fragment
     #select: {article, (fragment("ts_headline('spanish', article_body, plainto_tsquery(?))", ^search_term))},
     #order_by: [article.article_number],
-    order_by: [desc: fragment("ts_rank(to_tsvector('spanish', article_body), plainto_tsquery('spanish', ?))", ^search_term)],
+    order_by: [desc: fragment("ts_rank_cd(to_tsvector('spanish', article_body), to_tsquery('spanish', ?))", ^search_term)],
     preload: [:federal_law])
     #where: fragment("similarity(?, ?) > ?", article.article_body, ^search_term, ^threshold),
     #order_by: fragment("similarity(?, ?) DESC", article.article_body, ^search_term))
     Repo.all(query) 
   end
 
-  def search_by_law(search_term, law_id) do
+  def search_by_law(search_term, law_id, ranking) do
     query = from(article in FederalArticle,
-    where: article.federal_law_id == ^law_id and fragment("to_tsvector('spanish', article_body) @@ to_tsquery('spanish', ?)", ^search_term),
+    where: article.federal_law_id == ^law_id 
+       and fragment("to_tsvector('spanish', article_body) @@ to_tsquery('spanish', ?)", ^search_term)
+       and fragment("(ts_rank_cd(to_tsvector('spanish', article_body), to_tsquery('spanish', ?)) * 100) > ?",
+                     ^search_term, ^ranking),
     #order_by: [article.article_number],
-    order_by: [desc: fragment("ts_rank(to_tsvector('spanish', article_body), plainto_tsquery('spanish', ?))", ^search_term)],
+    limit: 1000,
+    order_by: [desc: fragment("ts_rank_cd(to_tsvector('spanish', article_body), to_tsquery('spanish', ?))", ^search_term)],
     preload: [:federal_law])
     Repo.all(query)
   end
@@ -51,6 +61,7 @@ defmodule Bibliotheca.FederalArticle do
   def by_law(law_id) do
     query = from(article in FederalArticle,
     where: article.federal_law_id == ^law_id,
+    limit: 1000,
     order_by: [desc: article.id])
     Repo.all(query)
   end
