@@ -30,6 +30,8 @@ defmodule Bibliotheca.PageController do
   end
 
   def search_tesis(conn, %{"search" => search_params}) do
+    in_tesis = search_params["tesis"]
+    in_juris = search_params["juris"]
     search_term = search_params["term"]
                 |> SearchService.clean_search_term
     search_columns = [search_params["rubro"], 
@@ -42,7 +44,17 @@ defmodule Bibliotheca.PageController do
                          ""
                        end
                      end)
-    tesis_ = Tesis.search(term_by_column)
+    cond do
+      in_tesis == "true" && in_juris == "true" ->
+        tesis_ = Tesis.search(term_by_column)
+      in_tesis == "true" && in_juris == "false" ->
+        tesis_ = Tesis.search_tesis(term_by_column)
+      in_tesis == "false" && in_juris == "true" ->
+        tesis_ = Tesis.search_juris(term_by_column)
+      :else ->
+        tesis_ = []
+        IO.puts "kasljhfakfai #{in_tesis}"      
+    end   
     render conn, "tesis.html", tesis_: tesis_
   end
 

@@ -5,6 +5,15 @@
   <%= form_for @conn, page_path(@conn, :search_tesis), [as: :search], fn f -> %>
     <p>Buscar en</p>
     <span class="tesis-checkbox">
+      <label>TESIS</label> <%= checkbox f, :tesis, default: true %>
+    </span>
+    <span class="tesis-checkbox">
+      <label>JURISPRUDENCIAS</label> <%= checkbox f, :juris, default: true %>
+    </span>
+    <br><br>
+    <p>por</p>
+    <br>
+    <span class="tesis-checkbox">
       <label>RUBRO</label> <%= checkbox f, :rubro, default: true %>
     </span>
     <span class="tesis-checkbox">
