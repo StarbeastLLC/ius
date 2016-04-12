@@ -41,7 +41,7 @@ defmodule Bibliotheca.PageController do
                        if x == "true" do
                          {fts_term, like_term}
                        else
-                         {"", ""}
+                         {"", [""]}
                        end
                      end)
     cond do
