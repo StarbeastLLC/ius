@@ -2,34 +2,36 @@
   <h1 style="text-align: center;">Tesis y Jurisprudencias</h1>
 
   <%= form_for @conn, page_path(@conn, :search_tesis), [as: :search], fn f -> %>
-    <p style="text-align: center;">Buscar en</p>
-    <div class="tesis-checkbox" >
-      <label>
-        RUBRO 
-      </label> 
-        <%= checkbox f, :rubro, default: true %>
-      <label>
-        TEXTO
-      </label> 
-        <%= checkbox f, :texto, default: true %>
-      <label>
-        PRECEDENTES
-      </label> 
-        <%= checkbox f, :precedentes, default: true %>
-    </div>
+
+    <p>Buscar en</p>
+    <span class="tesis-checkbox">
+      <label>TESIS</label> <%= checkbox f, :tesis, default: true %>
+    </span>
+    <span class="tesis-checkbox">
+      <label>JURISPRUDENCIAS</label> <%= checkbox f, :juris, default: true %>
+    </span>
+    <br><br>
+    <p>por</p>
     <br>
-    <br>
-    <div class="search">
-      <%= search_input f, :term %>
-      <%= submit "Search" %>
-      <% end %>
-      <p>
-        Tesis encontradas: 
-        <%= Enum.count(@tesis_) %>
-      </p>
-    </div>
-    <br>
-    <br>
+    <span class="tesis-checkbox">
+      <label>RUBRO</label> <%= checkbox f, :rubro, default: true %>
+    </span>
+    <span class="tesis-checkbox">
+      <label>TEXTO</label> <%= checkbox f, :texto, default: true %>
+    </span>
+    <span class="tesis-checkbox">
+      <label>PRECEDENTES</label> <%= checkbox f, :precedentes, default: true %>
+    </span>
+    <span class="tesis-checkbox">
+      <label>IUS</label> <%= checkbox f, :ius, default: true %>
+    </span>
+    <br><br>
+    <%= search_input f, :term %>
+    
+    <%= submit "Search" %>
+  <% end %>
+  <p>Tesis encontradas: <%= Enum.count(@tesis_) %></p>
+  <br><br>
 
   <%= for tesis <- @tesis_ do %>
     <div class="ius">

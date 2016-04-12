@@ -5,15 +5,25 @@ defmodule Bibliotheca.SearchService do
   alias Bibliotheca.{Repo, FederalArticle}
 
   def clean_search_term(search_term) do
-    search_term
-    |> remove_final_space
-    |> search_exact_phrases
-    |> remove_and_operator_triplication
-    |> parse_or_operator
+    fts_term = search_term
+             |> remove_final_space
+             |> search_exact_phrases
+             |> remove_and_operator_triplication
+             |> parse_or_operator
+
+    like_term = postgres_phrases_array(search_term)
+    [fts_term, like_term]
   end
 
   def separate_terms(search_term) do
     String.split(search_term, ~r( [&|] ))
+  end
+
+  defp postgres_phrases_array(search_term) do
+    search_term
+    |> String.split(~r( [&|] ))
+    |> Enum.map(fn(x) -> ~s(%#{x}%) end)
+    |> Enum.intersperse(",")
   end
 
   defp remove_final_space(search_term) do
