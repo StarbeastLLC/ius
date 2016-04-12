@@ -22,6 +22,9 @@
     <span class="tesis-checkbox">
       <label>PRECEDENTES</label> <%= checkbox f, :precedentes, default: true %>
     </span>
+    <span class="tesis-checkbox">
+      <label>IUS</label> <%= checkbox f, :ius, default: true %>
+    </span>
     <br><br>
     <%= search_input f, :term %>
     
