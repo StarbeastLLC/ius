@@ -30,19 +30,30 @@ defmodule Bibliotheca.PageController do
   end
 
   def search_tesis(conn, %{"search" => search_params}) do
-    search_term = search_params["term"]
-                |> SearchService.clean_search_term
+    in_tesis = search_params["tesis"]
+    in_juris = search_params["juris"]
+    [fts_term, like_term] = search_params["term"]
+                          |> SearchService.clean_search_term
     search_columns = [search_params["rubro"], 
                       search_params["texto"],
                       search_params["precedentes"]]
     term_by_column = Enum.map(search_columns, fn(x) -> 
                        if x == "true" do
-                         search_term
+                         {fts_term, like_term}
                        else
-                         ""
+                         {"", [""]}
                        end
                      end)
-    tesis_ = Tesis.search(term_by_column)
+    cond do
+      in_tesis == "true" && in_juris == "true" ->
+        tesis_ = Tesis.search(term_by_column)
+      in_tesis == "true" && in_juris == "false" ->
+        tesis_ = Tesis.search_tesis(term_by_column)
+      in_tesis == "false" && in_juris == "true" ->
+        tesis_ = Tesis.search_juris(term_by_column)
+      :else ->
+        tesis_ = []     
+    end   
     render conn, "tesis.html", tesis_: tesis_
   end
 
