@@ -2,7 +2,7 @@
   <h1 style="text-align: center;">Tesis y Jurisprudencias</h1>
 
   <%= form_for @conn, page_path(@conn, :search_tesis), [as: :search], fn f -> %>
-
+<center>
     <p>Buscar en</p>
     <span class="tesis-checkbox">
       <label>TESIS</label> <%= checkbox f, :tesis, default: true %>
@@ -36,11 +36,10 @@
   <%= for tesis <- @tesis_ do %>
     <div class="ius">
       <strong>
-        Registro <%= tesis.ius %>
+        Registro <a href="/tesis/<%= tesis.ius %>"><%= tesis.ius %></a>
       </strong>
     </div>
-    <br>
-      <a href="/tesis/<%= tesis.ius %>">
+    <br>   
     <div class="rubro">
       <strong>
         <%= tesis.rubro %> 
@@ -54,4 +53,4 @@
     <br>
     <br>
   <% end %>
-
+</center>
