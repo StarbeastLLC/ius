@@ -19,11 +19,11 @@ defmodule Bibliotheca.Tesis do
     query = from(tesis in Tesis,
 
     where: fragment("to_tsvector('spanish', rubro) @@ to_tsquery('spanish', ?)
-                     AND rubro LIKE ?", ^fts_rubro, ^Enum.at(like_rubro, 0)) 
+                     AND rubro LIKE ALL(?)", ^fts_rubro, ^like_rubro) 
            or fragment("to_tsvector('spanish', texto) @@ to_tsquery('spanish', ?)
-                     AND texto LIKE ?", ^fts_texto, ^Enum.at(like_texto, 0))
+                     AND texto LIKE ALL(?)", ^fts_texto, ^like_texto)
            or fragment("to_tsvector('spanish', precedentes) @@ to_tsquery('spanish', ?)
-                     AND precedentes LIKE ?", ^fts_precedentes, ^Enum.at(like_precedentes, 0)))
+                     AND precedentes LIKE ALL(?)", ^fts_precedentes, ^like_precedentes))
     Repo.all(query) 
   end
 
@@ -32,11 +32,11 @@ defmodule Bibliotheca.Tesis do
     query = from(tesis in Tesis,
     where: tesis.tpotesis != 6
            and fragment("to_tsvector('spanish', rubro) @@ to_tsquery('spanish', ?)
-                     AND rubro LIKE ?", ^fts_rubro, ^Enum.at(like_rubro, 0)) 
+                     AND rubro LIKE ALL(?)", ^fts_rubro, ^like_rubro) 
            or fragment("to_tsvector('spanish', texto) @@ to_tsquery('spanish', ?)
-                     AND texto LIKE ?", ^fts_texto, ^Enum.at(like_texto, 0))
+                     AND texto LIKE ALL(?)", ^fts_texto, ^like_texto)
            or fragment("to_tsvector('spanish', precedentes) @@ to_tsquery('spanish', ?)
-                     AND precedentes LIKE ?", ^fts_precedentes, ^Enum.at(like_precedentes, 0)))
+                     AND precedentes LIKE ALL(?)", ^fts_precedentes, ^like_precedentes))
     Repo.all(query) 
   end
 
@@ -44,11 +44,11 @@ defmodule Bibliotheca.Tesis do
     query = from(tesis in Tesis,
     where: tesis.tpotesis == 6
            and fragment("to_tsvector('spanish', rubro) @@ to_tsquery('spanish', ?)
-                     AND rubro LIKE ?", ^fts_rubro, ^Enum.at(like_rubro, 0)) 
+                     AND rubro LIKE ALL(?)", ^fts_rubro, ^like_rubro) 
            or fragment("to_tsvector('spanish', texto) @@ to_tsquery('spanish', ?)
-                     AND texto LIKE ?", ^fts_texto, ^Enum.at(like_texto, 0))
+                     AND texto LIKE ALL(?)", ^fts_texto, ^like_texto)
            or fragment("to_tsvector('spanish', precedentes) @@ to_tsquery('spanish', ?)
-                     AND precedentes LIKE ?", ^fts_precedentes, ^Enum.at(like_precedentes, 0)))
+                     AND precedentes LIKE ALL(?)", ^fts_precedentes, ^like_precedentes))
     Repo.all(query) 
   end
 
