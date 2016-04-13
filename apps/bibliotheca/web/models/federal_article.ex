@@ -30,9 +30,9 @@ defmodule Bibliotheca.FederalArticle do
   def search([fts_term, like_term], ranking) do
     query = from(article in FederalArticle,
     where: fragment("to_tsvector('spanish', article_body) @@ plainto_tsquery('spanish', ?)
-                     AND article_body LIKE ?",
+                     AND article_body LIKE ALL(?)",
                                 # Right now we search only for the first phrase
-                     ^fts_term, ^Enum.at(like_term, 0)) 
+                     ^fts_term, ^like_term) 
        and fragment("(ts_rank_cd(to_tsvector('spanish', article_body), to_tsquery('spanish', ?)) * 100) > ?",
                      ^fts_term, ^ranking),
     limit: 1000,

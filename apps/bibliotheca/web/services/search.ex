@@ -11,7 +11,7 @@ defmodule Bibliotheca.SearchService do
              |> remove_and_operator_triplication
              |> parse_or_operator
 
-    like_term = postgres_phrases_array(search_term)
+    like_term = postgres_like_array(search_term)
     [fts_term, like_term]
   end
 
@@ -19,11 +19,10 @@ defmodule Bibliotheca.SearchService do
     String.split(search_term, ~r( [&|] ))
   end
 
-  defp postgres_phrases_array(search_term) do
+  defp postgres_like_array(search_term) do
     search_term
     |> String.split(~r( [&|] ))
     |> Enum.map(fn(x) -> ~s(%#{x}%) end)
-    |> Enum.intersperse(",")
   end
 
   defp remove_final_space(search_term) do
