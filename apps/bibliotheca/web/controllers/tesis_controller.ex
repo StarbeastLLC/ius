@@ -31,9 +31,9 @@ defmodule Bibliotheca.TesisController do
         tesis_ = Tesis.laxe_search(laxe_term, named_fields, types)
       # Strict search
       2 ->
-        [_, strict_term] = search_term
-                         |> SearchService.clean_search_term
-        tesis_ = Tesis.strict_search(strict_term, named_fields, types)      
+        terms = search_term
+              |> SearchService.clean_search_term
+        tesis_ = Tesis.strict_search(terms, named_fields, types)      
     end
     render conn, PageView, "tesis.html", tesis_: tesis_
   end
