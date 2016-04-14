@@ -24,10 +24,14 @@
     <p>Buscar dentro de esa ley</p>
     <%= search_input f, :term %>
     <br>
+    <br><br>
+    <p>de manera</p>
     <br>
-    << Resultados similares | Resultados exactos >>
-    <%= range_input f, :ranking, class: "ranking-slider", min: 0, max: 30 %>
-    <br>
+    <span class="tesis-checkbox">
+      <label>LAXA  </label>
+      <%= range_input f, :search_level, default: 1, min: 1, max: 2, step: 1, class: "tesis-slider" %>
+      <label>   RIGUROSA</label>
+    </span><br><br>
     <%= submit "Search" %>
   <% end %>
   
@@ -54,10 +58,14 @@
     <p>Buscar dentro de todas las leyes federales</p>
     <%= search_input f, :term %>
     <br>
+    <br><br>
+    <p>de manera</p>
     <br>
-    << Resultados similares | Resultados exactos >>
-    <%= range_input f, :ranking, class: "ranking-slider", min: 0, max: 30 %>
-    <br>
+    <span class="tesis-checkbox">
+      <label>LAXA  </label>
+      <%= range_input f, :search_level, default: 1, min: 1, max: 2, step: 1, class: "tesis-slider" %>
+      <label>   RIGUROSA</label>
+    </span><br><br>
     <%= submit "Search" %>
   <% end %>
   <p>Artículos encontrados: <%= Enum.count(@articles) %></p>

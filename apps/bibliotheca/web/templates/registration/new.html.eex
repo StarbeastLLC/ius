@@ -1,41 +1,41 @@
 <div class="row">
   <div class="text-center">
     <h1>
-      Registration
+      Registro
     </h1>
 
   <%= form_for @changeset, registration_path(@conn, :create), [multipart: true], fn f -> %>
 
-  <%= text_input f, :first_name, placeholder: "First name", required: true %>
+  <%= text_input f, :first_name, placeholder: "Nombre (s)", required: true %>
   <br>
-  <%= text_input f, :last_name, placeholder: "Last name", required: true %>
+  <%= text_input f, :last_name, placeholder: "Apellido (s)", required: true %>
   <br>
-  <%= text_input f, :state, placeholder: "State", required: true %>
+  <%= text_input f, :state, placeholder: "Entidad", required: true %>
   <br>
-  <%= text_input f, :username, placeholder: "Username", required: true %>
+  <%= text_input f, :username, placeholder: "Nombre de Usuario", required: true %>
   <br>
-  <%= text_input f, :email, placeholder: "Email", required: true %>
+  <%= text_input f, :email, placeholder: "eMail", required: true %>
   <br>
-  <%= password_input f, :password, placeholder: "Password", required: true %>
+  <%= password_input f, :password, placeholder: "Contraseña", required: true %>
   <br>
   <br>
-  <label>Terms and conditions?</label>
+  <label>Acepto Términos y condiciones</label>
   <%= checkbox f, :accepts_terms, required: true %>
   <br>
-  <label>Cookies?</label>
+  <label>Acepto y entiendo el uso de cookies</label>
   <%= checkbox f, :accepts_terms, required: true %>
   <br>
   <br>
-  <%= text_input f, :legal_name, placeholder: "Legal name" %>
+  <%= text_input f, :legal_name, placeholder: "Nombre o Razón Social" %>
   <br>
-  <%= text_input f, :legal_address, placeholder: "Billing address" %>
+  <%= text_input f, :legal_address, placeholder: "Domicilio Fiscal" %>
   <br>
   <%= text_input f, :rfc, placeholder: "RFC" %>
   <br>
-  <%= text_input f, :legal_email, placeholder: "Billing email" %>
+  <%= text_input f, :legal_email, placeholder: "eMail para factura" %>
   <br>
   <br>
-  <%= submit "CREATE ACCOUNT"%>
+  <%= submit "Crear Cuenta en Lexi"%>
 
   <% end %>
   </div>

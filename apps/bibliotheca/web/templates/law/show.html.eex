@@ -1,17 +1,32 @@
-<center>
-
-  <strong style="letter-spacing:5px; font-size:20px;"><%= @law.name %></strong>
-  <br><br>
-  <p style="text-transform:uppercase; letter-spacing:2px; font-size:12px;"><%= @law.header %></p>
+<div class="text-center">
+  <div class="lawname"> 
+    <strong>
+      <%= @law.name %>
+    </strong>
+  </div>
+  <br>
+  <br>
+  <div class="lawhead"> 
+    <p>
+      <%= @law.header %>
+    </p>
+  </div>
   <br>
 
   <%= for article <- @articles do %>
 
-    <em><strong><%= article.article_number %></strong></em>
-    <br>
+  <div class="numarticulo">
+    <em>
+      <strong>
+        <%= article.article_number %>
+      </strong>
+    </em>
+  </div>
+  <div class="textoarticulo">
     <%= article.article_body %>
-    <br>
-    <br>
+  </div>
+  <br>
+  <br>
   <% end %>
+</div>
 
-</center>

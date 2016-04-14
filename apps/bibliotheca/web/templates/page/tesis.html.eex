@@ -1,6 +1,5 @@
-<center>
 
-  <h1>Tesis y Jurisprudencias</h1>
+  <h1 style="text-align: center;">Tesis y Jurisprudencias</h1>
 
   <%= form_for @conn, tesis_path(@conn, :search_ius), [as: :search], fn f -> %>
     <p>Mostrar por ius</p>
@@ -48,13 +47,22 @@
   <br><br>
 
   <%= for tesis <- @tesis_ do %>
-    <strong>Registro <%= tesis.ius %></strong>
+    <div class="ius">
+      <strong>
+        Registro <a href="/tesis/<%= tesis.ius %>"><%= tesis.ius %></a>
+      </strong>
+    </div>
+    <br>   
+    <div class="rubro">
+      <strong>
+        <%= tesis.rubro %> 
+      </strong>
+      </a>
+    </div>
     <br>
-    <a href="/tesis/<%= tesis.ius %>">
-      <strong><%= tesis.rubro %></strong>
-    </a>
-    <br>
-    <%= tesis.locabr %>
+    <div class="texto">
+      <%= tesis.locabr %>
+    </div>
     <br>
     <br>
   <% end %>
