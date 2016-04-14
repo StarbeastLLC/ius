@@ -10,7 +10,7 @@
 
   <hr>
 
-  <%= form_for @conn, page_path(@conn, :search_tesis), [as: :search], fn f -> %>
+  <%= form_for @conn, tesis_path(@conn, :search), [as: :search], fn f -> %>
     <p>Buscar en</p>
     <span class="tesis-checkbox">
       <label>TESIS</label> <%= checkbox f, :tesis, default: true %>
