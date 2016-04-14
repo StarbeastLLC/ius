@@ -26,10 +26,6 @@ defmodule Bibliotheca.PageController do
     render conn, "federal.html", articles: [], terms: terms, laws: laws, articles_by_law: []
   end
 
-  def search_federal(conn, _params) do
-    render conn, "federal.html", articles: [], laws: [], articles_by_law: [] 
-  end
-
   def search_3(conn, _params) do
     render conn, "search-3.html"
   end

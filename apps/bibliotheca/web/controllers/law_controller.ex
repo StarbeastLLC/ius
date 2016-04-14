@@ -1,7 +1,7 @@
 defmodule Bibliotheca.LawController do
   use Bibliotheca.Web, :controller
 
-  alias Bibliotheca.{User, FederalArticle, SearchService, FederalLaw, Tesis}
+  alias Bibliotheca.{User, FederalArticle, SearchService, FederalLaw, Tesis, PageView}
   alias Lex.LawParser
 
   plug :scrub_params, "law" when action in [:create, :update]
@@ -119,6 +119,10 @@ defmodule Bibliotheca.LawController do
              |> SearchService.clean_search_term
              |> FederalArticle.search(String.to_integer(ranking))
     
-    render conn, Bibliotheca.PageView, "federal.html", articles: articles, terms: terms, laws: [], articles_by_law: [], ranking: ranking
+    render conn, PageView, "federal.html", articles: articles, terms: terms, laws: [], articles_by_law: [], ranking: ranking
+  end
+  
+  def search(conn, _params) do
+    render conn, PageView, "federal.html", articles: [], laws: [], articles_by_law: [] 
   end
 end
