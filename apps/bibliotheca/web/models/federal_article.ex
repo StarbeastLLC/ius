@@ -52,20 +52,6 @@ defmodule Bibliotheca.FederalArticle do
     Repo.all(query)
   end
 
-  def search_by_law([fts_term, like_term], law_id, ranking) do
-    query = from(article in FederalArticle,
-    where: article.federal_law_id == ^law_id 
-       and fragment("to_tsvector('spanish', article_body) @@ to_tsquery('spanish', ?)
-                     AND article_body LIKE ALL(?)", ^fts_term, ^like_term)
-       and fragment("(ts_rank_cd(to_tsvector('spanish', article_body), to_tsquery('spanish', ?)) * 100) > ?",
-                     ^fts_term, ^ranking),
-    #order_by: [article.article_number],
-    limit: 1000,
-    order_by: [desc: fragment("ts_rank_cd(to_tsvector('spanish', article_body), to_tsquery('spanish', ?))", ^fts_term)],
-    preload: [:federal_law])
-    Repo.all(query)
-  end
-
   def by_law(law_id) do
     query = from(article in FederalArticle,
     where: article.federal_law_id == ^law_id,
