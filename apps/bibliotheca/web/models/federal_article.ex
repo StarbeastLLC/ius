@@ -35,6 +35,19 @@ defmodule Bibliotheca.FederalArticle do
 
     Repo.all(query)
   end
+
+  def strict_search([laxe_term, strict_term]) do
+    query = from(article in FederalArticle,
+    where: fragment("to_tsvector('spanish', article_body) 
+                     @@ to_tsquery('spanish', ?)
+                     AND article_body LIKE ALL(?)", ^laxe_term, ^strict_term),
+    order_by: [desc: fragment("ts_rank_cd(to_tsvector('spanish', article_body), 
+                               to_tsquery('spanish', ?))", ^laxe_term)],
+    preload: [:federal_law]
+    )
+
+    Repo.all(query)
+  end
   
   # Postgres' 'set_limit' sets a threshold for the search term
   # If 'threshold = 1' and we search "laborales", it will look for the exact word
