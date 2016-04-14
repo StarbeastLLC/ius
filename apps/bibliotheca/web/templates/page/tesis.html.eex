@@ -1,4 +1,4 @@
-
+<center>
   <h1 style="text-align: center;">Tesis y Jurisprudencias</h1>
 
   <%= form_for @conn, tesis_path(@conn, :search_ius), [as: :search], fn f -> %>
