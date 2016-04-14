@@ -30,9 +30,10 @@ defmodule Bibliotheca.FederalLaw do
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def search_title([fts_term, like_term]) do
+  def strict_search([laxe_term, strict_term]) do
     query = from(law in FederalLaw,
-    where: fragment("to_tsvector('spanish', name) @@ to_tsquery('spanish', ?)", ^fts_term),
+    where: fragment("to_tsvector('spanish', name) 
+                     @@ to_tsquery('spanish', ?)", ^laxe_term),
     preload: [:federal_articles])
     Repo.all(query) 
   end
