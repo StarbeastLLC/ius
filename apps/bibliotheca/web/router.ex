@@ -41,8 +41,8 @@ defmodule Bibliotheca.Router do
 
     get "/leyes-federales", LawController, :search
     
-    post "/leyes-federales/articulos", LawController, :search_federal
-    post "/leyes-federales/articulos-por-ley", PageController, :search_federal_title
+    post "/leyes-federales", LawController, :search
+    post "/leyes-federales/articulos-por-ley", LawController, :search_title
     get "/leyes-federales/:id", LawController, :show
 
     post "/tesis", TesisController, :search

@@ -2,7 +2,7 @@
 
   <h1>Legislatura Federal</h1>
 
-  <%= form_for @conn, page_path(@conn, :search_federal_title), [as: :search], fn f -> %>
+  <%= form_for @conn, law_path(@conn, :search_title), [as: :search], fn f -> %>
     <p>Buscar ley por título</p>
     <%= search_input f, :title_term %>
     <%= submit "Search" %>
@@ -10,7 +10,7 @@
   <p>Leyes encontradas: <%= Enum.count(@laws) %></p>
 
 
-  <%= form_for @conn, page_path(@conn, :search_federal_title), [as: :search], fn f -> %>
+  <%= form_for @conn, law_path(@conn, :search_title), [as: :search], fn f -> %>
     <%= for law <- @laws do %>
       <a href="/leyes-federales/<%= law.id %>">
         <strong><%= law.name %></strong>
@@ -54,7 +54,7 @@
   <!-- General search -->
   <br><hr><br>
 
-  <%= form_for @conn, law_path(@conn, :search_federal), [as: :search], fn f -> %>
+  <%= form_for @conn, law_path(@conn, :search), [as: :search], fn f -> %>
     <p>Buscar dentro de todas las leyes federales</p>
     <%= search_input f, :term %>
     <br>

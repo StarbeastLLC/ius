@@ -113,7 +113,7 @@ defmodule Bibliotheca.LawController do
   end
 
   # SEARCHES
-  def search_federal(conn, %{"search" => %{"term" => search_term, "search_level" => search_level}}) do
+  def search(conn, %{"search" => %{"term" => search_term, "search_level" => search_level}}) do
     terms_ = SearchService.separate_terms(search_term)
     case String.to_integer(search_level) do
       # Laxe search
@@ -127,8 +127,33 @@ defmodule Bibliotheca.LawController do
               |> SearchService.clean_search_term
         articles = FederalArticle.strict_search(terms) 
     end
-    
     render conn, PageView, "federal.html", articles: articles, terms: terms_, laws: [], articles_by_law: []
+  end
+
+  def search_federal_title(conn, %{"search" => %{"term" => search_term, "law_id" => law_id, "search_level" => search_level}}) do
+    terms_ = SearchService.separate_terms(search_term)
+    law = Repo.get(FederalLaw, law_id)
+    case String.to_integer(search_level) do
+      # Laxe search
+      1 ->
+        [laxe_term, _] = search_term
+                       |> SearchService.clean_search_term
+        articles_by_law = FederalArticle.laxe_search(law_id, laxe_term)
+      # Strict search
+      2 ->
+        terms = search_term
+              |> SearchService.clean_search_term
+        articles_by_law = FederalArticle.strict_search(law_id, terms) 
+    end
+    render conn, PageView, "federal.html", articles: [], terms: terms, laws: [law], articles_by_law: articles_by_law
+  end
+
+  def search_federal_title(conn, %{"search" => %{"title_term" => search_term}}) do
+    terms = SearchService.separate_terms(search_term)
+    laws = search_term
+         |> SearchService.clean_search_term
+         |> FederalLaw.search_title
+    render conn, "federal.html", articles: [], terms: terms, laws: laws, articles_by_law: []
   end
   
   def search(conn, _params) do
