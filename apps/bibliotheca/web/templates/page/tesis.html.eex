@@ -2,6 +2,12 @@
 
   <h1>Tesis y Jurisprudencias</h1>
 
+  <%= form_for @conn, tesis_path(@conn, :search_ius), [as: :search], fn f -> %>
+    <p>Mostrar por ius</p>
+    <%= search_input f, :ius %>
+    <%= submit "Go" %>
+  <% end %>
+
   <%= form_for @conn, page_path(@conn, :search_tesis), [as: :search], fn f -> %>
     <p>Buscar en</p>
     <span class="tesis-checkbox">
