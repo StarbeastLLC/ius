@@ -8,6 +8,8 @@
     <%= submit "Go" %>
   <% end %>
 
+  <hr>
+
   <%= form_for @conn, page_path(@conn, :search_tesis), [as: :search], fn f -> %>
     <p>Buscar en</p>
     <span class="tesis-checkbox">
@@ -28,8 +30,14 @@
     <span class="tesis-checkbox">
       <label>PRECEDENTES</label> <%= checkbox f, :precedentes, default: true %>
     </span>
+    <br>
+    <br><br>
+    <p>de manera</p>
+    <br>
     <span class="tesis-checkbox">
-      <label>IUS</label> <%= checkbox f, :ius, default: true %>
+      <label>LAXA  </label>
+      <%= range_input f, :search_level, default: 1, min: 1, max: 2, step: 1, class: "tesis-slider" %>
+      <label>   RIGUROSA</label>
     </span>
     <br><br>
     <%= search_input f, :term %>

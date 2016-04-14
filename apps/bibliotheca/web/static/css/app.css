@@ -14,8 +14,9 @@ body, form, ul, table {
   margin: 15px;
 }
 
-.ranking-slider {
-  max-width: 300px;
+.tesis-slider {
+  max-width: 60px;
+  display: inline !important;
 }
 
 /* Phoenix flash messages */
