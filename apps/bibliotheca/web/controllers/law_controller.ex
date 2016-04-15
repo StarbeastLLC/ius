@@ -130,6 +130,10 @@ defmodule Bibliotheca.LawController do
     render conn, PageView, "federal.html", articles: articles, terms: terms_, laws: [], articles_by_law: []
   end
 
+  def search(conn, _params) do
+    render conn, PageView, "federal.html", articles: [], laws: [], articles_by_law: [] 
+  end
+
   def search_title(conn, %{"search" => %{"term" => search_term, "law_id" => law_id, "search_level" => search_level}}) do
     terms_ = SearchService.separate_terms(search_term)
     law = Repo.get(FederalLaw, law_id)
@@ -155,9 +159,5 @@ defmodule Bibliotheca.LawController do
          |> SearchService.clean_search_term
          |> FederalLaw.strict_search
     render conn, PageView, "federal.html", articles: [], terms: terms, laws: laws, articles_by_law: []
-  end
-  
-  def search(conn, _params) do
-    render conn, PageView, "federal.html", articles: [], laws: [], articles_by_law: [] 
   end
 end
