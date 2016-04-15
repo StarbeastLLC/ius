@@ -74,7 +74,7 @@ defmodule Bibliotheca.FederalArticle do
     from(article in FederalArticle,
     where: fragment("to_tsvector('spanish', article_body) 
                      @@ to_tsquery('spanish', ?)
-                     AND article_body LIKE ALL(?)", ^laxe_term, ^strict_term),
+                     AND UPPER(article_body) LIKE ALL(?)", ^laxe_term, ^strict_term),
     order_by: [desc: fragment("ts_rank_cd(to_tsvector('spanish', article_body), 
                                to_tsquery('spanish', ?))", ^laxe_term)],
     preload: [:federal_law]
