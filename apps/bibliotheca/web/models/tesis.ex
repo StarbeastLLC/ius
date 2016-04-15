@@ -35,13 +35,13 @@ defmodule Bibliotheca.Tesis do
     strict_terms = filter_fields(fields, strict_term)
     _query = from(tesis in query,
     where: fragment("to_tsvector('spanish', rubro) @@ to_tsquery('spanish', ?) 
-                     AND rubro LIKE ALL(?)", 
+                     AND UPPER(rubro) LIKE ALL(?)", 
                      ^Enum.at(laxe_terms, 0), ^Enum.at(strict_terms, 0))
         or fragment("to_tsvector('spanish', texto) @@ to_tsquery('spanish', ?) 
-                     AND texto LIKE ALL(?)", 
+                     AND UPPER(texto) LIKE ALL(?)", 
                      ^Enum.at(laxe_terms, 1), ^Enum.at(strict_terms, 1))
         or fragment("to_tsvector('spanish', precedentes) @@ to_tsquery('spanish', ?) 
-                     AND precedentes LIKE ALL(?)", 
+                     AND UPPER(precedentes) LIKE ALL(?)", 
                      ^Enum.at(laxe_terms, 2), ^Enum.at(strict_terms, 2))
     )
     Repo.all(_query)

@@ -21,6 +21,7 @@ defmodule Bibliotheca.SearchService do
 
   defp postgres_like_array(search_term) do
     search_term
+    |> String.upcase
     |> String.split(~r( [&|] ))
     |> Enum.map(fn(x) -> ~s(%#{x}%) end)
   end
