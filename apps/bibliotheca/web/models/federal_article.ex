@@ -61,6 +61,7 @@ defmodule Bibliotheca.FederalArticle do
   end
 
   defp laxe_query(term) do
+
     q = from(article in FederalArticle,
     where: fragment("to_tsvector('spanish', article_body) 
                      @@ to_tsquery('spanish', ?)", ^term),
@@ -69,8 +70,8 @@ defmodule Bibliotheca.FederalArticle do
     preload: [:federal_law]
     )
     
-    #from(article in q,
-    #select: {fragment("ts_headline(article_body, to_tsquery('spanish', ?))", ^term), article})
+    from(article in q,
+    select: {fragment("ts_headline(article_body, to_tsquery('spanish', ?))", ^term), article})
   end
 
   defp strict_query([laxe_term, strict_term]) do
