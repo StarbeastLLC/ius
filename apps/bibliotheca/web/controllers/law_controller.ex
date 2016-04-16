@@ -120,14 +120,18 @@ defmodule Bibliotheca.LawController do
       1 ->
         [laxe_term, _] = search_term
                        |> SearchService.clean_search_term
-        articles = FederalArticle.laxe_search(laxe_term)
+        # This returns a list of tuples containing {"highlited article", %Bibliotheca.FederalArticle}
+        highlights_articles = FederalArticle.laxe_search(laxe_term)
+                            |> Enum.unzip
+        {highlights, articles} = highlights_articles
       # Strict search
       2 ->
         terms = search_term
               |> SearchService.clean_search_term
-        articles = FederalArticle.strict_search(terms) 
+        articles = FederalArticle.strict_search(terms)
+        highlights = []
     end
-    render conn, PageView, "federal.html", articles: articles, terms: terms_, laws: [], articles_by_law: []
+    render conn, PageView, "federal.html", articles: articles, terms: terms_, laws: [], articles_by_law: [], highlights: highlights
   end
 
   def search(conn, _params) do

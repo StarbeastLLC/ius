@@ -70,19 +70,16 @@
   <% end %>
   <p>Artículos encontrados: <%= Enum.count(@articles) %></p>
   <br><br>
-  <%= for highlight <- Enum.at(separate_articles(@articles), 0) do %>
-    <p><%= raw highlighted_article(highlight, @terms) %></p>
-  <% end %>
 
-  <%= for article <- Enum.at(separate_articles(@articles), 1) do %>
-    <a href="/leyes-federales/<%= article.federal_law_id %>">
-      <strong><%= article.federal_law.name %></strong>
+  <%= for article <- join_highlighted_article(@highlights, @articles) do %>
+    <a href="/leyes-federales/<%= article[:article].federal_law_id %>">
+      <strong><%= article[:article].federal_law.name %></strong>
     </a>
     
     -
-    <em><%= article.article_number %></em>
+    <em><%= article[:article].article_number %></em>
     <br>
-    <%= raw highlighted_article(article.article_body, @terms) %>
+    <%= raw highlighted_article(article[:highlight], @terms) %>
     <br>
     <br>
   <% end %>

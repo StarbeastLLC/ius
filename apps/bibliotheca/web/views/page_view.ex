@@ -10,9 +10,9 @@ defmodule Bibliotheca.PageView do
     article = String.replace(article, "<<<", yellow_end)
   end
 
-  def separate_articles(articles) do
-    {highlights, structs} = Enum.unzip(articles)
-    [highlights, structs]
+  def join_highlighted_article(highlights, articles) do
+    Enum.zip(highlights, articles)
+    |> Enum.map(fn({highlight, article}) -> [highlight: highlight, article: article] end)
   end
 
   def law_id(articles) do
