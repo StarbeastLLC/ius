@@ -71,7 +71,9 @@ defmodule Bibliotheca.FederalArticle do
     )
     
     from(article in q,
-    select: {fragment("ts_headline(article_body, to_tsquery('spanish', ?))", ^term), article})
+    select: {fragment("ts_headline(article_body, to_tsquery('spanish', ?), 'HighlightAll=TRUE, 
+              StartSel=>>>, StopSel=<<<')", 
+            ^term), article})
   end
 
   defp strict_query([laxe_term, strict_term]) do

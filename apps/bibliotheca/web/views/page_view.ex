@@ -2,9 +2,12 @@ defmodule Bibliotheca.PageView do
   use Bibliotheca.Web, :view
 
   def highlighted_article(article, terms) do
-    bold_term = "<span style='background-color:yellow;'><strong>" <> Enum.at(terms, 0) <> "</strong></span>"
-    String.replace(article, Enum.at(terms, 0), bold_term)
-    article
+    yellow_start = "<span style='background-color:yellow;'><strong>"
+    yellow_end = "</strong></span>"
+    yellow_term =  yellow_start <> Enum.at(terms, 0) <> yellow_end
+    article = String.replace(article, Enum.at(terms, 0), yellow_term)
+    article = String.replace(article, ">>>", yellow_start)
+    article = String.replace(article, "<<<", yellow_end)
   end
 
   def separate_articles(articles) do
