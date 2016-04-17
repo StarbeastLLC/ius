@@ -55,7 +55,7 @@ defmodule Bibliotheca.Router do
     get "/search-5", PageController, :search_5
     
     resources "/laws", LawController
-    get "/load", LawController, :load
+    #get "/load", LawController, :load
   end
 
   # Other scopes may use custom stacks.
