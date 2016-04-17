@@ -10,6 +10,7 @@ defmodule Bibliotheca.SearchService do
              |> search_exact_phrases
              |> remove_and_operator_triplication
              |> parse_or_operator
+             |> upcase_unaccent
 
     like_term = postgres_like_array(search_term)
     [fts_term, like_term]
@@ -21,9 +22,19 @@ defmodule Bibliotheca.SearchService do
 
   defp postgres_like_array(search_term) do
     search_term
-    |> String.upcase
+    |> upcase_unaccent
     |> String.split(~r( [&|] ))
     |> Enum.map(fn(x) -> ~s(%#{x}%) end)
+  end
+
+  def upcase_unaccent(search_term) do
+    search_term
+    |> String.upcase
+    |> String.replace("Á", "A")
+    |> String.replace("É", "E")
+    |> String.replace("Í", "I")
+    |> String.replace("Ó", "O")
+    |> String.replace("Ú", "U")
   end
 
   defp remove_final_space(search_term) do

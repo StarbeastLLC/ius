@@ -63,27 +63,26 @@ defmodule Bibliotheca.FederalArticle do
   defp laxe_query(term) do
 
     q = from(article in FederalArticle,
-    where: fragment("to_tsvector('spanish', article_body) 
-                     @@ to_tsquery('spanish', ?)", ^term),
-    order_by: [desc: fragment("ts_rank_cd(to_tsvector('spanish', article_body), 
-                               to_tsquery('spanish', ?))", ^term)],
+    where: fragment("tsv @@ to_tsquery('spanish', ?)", ^term),
+    order_by: [desc: fragment("ts_rank_cd(tsv, to_tsquery('spanish', ?))", ^term)],
     preload: [:federal_law]
     )
     
     from(article in q,
     select: {fragment("ts_headline(article_body, to_tsquery('spanish', ?), 'HighlightAll=TRUE, 
-              StartSel=>>>, StopSel=<<<')", 
-            ^term), article})
+              StartSel=>>>, StopSel=<<<')", ^term), article})
   end
 
   defp strict_query([laxe_term, strict_term]) do
-    from(article in FederalArticle,
-    where: fragment("to_tsvector('spanish', article_body) 
-                     @@ to_tsquery('spanish', ?)
-                     AND UPPER(article_body) LIKE ALL(?)", ^laxe_term, ^strict_term),
-    order_by: [desc: fragment("ts_rank_cd(to_tsvector('spanish', article_body), 
-                               to_tsquery('spanish', ?))", ^laxe_term)],
+    q = from(article in FederalArticle,
+    where: fragment("tsv @@ to_tsquery('spanish', ?)
+                     AND UPPER(UNACCENT(article_body)) LIKE ALL(?)", ^laxe_term, ^strict_term),
+    order_by: [desc: fragment("ts_rank_cd(tsv, to_tsquery('spanish', ?))", ^laxe_term)],
     preload: [:federal_law]
     )
+
+   from(article in q,
+   select: {fragment("ts_headline(article_body, to_tsquery('spanish', ?), 'HighlightAll=TRUE, 
+              StartSel=>>>, StopSel=<<<')", ^laxe_term), article})
   end
 end
