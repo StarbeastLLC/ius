@@ -19,11 +19,11 @@ defmodule Bibliotheca.Tesis do
     query = filter_types(types)
     terms = filter_fields(fields, term)
     _query = from(tesis in query,
-    where: fragment("to_tsvector('spanish', rubro) @@ to_tsquery('spanish', ?)", 
+    where: fragment("tsv_rubro @@ to_tsquery('spanish', ?)", 
                     ^Enum.at(terms, 0))
-        or fragment("to_tsvector('spanish', texto) @@ to_tsquery('spanish', ?)", 
+        or fragment("tsv_texto @@ to_tsquery('spanish', ?)", 
                     ^Enum.at(terms, 1))
-        or fragment("to_tsvector('spanish', precedentes) @@ to_tsquery('spanish', ?)", 
+        or fragment("tsv_precedentes @@ to_tsquery('spanish', ?)", 
                     ^Enum.at(terms, 2))
     )
     Repo.all(_query)
@@ -34,14 +34,14 @@ defmodule Bibliotheca.Tesis do
     laxe_terms = filter_fields(fields, laxe_term)
     strict_terms = filter_fields(fields, strict_term)
     _query = from(tesis in query,
-    where: fragment("to_tsvector('spanish', rubro) @@ to_tsquery('spanish', ?) 
-                     AND UPPER(rubro) LIKE ALL(?)", 
+    where: fragment("tsv_rubro @@ to_tsquery('spanish', ?) 
+                     AND UPPER(UNACCENT(rubro)) LIKE ALL(?)", 
                      ^Enum.at(laxe_terms, 0), ^Enum.at(strict_terms, 0))
-        or fragment("to_tsvector('spanish', texto) @@ to_tsquery('spanish', ?) 
-                     AND UPPER(texto) LIKE ALL(?)", 
+        or fragment("tsv_texto @@ to_tsquery('spanish', ?) 
+                     AND UPPER(UNACCENT(texto)) LIKE ALL(?)", 
                      ^Enum.at(laxe_terms, 1), ^Enum.at(strict_terms, 1))
-        or fragment("to_tsvector('spanish', precedentes) @@ to_tsquery('spanish', ?) 
-                     AND UPPER(precedentes) LIKE ALL(?)", 
+        or fragment("tsv_precedentes @@ to_tsquery('spanish', ?) 
+                     AND UPPER(UNACCENT(precedentes)) LIKE ALL(?)", 
                      ^Enum.at(laxe_terms, 2), ^Enum.at(strict_terms, 2))
     )
     Repo.all(_query)
