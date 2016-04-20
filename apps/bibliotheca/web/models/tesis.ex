@@ -17,7 +17,7 @@ defmodule Bibliotheca.Tesis do
 
   def laxe_search(term, fields, types) do
     query = filter_types(types)
-    terms = filter_fields(fields, term)
+    terms = filter_fields(:laxe, fields, term)
     _query = from(tesis in query,
     where: fragment("tsv_rubro @@ to_tsquery('spanish', ?)", 
                     ^Enum.at(terms, 0))
@@ -31,8 +31,8 @@ defmodule Bibliotheca.Tesis do
 
   def strict_search([laxe_term, strict_term], fields, types) do
     query = filter_types(types)
-    laxe_terms = filter_fields(fields, laxe_term)
-    strict_terms = filter_fields(fields, strict_term)
+    strict_terms = filter_fields(:strict, fields, strict_term)
+    laxe_terms = filter_fields(:laxe, fields, laxe_term)
     _query = from(tesis in query,
     where: fragment("tsv_rubro @@ to_tsquery('spanish', ?) 
                      AND UPPER(UNACCENT(rubro)) LIKE ALL(?)", 
@@ -57,13 +57,16 @@ defmodule Bibliotheca.Tesis do
     end
   end
   
-  defp filter_fields(fields, term) do
+  defp filter_fields(mode, fields, term) do
     fields = Enum.map(fields, fn(x) -> 
               {field, value} = x
-              if value do
+              if value == "true" do
                 term
               else
-                ""
+                case mode do
+                  :strict -> [""]
+                  :laxe -> ""              
+                end
               end
     end)
   end
