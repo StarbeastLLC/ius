@@ -46,9 +46,10 @@ defmodule Bibliotheca.Tesis do
     )
     Repo.all(_query)
   end
-
-  defp query_tesis, do: from(tesis in Tesis, where: tesis.tpotesis == 6)
-  defp query_juris, do: from(tesis in Tesis, where: tesis.tpotesis != 6)
+  
+  # Las tesis tienen 0 en tpotesis
+  defp query_tesis, do: from(tesis in Tesis, where: tesis.tpotesis == 0)
+  defp query_juris, do: from(tesis in Tesis, where: tesis.tpotesis != 0)
   defp filter_types([tesis, juris]) do
     cond do
       tesis == {"tesis", "false"} -> query_juris
