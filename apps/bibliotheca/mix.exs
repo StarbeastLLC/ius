@@ -23,7 +23,7 @@ defmodule Bibliotheca.Mixfile do
   def application do
     [mod: {Bibliotheca, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :elegua]]
+                    :phoenix_ecto, :postgrex, :elegua, :ueberauth_facebook]]
   end
 
   # Specifies which paths to compile per environment.
@@ -42,7 +42,8 @@ defmodule Bibliotheca.Mixfile do
      {:gettext, "~> 0.9"},
      {:lex, in_umbrella: true},
      {:cowboy, "~> 1.0"},
-     {:elegua, git: "https://github.com/ZuraGuerra/elegua.git"}]
+     {:elegua, git: "https://github.com/ZuraGuerra/elegua.git"},
+     {:ueberauth_facebook, "~> 0.3"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

@@ -2,7 +2,10 @@ defmodule Bibliotheca.SocialConnectController do
   use Bibliotheca.Web, :controller
   import Ecto.Changeset, only: [put_change: 3, cast: 4]
   alias Bibliotheca.User
-  alias Bibliotheca.AuthController
+  alias Bibliotheca.{AuthController, UserFromAuth}
+  alias Ueberauth.Strategy.Helpers
+
+  plug Ueberauth
 
   @fb_fields ~w(email first_name last_name fb_id fb_token is_verified)
   @google_fields ~w(email first_name last_name google_id is_verified)
@@ -77,6 +80,37 @@ defmodule Bibliotheca.SocialConnectController do
     case Repo.insert(changeset) do
       {:ok, user} -> {:ok, user}
       {:error, _} -> :error
+    end
+  end
+
+  def request(conn, _params) do
+    render(conn, "request.html", callback_url: Helpers.callback_url(conn))
+  end
+
+  def delete(conn, _params) do
+    conn
+    |> put_flash(:info, "You have been logged out!")
+    |> configure_session(drop: true)
+    |> redirect(to: "/")
+  end
+
+  def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
+    conn
+    |> put_flash(:error, "Failed to authenticate.")
+    |> redirect(to: "/")
+  end
+
+  def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
+    case UserFromAuth.find_or_create(auth) do
+      {:ok, user} ->
+        conn
+        |> put_flash(:info, "Successfully authenticated.")
+        |> put_session(:current_user, user)
+        |> redirect(to: "/")
+      {:error, reason} ->
+        conn
+        |> put_flash(:error, reason)
+        |> redirect(to: "/")
     end
   end
 

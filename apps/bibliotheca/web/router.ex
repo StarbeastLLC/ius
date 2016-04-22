@@ -59,6 +59,13 @@ defmodule Bibliotheca.Router do
 
   end
 
+  scope "/auth", Bibliotheca do
+  pipe_through :browser
+
+  get "/:provider", SocialConnectController, :request
+  get "/:provider/callback", SocialConnectController, :callback
+end
+
   # Other scopes may use custom stacks.
   # scope "/api", Bibliotheca do
   #   pipe_through :api
