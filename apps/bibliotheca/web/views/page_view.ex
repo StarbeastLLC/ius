@@ -7,7 +7,11 @@ defmodule Bibliotheca.PageView do
     
     article = Enum.reduce(terms, article, fn(term, article) -> 
                 yellow_term =  yellow_start <> term <> yellow_end
-                String.replace(article, term, yellow_term)
+                article
+                |> String.replace(term, yellow_term) # "armada"
+                |> String.replace(String.capitalize(term), yellow_term) # "Armada"
+                |> String.replace(String.upcase(term), yellow_term) # "ARMADA"
+                |> String.replace(String.downcase(term), yellow_term) # "armada"
               end)
 
     article
