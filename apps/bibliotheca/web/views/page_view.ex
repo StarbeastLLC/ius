@@ -4,10 +4,15 @@ defmodule Bibliotheca.PageView do
   def highlighted_article(article, terms) do
     yellow_start = "<span style='background-color:yellow;'><strong>"
     yellow_end = "</strong></span>"
-    yellow_term =  yellow_start <> Enum.at(terms, 0) <> yellow_end
-    article = String.replace(article, Enum.at(terms, 0), yellow_term)
-    article = String.replace(article, ">>>", yellow_start)
-    article = String.replace(article, "<<<", yellow_end)
+    
+    article = Enum.reduce(terms, article, fn(term, article) -> 
+                yellow_term =  yellow_start <> term <> yellow_end
+                String.replace(article, term, yellow_term)
+              end)
+
+    article
+    |> String.replace(">>>", yellow_start)
+    |> String.replace("<<<", yellow_end)
   end
 
   def join_highlighted_article(highlights, articles) do
