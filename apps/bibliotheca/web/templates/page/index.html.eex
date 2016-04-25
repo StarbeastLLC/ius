@@ -80,18 +80,6 @@
 <div class="row">
   <div class="text-center">
 <br>
-  <!-- Google+ login -->
-  <div id="gConnect">
-    <div id="signin-button">
-
-    </div>
-  </div>
-        <%= form_for @conn, social_connect_path(@conn, :auth), [as: :user, id: "google_auth"], fn f -> %>
-      <%= hidden_input f, :google_id %>
-      <%= hidden_input f, :email %>
-      <%= hidden_input f, :first_name %>
-      <%= hidden_input f, :last_name %>
-      <% end %> 
 
   <!-- FB login -->
   <button class="fb-login">Inicia sesión con Facebook</button>

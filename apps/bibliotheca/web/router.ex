@@ -32,7 +32,6 @@ defmodule Bibliotheca.Router do
     get "/account-deletion/:token", ProfileController, :delete_account
 
     post "/facebook-login", SocialConnectController, :auth
-    post "/google-login", SocialConnectController, :auth
 
     get "/profile", ProfileController, :profile
     put "/profile", ProfileController, :update_profile
