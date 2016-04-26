@@ -80,30 +80,12 @@
 <div class="row">
   <div class="text-center">
 <br>
-  <!-- Google+ login -->
-  <div id="gConnect">
-    <div id="signin-button">
-
-    </div>
-  </div>
-        <%= form_for @conn, social_connect_path(@conn, :auth), [as: :user, id: "google_auth"], fn f -> %>
-      <%= hidden_input f, :google_id %>
-      <%= hidden_input f, :email %>
-      <%= hidden_input f, :first_name %>
-      <%= hidden_input f, :last_name %>
-      <% end %> 
 
   <!-- FB login -->
-  <button class="fb-login">Inicia sesión con Facebook</button>
-  <%= form_for @conn, social_connect_path(@conn, :auth), [as: :user, id: "fb_auth"], fn f -> %>
-    <%= hidden_input f, :fb_id %>
-    <%= hidden_input f, :fb_token %>
-    <%= hidden_input f, :email %>
-    <%= hidden_input f, :first_name %>
-    <%= hidden_input f, :last_name %>
-  <% end %>
-<br>
-<br>
+  <a href="/auth/facebook">
+    <button class="fb-login">Inicia sesión con Facebook</button>
+  </a>
+  <br><br>
     - O -
 
     <br>
@@ -135,11 +117,3 @@
 </div>
 
 <% end %>
-
-<!-- Google+ SDK, only used there -->
-   <script type="text/javascript">
-        window.gclientLoaded = function () {
-          window.startApp();
-        }
-    </script>
-    <script src="https://apis.google.com/js/client:platform.js?onload=gclientLoaded"></script>

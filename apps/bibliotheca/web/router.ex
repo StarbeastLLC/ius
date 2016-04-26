@@ -32,7 +32,6 @@ defmodule Bibliotheca.Router do
     get "/account-deletion/:token", ProfileController, :delete_account
 
     post "/facebook-login", SocialConnectController, :auth
-    post "/google-login", SocialConnectController, :auth
 
     get "/profile", ProfileController, :profile
     put "/profile", ProfileController, :update_profile
@@ -58,6 +57,13 @@ defmodule Bibliotheca.Router do
     #get "/load", LawController, :load
 
   end
+
+  scope "/auth", Bibliotheca do
+  pipe_through :browser
+
+  get "/:provider", SocialConnectController, :request
+  get "/:provider/callback", SocialConnectController, :callback
+end
 
   # Other scopes may use custom stacks.
   # scope "/api", Bibliotheca do

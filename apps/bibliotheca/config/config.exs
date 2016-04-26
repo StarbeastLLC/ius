@@ -29,6 +29,17 @@ config :elegua,
   user_model: Bibliotheca.User,
   app_repo: Bibliotheca.Repo
 
+# Adds FB to Uberauth
+config :ueberauth, Ueberauth,
+  providers: [
+    facebook: {Ueberauth.Strategy.Facebook, [profile_fields: "name,email,first_name,last_name"]}
+  ]
+
+# Facebook keys
+config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
+  client_id: "489333437934185",
+  client_secret: "b8387dda996be57c022cf7eaeadb7d9f"
+
 # Facebook Application
 config :facebook,
   app_id: 489333437934185 #TEST APP / Ask Zura for credentials to add testers
