@@ -82,6 +82,10 @@
 <br>
 
   <!-- FB login -->
+  <a href="/auth/facebook">
+    <button class="fb-login">Inicia sesión con Facebook</button>
+  </a>
+  <br><br>
   <button class="fb-login">Inicia sesión con Facebook</button>
   <%= form_for @conn, social_connect_path(@conn, :auth), [as: :user, id: "fb_auth"], fn f -> %>
     <%= hidden_input f, :fb_id %>

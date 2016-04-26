@@ -18,7 +18,11 @@ defmodule Bibliotheca.UserFromAuth do
   end
 
   defp basic_info(auth) do
-    %{id: auth.uid, name: name_from_auth(auth), avatar: auth.info.image}
+    %{fb_id: auth.uid, 
+      last_name: auth.info.last_name,
+      first_name: auth.info.first_name, 
+      avatar: auth.info.image,
+      email: auth.info.email}
   end
 
   defp name_from_auth(auth) do

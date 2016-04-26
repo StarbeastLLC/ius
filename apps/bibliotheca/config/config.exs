@@ -32,7 +32,7 @@ config :elegua,
 # Adds FB to Uberauth
 config :ueberauth, Ueberauth,
   providers: [
-    facebook: {Ueberauth.Strategy.Facebook, []}
+    facebook: {Ueberauth.Strategy.Facebook, [profile_fields: "name,email,first_name,last_name"]}
   ]
 
 # Facebook keys
