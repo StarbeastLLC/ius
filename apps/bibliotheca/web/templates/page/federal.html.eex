@@ -46,7 +46,9 @@
   <%= for article <- join_highlighted_article(@highlights, @articles_by_law) do %>
     <em><%= article[:article].article_number %></em>
     <br>
-    <%= raw highlighted_article(article[:highlight], @terms) %>
+    <pre>
+      <%= raw highlighted_article(article[:highlight], @terms) %>
+    </pre>
     <br>
     <br>
   <% end %>
@@ -79,7 +81,9 @@
     -
     <em><%= article[:article].article_number %></em>
     <br>
-    <%= raw highlighted_article(article[:highlight], @terms) %>
+    <pre>
+      <%= raw highlighted_article(article[:highlight], @terms) %>
+    </pre>
     <br>
     <br>
   <% end %>

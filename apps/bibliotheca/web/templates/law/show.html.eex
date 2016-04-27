@@ -8,7 +8,9 @@
   <br>
   <div class="lawhead"> 
     <p>
-      <%= @law.header %>
+      <pre>
+        <%= @law.header %>
+      </pre>
     </p>
   </div>
   <br>
@@ -23,7 +25,9 @@
     </em>
   </div>
   <div class="textoarticulo">
-    <%= article.article_body %>
+    <pre>
+      <%= article.article_body %>
+    </pre>
   </div>
   <br>
   <br>
