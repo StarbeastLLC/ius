@@ -27,7 +27,7 @@
       SALA <%= @tesis.sala %>
       <br>
       <em>
-        <%= @tesis.precedentes %>
+        <%= raw separate_amparos(@tesis.precedentes) %>
       </em>
     </p>
   </div>
