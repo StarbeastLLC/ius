@@ -15,7 +15,7 @@ defmodule Bibliotheca.Router do
 
   scope "/", Bibliotheca do
     pipe_through :browser # Use the default browser stack
-    
+
     get "/", PageController, :index
     post "/login", AuthController, :login
     get "/logout", AuthController, :logout
@@ -39,7 +39,7 @@ defmodule Bibliotheca.Router do
     get "/change-password/:token", ProfileController, :change_password
 
     get "/leyes-federales", LawController, :search
-    
+
     post "/leyes-federales", LawController, :search
     post "/leyes-federales/articulos-por-ley", LawController, :search_title
     get "/leyes-federales/:id", LawController, :show
@@ -52,9 +52,9 @@ defmodule Bibliotheca.Router do
     get "/search-3", PageController, :search_3
     get "/search-4", PageController, :search_4
     get "/search-5", PageController, :search_5
-    
+
     resources "/laws", LawController
-    #get "/load", LawController, :load
+    get "/load", LawController, :load
 
   end
 

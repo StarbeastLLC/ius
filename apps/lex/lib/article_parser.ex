@@ -7,11 +7,25 @@ defmodule Lex.ArticleParser do
   ####################
   # Public functions
   ####################
+  def article_expression, do: @article_expression
+
   def parse_article(article, acc \\ %{}) do
     parse_article_containing(article, acc, :text)
   end
 
-  def article_expression, do: @article_expression
+  def create_content_table(article, acc \\ []) do
+    raw_article = split_article_using(article, @article_number_expression)
+    {article_number, raw_text} = extract_article_number(raw_article)
+    unless raw_text == nil do
+      text = title(raw_text)
+      if text != "" do
+        key = article_number
+        acc = [ [ key, text ] | acc]
+      end
+    end
+
+    acc
+  end
 
   ####################
   # Branchs
@@ -21,7 +35,7 @@ defmodule Lex.ArticleParser do
     {article_number, raw_text} = extract_article_number(raw_article)
     unless raw_text == nil do
       text = clean_text(raw_text)
-      key = "ARTICULO " <> article_number
+      key = article_number
       acc = [{key, text} | acc]
     end
 
@@ -46,9 +60,21 @@ defmodule Lex.ArticleParser do
     {article_number, Enum.at(elements, 0)}
   end
 
+
+  defp title(raw_text) do
+    expression = expression_to_split(raw_text)
+    raw_articles = String.split(raw_text, expression, trim: true, parts: 2)
+    if length(raw_articles) == 2 do
+      title = Regex.run(expression, raw_text, capture: :first) |> List.first
+      title <> List.last(raw_articles)
+    else
+      ""
+    end
+  end
+
   defp clean_text(raw_text) do
     expression = expression_to_split(raw_text)
-    raw_articles = String.split(raw_text, expression, trim: true)
+    raw_articles = String.split(raw_text, expression, trim: true, parts: 2)
     List.first(raw_articles)
   end
 
@@ -56,14 +82,14 @@ defmodule Lex.ArticleParser do
     book_expression = ~r{LIBRO (PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SEPTIMO|OCTAVO|NOVENO|DECIMO)}
     title_expression = ~r{TITULO (PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SEPTIMO|OCTAVO|NOVENO|DECIMO)}
     transitories_expression = ~r(\s\s\sTRANSITORIO\n|\s\s\sTRANSITORIOS\n)
-    article_expression = ~r{NADA_FACTIBLE_DE_ENCONTRAR}
     chapter_expression = ~r{CAPITULO (UNICO|PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SEPTIMO|OCTAVO|NOVENO|DECIMO|I|II|III|IV|V|VI|VII|VIII|IX|X)}
+    article_expression = ~r{NADA_FACTIBLE_DE_ENCONTRAR}
 
     cond do
       Regex.match?(book_expression, raw_text)         -> book_expression
       Regex.match?(title_expression, raw_text)        -> title_expression
       Regex.match?(transitories_expression, raw_text) -> transitories_expression
-      Regex.match?(chapter_expression, raw_text) -> chapter_expression
+      Regex.match?(chapter_expression, raw_text)      -> chapter_expression
       true -> article_expression
     end
   end
