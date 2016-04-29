@@ -37,12 +37,15 @@ defmodule Bibliotheca.LawController do
             header: content[:header],
             reform_date: content[:reform_date],
             original_text: content[:original_text],
-            articles: content[:body],
-            contents: %{}
+            articles: %{}, #content[:body],
+            contents: content[:content_table]
           }
+        # IO.inspect content[:content_table]
+
         Repo.transaction fn ->
           new_law = Repo.insert!(law)
-
+  {"34",
+   "TITULO CUARTO\n\n                               Del Registro Civil\n\n                                   CAPITULO I\n\n                            Disposiciones Generales"}
           # Build a article from the law struct
           article_json = content[:body]
           Enum.each(article_json, fn {key, value} ->
@@ -137,7 +140,7 @@ defmodule Bibliotheca.LawController do
   end
 
   def search(conn, _params) do
-    render conn, PageView, "federal.html", articles: [], laws: [], articles_by_law: [], highlights: [] 
+    render conn, PageView, "federal.html", articles: [], laws: [], articles_by_law: [], highlights: []
   end
 
   def search_title(conn, %{"search" => %{"term" => search_term, "law_id" => law_id, "search_level" => search_level}}) do
