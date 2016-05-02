@@ -6,6 +6,12 @@
   </div>
   <br>
   <br>
+  <div>
+    <%= for section <- real_contents(@law.contents) do %>
+      <%= section %>
+      <br><br>
+    <% end %>
+  </div>
   <div class="lawhead"> 
     <p>
       <pre>

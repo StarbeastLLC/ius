@@ -5,4 +5,8 @@ defmodule Bibliotheca.LawView do
     {:ok, json} = Poison.encode(map)
     json
   end
+
+  def real_contents(content) do
+    content["ct"]
+  end
 end
