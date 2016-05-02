@@ -24,10 +24,13 @@
   <br>
   <div class="precedentes">
     <p>
-      SALA <%= @tesis.sala %>
+      <strong>
+        SALA <%= @tesis.sala %>
+      </strong>
+      <br>
       <br>
       <em>
-        <%= raw separate_amparos(@tesis.precedentes) %>
+      <%= raw separate_amparos(@tesis.precedentes) %>
       </em>
     </p>
   </div>

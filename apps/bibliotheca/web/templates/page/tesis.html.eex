@@ -43,7 +43,13 @@
     
     <%= submit "Search" %>
   <% end %>
+  <br>
+  <br>
+  <hr>
+  <strong>
   <p>Tesis encontradas: <%= Enum.count(@tesis_) %></p>
+  </strong>
+  <hr>
   <br><br>
 
   <%= for tesis <- @tesis_ do %>
@@ -60,10 +66,11 @@
       </a>
     </div>
     <br>
-    <div class="texto">
+    <div class="ius">
       <%= tesis.locabr %>
     </div>
     <br>
     <br>
+    <hr>
   <% end %>
 </center>
