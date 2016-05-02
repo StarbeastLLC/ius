@@ -101,27 +101,28 @@
   }
 
   .ius {
-    margin-left: 30%;
-    margin-right: 30%;
+    margin-left: 22%;
+    margin-right: 22%;
     text-align: center;
   }
 
   .rubro {
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 22%;
+    margin-right: 22%;
     text-align: center;
     font-size: 24px; 
   }
 
   .texto{
     margin-left: 22%;
-    margin-right:22%;
+    margin-right: 22%;
     text-align: justify;
+    word-break: keep-all; 
   }
 
   .lawname {
-    text-transform:uppercase;
-    font-size:24px;
+    text-transform: uppercase;
+    font-size: 24px;
     margin-left: 15%;
     margin-right: 15%;
     text-align: center;
@@ -135,7 +136,8 @@
   }
 
   .numarticulo {
-    text-align: center;
+    text-align: left;
+    margin-left: 27%;
     font-size: 14px;
   }
 
@@ -153,6 +155,12 @@
     white-space: -moz-pre-wrap; 
     white-space: pre-wrap;
     white-space: pre\9;
+  }
+
+  .centered{
+    text-align: center;
+    padding-right: 21%;
+    padding-left: 21%;
   }
   
 
