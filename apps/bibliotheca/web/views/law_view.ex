@@ -6,7 +6,6 @@ defmodule Bibliotheca.LawView do
     json
   end
 
-  def real_contents(content) do
-    content["ct"]
-  end
+  def real_contents(%{}), do: []
+  def real_contents(contents), do: contents
 end
