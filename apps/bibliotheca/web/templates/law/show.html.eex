@@ -7,10 +7,14 @@
   <br>
   <br>
   <div>
-    <%= for section <- real_contents(@law.contents) do %>
-      <%= section %>
-      <br><br>
-    <% end %>
+    <%= if real_contents(@law) != [] do %>
+      <%= for section <- real_contents(@law) do %>
+        <%= section 
+            |> style_sections 
+            |> raw %>
+        <br><br>
+      <% end %>  
+    <% end %>    
   </div>
   <div class="lawhead"> 
     <p>
