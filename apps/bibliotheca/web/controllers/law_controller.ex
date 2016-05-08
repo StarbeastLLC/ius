@@ -44,8 +44,6 @@ defmodule Bibliotheca.LawController do
 
         Repo.transaction fn ->
           new_law = Repo.insert!(law)
-  {"34",
-   "TITULO CUARTO\n\n                               Del Registro Civil\n\n                                   CAPITULO I\n\n                            Disposiciones Generales"}
           # Build a article from the law struct
           article_json = content[:body]
           Enum.each(article_json, fn {key, value} ->
