@@ -60,9 +60,12 @@ defmodule Lex.LawParser do
   defp parse_content(file_name) do
     {:ok, file} = File.open(file_name, [:read, :utf8])
     # Algunas leyes tienen asteriscos en el primer titulo pero no en el segundo. Ejem. LEY DE AGUAS NACIONALES
-    title = IO.read(file, :line)
+    title_begin = IO.read(file, :line)
             |> String.replace("\*", "")
             |> String.strip
+
+    title_end = IO.read(file, :line)
+    title = title_begin <> "\n" <> title_end
 
     content = IO.read(file, :all)
     {title,content}
