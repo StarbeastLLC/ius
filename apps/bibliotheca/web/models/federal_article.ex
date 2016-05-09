@@ -56,7 +56,7 @@ defmodule Bibliotheca.FederalArticle do
     query = from(article in FederalArticle,
     where: article.federal_law_id == ^law_id,
     limit: 1000,
-    order_by: [desc: article.id])
+    order_by: [asc: article.id])
     Repo.all(query)
   end
 
