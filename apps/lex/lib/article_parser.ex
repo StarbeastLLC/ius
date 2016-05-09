@@ -36,6 +36,7 @@ defmodule Lex.ArticleParser do
     unless raw_text == nil do
       text = clean_text(raw_text)
       key = article_number
+      key = String.replace(article_number, "Artículo ", "")
       acc = [{key, text} | acc]
     end
 

@@ -10,9 +10,17 @@ defmodule Lex.BodyParser do
     parse_body_containing(body, body_has(body))
   end
 
-  def parse_body(body) do
-    {preliminars, raw_articles, transitories, content_table} = parse_body_containing_articles(body)
-    {preliminars, raw_articles, transitories, content_table}
+  def parse_body_containing_articles(body) do
+    body = String.replace(body, "ARTICULO", "Artículo", global: true)
+    body = String.replace(body, "ARTÍCULO", "Artículo", global: true)
+    {raw_articles, transitories} = extract_transitories(body)
+    articles = String.split(raw_articles, article_expression, trim: true) |> Enum.reverse
+
+    articles_list = Enum.reduce(articles, [], &parse_article(&1, &2))
+    content_table = Enum.reduce(articles, [], &create_content_table(&1, &2))
+
+    {"", articles_list, transitories, %{ ct: content_table}}
+
   end
 
   ####################
@@ -50,21 +58,8 @@ defmodule Lex.BodyParser do
     {"",%{},""}
   end
 
-  defp parse_body_containing_articles(body) do
-    body = String.replace(body, "ARTICULO", "Artículo", global: true)
-    body = String.replace(body, "ARTÍCULO", "Artículo", global: true)
-    {raw_articles, transitories} = extract_transitories(body)
-    articles = String.split(raw_articles, article_expression, trim: true) |> Enum.reverse
-
-    articles_list = Enum.reduce(articles, [], &parse_article(&1, &2))
-    content_table = Enum.reduce(articles, [], &create_content_table(&1, &2))
-
-    {"", articles_list, transitories, %{ ct: content_table}}
-
-  end
-
   defp extract_transitories(body) do
-    raw_transitories = String.split(body, ~r{(\nTransitorios|\nTRANSITORIOS|\s\sTRANSITORIOS)}, parts: 2, trim: true)
+    raw_transitories = String.split(body, ~r{(\s\s\sTRANSITORIO|\nTransitorios|\nTRANSITORIOS|\s\sTRANSITORIOS)}, parts: 2, trim: true)
     if has_transitories?(raw_transitories) do
       {List.first(raw_transitories), List.last(raw_transitories)}
     else

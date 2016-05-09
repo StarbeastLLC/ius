@@ -43,13 +43,13 @@ defmodule Lex.LawParser do
   defp parse_sections_from_file(file_name, nested) do
     {title, content} = parse_content(file_name)
     IO.puts title
-    {header, body} = parse_header_body_new(content)
+    {header, body} = parse_header_body(content, title)
 
     {preliminars, body, transitories, content_table} =
     if nested do
       BodyParser.parse_nested_body(body)
     else
-      BodyParser.parse_body(body)
+      BodyParser.parse_body_containing_articles(body)
     end
 
     {title, header, preliminars, body, transitories, content, content_table}
