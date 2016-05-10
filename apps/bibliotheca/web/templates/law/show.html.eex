@@ -12,6 +12,8 @@
         <%= section 
             |> style_sections 
             |> raw %>
+        <br>
+        <%= index(real_contents(@law), @articles, @law) %>
         <br><br>
       <% end %>  
     <% end %>    
@@ -27,7 +29,7 @@
 
   <%= for article <- @articles do %>
 
-  <div class="numarticulo">
+  <div class="numarticulo" id="<%= article.article_number %>">
     <em>
       <strong>
         <%= article.article_number %>

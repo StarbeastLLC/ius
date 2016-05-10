@@ -24,6 +24,23 @@ defmodule Bibliotheca.FederalArticle do
     |> cast(params, @required_fields, @optional_fields)
   end
 
+  def by_range(initial_id, last_id) do
+    query = from(article in FederalArticle,
+    where: article.id >= ^initial_id
+       and article.id <= ^last_id,
+    order_by: [asc: article.id]
+    )
+    Repo.all(query)
+  end
+
+  def by_number(law_id, number) do
+    query = from(article in FederalArticle,
+    where: article.federal_law_id == ^law_id
+       and article.article_number == ^number
+    )
+    Repo.one(query)
+  end
+
   def laxe_search(term) do
     term
     |> laxe_query
