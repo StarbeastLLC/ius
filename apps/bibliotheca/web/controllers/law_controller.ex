@@ -77,7 +77,8 @@ defmodule Bibliotheca.LawController do
     law = Repo.get!(FederalLaw, id)
     articles = FederalArticle.by_law(id)
     contents_table = ContentsTable.index(articles, law)
-    render(conn, "show.html", law: law, articles: articles, contents_table: contents_table)
+    render(conn, "show.html", law: law, articles: articles, 
+                              contents_table: contents_table)
   end
 
   def edit(conn, %{"id" => id}) do

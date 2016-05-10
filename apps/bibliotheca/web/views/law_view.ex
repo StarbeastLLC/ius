@@ -9,10 +9,10 @@ defmodule Bibliotheca.LawView do
     json
   end
 
-  def style_sections(contents) do
+  def style_section(contents) do
     contents
-    |> Enum.map(&separate_sections/1)
-    |> Enum.map(&bold_numbers/1)
+    |> separate_sections
+    |> bold_numbers
   end
 
   defp separate_sections(section) do
