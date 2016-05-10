@@ -1,7 +1,8 @@
 defmodule Bibliotheca.LawController do
   use Bibliotheca.Web, :controller
 
-  alias Bibliotheca.{User, FederalArticle, SearchService, FederalLaw, Tesis, PageView}
+  alias Bibliotheca.{User, FederalArticle, SearchService, 
+                     FederalLaw, Tesis, PageView, ContentsTable}
   alias Lex.LawParser
 
   plug :scrub_params, "law" when action in [:create, :update]
@@ -75,7 +76,8 @@ defmodule Bibliotheca.LawController do
   def show(conn, %{"id" => id}) do
     law = Repo.get!(FederalLaw, id)
     articles = FederalArticle.by_law(id)
-    render(conn, "show.html", law: law, articles: articles)
+    contents_table = ContentsTable.index(articles, law)
+    render(conn, "show.html", law: law, articles: articles, contents_table: contents_table)
   end
 
   def edit(conn, %{"id" => id}) do
