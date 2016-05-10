@@ -4,6 +4,7 @@ defmodule Bibliotheca.LawController do
   alias Bibliotheca.{User, FederalArticle, SearchService, 
                      FederalLaw, Tesis, PageView, ContentsTable}
   alias Lex.LawParser
+  require IEx
 
   plug :scrub_params, "law" when action in [:create, :update]
 

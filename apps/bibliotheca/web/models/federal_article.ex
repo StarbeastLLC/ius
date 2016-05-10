@@ -38,7 +38,7 @@ defmodule Bibliotheca.FederalArticle do
     where: article.federal_law_id == ^law_id
        and article.article_number == ^number
     )
-    Repo.one(query)
+    Repo.all(query)
   end
 
   def laxe_search(term) do

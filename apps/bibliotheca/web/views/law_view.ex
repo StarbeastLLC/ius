@@ -2,7 +2,6 @@ defmodule Bibliotheca.LawView do
   use Bibliotheca.Web, :view
 
   alias Bibliotheca.{FederalArticle, Repo, ContentsTable}
-  require IEx
 
   def json(map) do
     {:ok, json} = Poison.encode(map)
