@@ -7,17 +7,14 @@
   <br>
   <br>
   <div>
-    <%= if ContentsTable.real_contents(@law) != [] do %>
-
-      <%= for section <- @contents_table do %>
-        <p><%= Enum.at(section, 0) |> style_section |> raw %></p>
-        <%= for ct_article <- Enum.at(section, 1) do %>
-          <a href="#<%= ct_article.article_number %>">[ARTÍCULO <%= ct_article.article_number %>]</a>
-        <% end %>
+    <%= for section <- @contents_table do %>
+      <p><%= Enum.at(section, 0) |> style_section |> raw %></p>
+      <%= for ct_article <- Enum.at(section, 1) do %>
+        <a href="#<%= ct_article.article_number %>">[ARTÍCULO <%= ct_article.article_number %>]</a>
       <% end %>
-      <br>
-      <br><br>
-    <%= end %>  
+    <% end %>
+    <br>
+    <br><br>  
   </div>
   <div class="lawhead"> 
     <p>
