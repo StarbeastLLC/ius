@@ -15,7 +15,7 @@ defmodule Lex.BodyParser do
     body = String.replace(body, "ARTÍCULO", "Artículo", global: true)
     {raw_articles, transitories} = extract_transitories(body)
     articles = String.split(raw_articles, article_expression, trim: true)
-    content_table = Enum.reduce(articles, [], &create_content_table(&1, &2))
+    content_table = Enum.reduce(Enum.reverse(articles), [], &create_content_table(&1, &2))
 
     first_article = List.first(articles)
     unless Regex.match?(~r/^Artículo/, first_article) ||
