@@ -15,18 +15,18 @@ defmodule Lex.BodyParser do
     body = String.replace(body, "ARTÍCULO", "Artículo", global: true)
     {raw_articles, transitories} = extract_transitories(body)
     articles = String.split(raw_articles, article_expression, trim: true)
+    content_table = Enum.reduce(articles, [], &create_content_table(&1, &2))
 
     first_article = List.first(articles)
-    unless String.contains?(first_article, "Artículo") ||
-      String.contains?(first_article, "Articulo") ||
-      String.contains?(first_article, "ARTICULO") ||
-      String.contains?(first_article, "ARTÍCULO") do
+    unless Regex.match?(~r/^Artículo/, first_article) ||
+      Regex.match?(~r/^Articulo/, first_article ) ||
+      Regex.match?(~r/^ARTICULO/, first_article) ||
+      Regex.match?(~r/^ARTÍCULO/, first_article) do
       [_ | articles ] = articles
     end
 
     articles = Enum.reverse(articles)
     articles_list = Enum.reduce(articles, [], &parse_article(&1, &2))
-    content_table = Enum.reduce(articles, [], &create_content_table(&1, &2))
 
     {"", articles_list, transitories, %{ ct: content_table}}
 

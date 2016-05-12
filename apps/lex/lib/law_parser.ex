@@ -62,17 +62,29 @@ defmodule Lex.LawParser do
     # Algunas leyes tienen asteriscos en el primer titulo pero no en el segundo. Ejem. LEY DE AGUAS NACIONALES
     title_begin = IO.read(file, :line)
             |> String.replace("\*", "")
-            |> String.strip
+            # |> String.strip
 
     title_end = IO.read(file, :line)
-    title = title_begin <> "\n" <> title_end
+    title = title_begin <> title_end
 
     content = IO.read(file, :all)
     {title,content}
   end
 
   # Dividimos el contenido del archivo en encabezado y cuerpo. El titulo de la ley sirve como divisor.
-  defp parse_header_body(content, title) do
+  defp parse_header_body(content, complete_title) do
+
+    remove_firstline = false
+    title = String.split(complete_title, "\n", parts: 2, trim: true)
+    if Enum.count(title) == 2 do
+      [title, _]= title
+      remove_firstline = true
+    else
+      [title] = title
+    end
+    title = String.strip(title)
+
+    result =
     case String.split(content, title, parts: 2, trim: true) do
       [header, body] ->
         {String.strip(header), String.strip(body)}
@@ -84,9 +96,26 @@ defmodule Lex.LawParser do
         title = String.replace(title, "Í", "I")
         title = String.replace(title, "Ó", "O")
         title = String.replace(title, "Ú", "U")
-        [header, body] = String.split(content, title, parts: 2, trim: true)
-        {String.strip(header), String.strip(body)}
+
+        # result = String.split(content, title, parts: 2, trim: true)
+        # IO.puts title
+        # IO.inspect Enum.count(result)
+
+        case String.split(content, title, parts: 2, trim: true) do
+          [header, body] ->
+            {String.strip(header), String.strip(body)}
+          _porarticulo ->
+            parse_header_body_new(content)
+        end
     end
+
+    # if remove_firstline do
+    #   {header, body} = result
+    #   [_, body] = String.split(body, "\n", parts: 2)
+    #   result  = {header, body}
+    # end
+
+    result
   end
 
   defp parse_header_body_new(content) do

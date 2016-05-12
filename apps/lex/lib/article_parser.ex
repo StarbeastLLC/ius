@@ -14,13 +14,15 @@ defmodule Lex.ArticleParser do
   end
 
   def create_content_table(article, acc \\ []) do
-    raw_article = split_article_using(article, @article_number_expression)
-    {article_number, raw_text} = extract_article_number(raw_article)
-    unless raw_text == nil do
-      text = title(raw_text)
-      if text != "" do
-        key = article_number
-        acc = [ [ key, text ] | acc]
+    unless Regex.match?(~r/^\./, article ) do
+      raw_article = split_article_using(article, @article_number_expression)
+      {article_number, raw_text} = extract_article_number(raw_article)
+      unless raw_text == nil do
+        text = title(raw_text)
+        if text != "" do
+          key = article_number
+          acc = [ [ key, text ] | acc]
+        end
       end
     end
 
@@ -31,6 +33,7 @@ defmodule Lex.ArticleParser do
   # Branchs
   ####################
   defp parse_article_containing(article, acc, :text) do
+
     raw_article = split_article_using(article, @article_number_expression)
     {article_number, raw_text} = extract_article_number(raw_article)
     unless raw_text == nil do
