@@ -17,6 +17,5 @@ import "phoenix_html"
 //
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
-import "./facebook"
 import "./hideFlashMessages"
 // import socket from "./socket"
