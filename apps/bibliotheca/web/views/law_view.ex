@@ -28,7 +28,7 @@ defmodule Bibliotheca.LawView do
 
   defp bold_numbers(section) do
     terms = [
-            "PRIMERO", "SEGUNDO", "TERCERO", "CUARTO", "QUINTO",
+            "UNICO", "PRIMERO", "SEGUNDO", "TERCERO", "CUARTO", "QUINTO",
             "SEXTO", "SEPTIMO", "OCTAVO", "NOVENO", "DECIMO",
             "I", "II", "III", "IV", "V",
             "VI", "VII", "VIII", "IX", "X",
