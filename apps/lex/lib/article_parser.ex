@@ -14,7 +14,7 @@ defmodule Lex.ArticleParser do
   end
 
   def create_content_table(article, acc \\ []) do
-    unless Regex.match?(~r/^\./, article ) do
+    unless Regex.match?(~r/^\./, article) && String.strip(article) == "." do
       raw_article = split_article_using(article, @article_number_expression)
       {article_number, raw_text} = extract_article_number(raw_article)
       if raw_text == nil do
@@ -30,13 +30,9 @@ defmodule Lex.ArticleParser do
           end
 
           acc = [ [ key, text ] | acc]
-        else
-          IO.puts "HELP2!"
-          IO.puts "***********************************************"
         end
       end
     end
-
     acc
   end
 
