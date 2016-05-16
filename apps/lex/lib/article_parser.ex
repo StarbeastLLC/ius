@@ -17,11 +17,22 @@ defmodule Lex.ArticleParser do
     unless Regex.match?(~r/^\./, article ) do
       raw_article = split_article_using(article, @article_number_expression)
       {article_number, raw_text} = extract_article_number(raw_article)
-      unless raw_text == nil do
-        text = title(raw_text)
+      if raw_text == nil do
+        acc = [ [ "0", article ] | acc]
+      else
+        text = title(article)
         if text != "" do
-          key = article_number
+          key =
+          if acc == [] && key_not_number(article_number)do
+            "0"
+          else
+            article_number
+          end
+
           acc = [ [ key, text ] | acc]
+        else
+          IO.puts "HELP2!"
+          IO.puts "***********************************************"
         end
       end
     end
@@ -49,6 +60,11 @@ defmodule Lex.ArticleParser do
   ####################
   # Private functions
   ####################
+
+  defp key_not_number(article_number) do
+    not Enum.member?(["1", "1o", "UNO", "1°"], article_number)
+  end
+
   defp split_article_using(article, expression) do
     article
     |> String.strip
@@ -68,7 +84,7 @@ defmodule Lex.ArticleParser do
   defp title(raw_text) do
     expression = expression_to_split(raw_text)
     raw_articles = String.split(raw_text, expression, trim: true, parts: 2)
-    if length(raw_articles) == 2 do
+    if ~r{NADA_FACTIBLE_DE_ENCONTRAR} != expression do
       title = Regex.run(expression, raw_text, capture: :first) |> List.first
       title <> List.last(raw_articles)
     else

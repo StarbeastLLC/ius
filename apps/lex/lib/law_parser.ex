@@ -84,6 +84,8 @@ defmodule Lex.LawParser do
     end
     title = String.strip(title)
 
+    content = remove_accent_from_text(content)
+    title = remove_accent_from_text(title)
     result =
     case String.split(content, title, parts: 2, trim: true) do
       [header, body] ->
@@ -91,11 +93,7 @@ defmodule Lex.LawParser do
       _otro ->
         # En algunos documentos el titulo trae acentos pero el mismo titulo en el cuerpo del documento no.
         # Por lo tanto tenemos que probar quitando los acentos.
-        title = String.replace(title, "Á", "A")
-        title = String.replace(title, "É", "E")
-        title = String.replace(title, "Í", "I")
-        title = String.replace(title, "Ó", "O")
-        title = String.replace(title, "Ú", "U")
+        title = remove_accent_from_text(title)
 
         # result = String.split(content, title, parts: 2, trim: true)
         # IO.puts title
@@ -116,6 +114,14 @@ defmodule Lex.LawParser do
     # end
 
     result
+  end
+
+  def remove_accent_from_text(text) do
+    text = String.replace(text, "Á", "A")
+    text = String.replace(text, "É", "E")
+    text = String.replace(text, "Í", "I")
+    text = String.replace(text, "Ó", "O")
+    String.replace(text, "Ú", "U")
   end
 
   defp parse_header_body_new(content) do
