@@ -1,5 +1,6 @@
 defmodule Bibliotheca.ContentsTable do
   alias Bibliotheca.FederalArticle
+  require IEx
 
   def index(articles, law) do
     contents = real_contents(law)
@@ -25,12 +26,30 @@ defmodule Bibliotheca.ContentsTable do
 
   defp articles_by_section(contents, articles, law) do
     articles_mark_number = Enum.map(contents, fn(x)-> Enum.at(x, 0) end)
-    first_article = Enum.at(articles, 0)
+                        |> ignore_title_mark
+    first_article = ignore_title(articles)
     Enum.map_reduce(articles_mark_number, first_article.id, fn(x, acc)-> 
       last_article = FederalArticle.by_number(law.id, x)
                    |> Enum.at(0)
+      
       articles_by_section = FederalArticle.by_range(acc, last_article.id)
       {articles_by_section, last_article.id + 1}
     end)
+  end
+
+  defp ignore_title(articles) do
+    if Enum.at(articles, 0) != "0" do
+      Enum.at(articles, 0)
+    else
+      Enum.at(articles, 1)
+    end
+  end
+
+  defp ignore_title_mark(article_marks) do
+    if Enum.at(article_marks, 0) != "0" do
+      article_marks
+    else
+      Enum.drop(article_marks, 1)
+    end
   end
 end
