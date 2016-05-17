@@ -33,6 +33,16 @@ defmodule Bibliotheca.FederalArticle do
     Repo.all(query)
   end
 
+  # Exception for the Código Nacional de Procedimientos Penales
+  def by_number(186, number) do
+    number = number <> "%"
+    query = from(article in FederalArticle,
+    where: article.federal_law_id == 186
+       and fragment("article_number LIKE ?", ^number)
+    )
+    Repo.all(query)
+  end
+
   def by_number(law_id, number) do
     query = from(article in FederalArticle,
     where: article.federal_law_id == ^law_id
@@ -78,7 +88,6 @@ defmodule Bibliotheca.FederalArticle do
   end
 
   defp laxe_query(term) do
-
     q = from(article in FederalArticle,
     where: fragment("tsv @@ to_tsquery('spanish', ?)", ^term),
     order_by: [desc: fragment("ts_rank_cd(tsv, to_tsquery('spanish', ?))", ^term)],
