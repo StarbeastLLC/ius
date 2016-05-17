@@ -13,6 +13,11 @@ defmodule Lex.ArticleParser do
     parse_article_containing(article, acc, :text)
   end
 
+  def parse_article_cnpp(article, acc \\ %{}) do
+    [ title, text ] = split_article_using(article, ~r{\n})
+    [{title, text} | acc]
+  end
+
   def create_content_table(article, acc \\ []) do
     unless Regex.match?(~r/^\./, article) && String.strip(article) == "." do
       raw_article = split_article_using(article, @article_number_expression)

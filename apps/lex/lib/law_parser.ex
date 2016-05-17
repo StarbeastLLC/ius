@@ -49,7 +49,7 @@ defmodule Lex.LawParser do
     if nested do
       BodyParser.parse_nested_body(body)
     else
-      BodyParser.parse_body_containing_articles(body)
+      BodyParser.parse_body_containing_articles(body, title)
     end
 
     {title, header, preliminars, body, transitories, content, content_table}

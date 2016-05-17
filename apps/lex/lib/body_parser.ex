@@ -3,14 +3,14 @@ defmodule Lex.BodyParser do
 
   import Lex.BookParser, only: [parse_book: 1, book_expression: 0]
   import Lex.TitleParser, only: [parse_title: 1, title_expression: 0]
-  import Lex.ArticleParser, only: [parse_article: 2, create_content_table: 2, article_expression: 0]
+  import Lex.ArticleParser, only: [parse_article: 2,parse_article_cnpp: 2, create_content_table: 2, article_expression: 0]
 
   # Se recibe el contenido del archivo sin el header.
   def parse_nested_body(body) do
     parse_body_containing(body, body_has(body))
   end
 
-  def parse_body_containing_articles(body) do
+  def parse_body_containing_articles(body, title) do
     body = String.replace(body, "ARTICULO", "Artículo", global: true)
     body = String.replace(body, "ARTÍCULO", "Artículo", global: true)
     {raw_articles, transitories} = extract_transitories(body)
@@ -27,7 +27,11 @@ defmodule Lex.BodyParser do
     end
 
     articles = Enum.reverse(articles)
-    articles_list = Enum.reduce(articles, [], &parse_article(&1, &2))
+    if String.strip(title) == "CÓDIGO NACIONAL DE PROCEDIMIENTOS PENALES" do
+      articles_list = Enum.reduce(articles, [], &parse_article_cnpp(&1, &2))
+    else
+      articles_list = Enum.reduce(articles, [], &parse_article(&1, &2))
+    end
 
     {"", articles_list, transitories, %{ ct: content_table}}
 
