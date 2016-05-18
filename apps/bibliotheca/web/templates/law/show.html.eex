@@ -5,8 +5,8 @@
     </strong>
   </div>
   <a href="/leyes-federales/<%= @law.id %>">
-        Tabla de contenidos
-    </a>
+    Tabla de contenidos
+  </a>
   <br><br>
   <div class="lawhead"> 
     <p>

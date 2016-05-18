@@ -1,0 +1,30 @@
+<div class="text-center">
+  <div class="lawname"> 
+    <strong>
+      <a href="/leyes-federales/<%= @law.id %>/articulos">
+        <%= @law.name %>
+      </a>
+    </strong>
+  </div>
+  <a href="/leyes-federales/<%= @law.id %>">
+    Tabla de contenidos
+  </a>
+  <br><br>
+
+  <h3>
+    <%= @article.article_number %>
+  </h3>
+  <p>
+    <%= @article.article_body %>
+  </p>
+
+  <%= if @article.id - 1 > 0 do %>
+    <a href="/articulos-federales/<%= @article.id - 1 %>">◀︎ Anterior</a>
+    ---
+  <% end %>
+  <!-- 38475 is the total of articles in DB-->
+  <%= if @article.id + 1 <= 38475 do %>
+    ---
+    <a href="/articulos-federales/<%= @article.id + 1 %>">Siguiente ►</a>
+  <% end %>
+</div>

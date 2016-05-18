@@ -90,6 +90,12 @@ defmodule Bibliotheca.LawController do
                               contents_table: contents_table)
   end
 
+  def show_article(conn, %{"id" => id}) do
+    article = Repo.get!(FederalArticle, id)
+    law = Repo.get!(FederalLaw, article.federal_law_id)
+    render(conn, "show_article.html", law: law, article: article)
+  end
+
   def edit(conn, %{"id" => id}) do
     law = Repo.get!(FederalLaw, id)
     changeset = FederalLaw.changeset(law)
