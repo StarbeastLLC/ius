@@ -14,7 +14,8 @@ defmodule Lex.ArticleParser do
   end
 
   def parse_article_cnpp(article, acc \\ %{}) do
-    [ title, text ] = split_article_using(article, ~r{\n})
+    [ title, text ] = split_article_using(article, ~r{\n\n})
+    text = clean_text(text)
     [{title, text} | acc]
   end
 
@@ -101,10 +102,12 @@ defmodule Lex.ArticleParser do
 
   defp expression_to_split(raw_text) do
     book_expression = ~r{LIBRO (PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SEPTIMO|OCTAVO|NOVENO|DECIMO)}
-    title_expression = ~r{TITULO (PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SEPTIMO|OCTAVO|NOVENO|DECIMO)}
+    title_expression = ~r{TITULO (PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SEPTIMO|OCTAVO|NOVENO|DECIMO|I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII)}
     transitories_expression = ~r(\s\s\sTRANSITORIO\n|\s\s\sTRANSITORIOS\n)
     chapter_expression = ~r{CAPITULO (UNICO|PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SEPTIMO|OCTAVO|NOVENO|DECIMO|I|II|III|IV|V|VI|VII|VIII|IX|X)}
     lowercase_chapter_expression = ~r{Capítulo (UNICO|PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SEPTIMO|OCTAVO|NOVENO|DECIMO|I|II|III|IV|V|VI|VII|VIII|IX|X)}
+    section_expression = ~r{SECCION (I|II|II|IV|V|VI|VII|VIII)}
+    apartado_expression = ~r{APARTADO II}
     article_expression = ~r{NADA_FACTIBLE_DE_ENCONTRAR}
 
     cond do
@@ -113,6 +116,8 @@ defmodule Lex.ArticleParser do
       Regex.match?(transitories_expression, raw_text) -> transitories_expression
       Regex.match?(chapter_expression, raw_text)      -> chapter_expression
       Regex.match?(lowercase_chapter_expression, raw_text)      -> lowercase_chapter_expression
+      Regex.match?(section_expression, raw_text)      -> section_expression
+      Regex.match?(apartado_expression, raw_text)     -> apartado_expression
       true -> article_expression
     end
   end
