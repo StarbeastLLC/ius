@@ -1,6 +1,8 @@
 defmodule Bibliotheca.PageView do
   use Bibliotheca.Web, :view
 
+  alias Bibliotheca.SearchService, [as: Search]
+
   def highlighted_article(article, terms) do
     yellow_start = "<span style='background-color:yellow;'><strong>"
     yellow_end = "</strong></span>"

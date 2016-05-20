@@ -4,6 +4,8 @@ defmodule Bibliotheca.SearchService do
   import Plug.Conn, only: [put_session: 3, get_session: 2, delete_session: 2]
   alias Bibliotheca.{Repo, FederalArticle}
 
+  defstruct id: 0, terms: []
+
   def clean_search_term(search_term) do
     fts_term = search_term
              |> remove_final_space
