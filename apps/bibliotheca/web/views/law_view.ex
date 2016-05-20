@@ -14,6 +14,10 @@ defmodule Bibliotheca.LawView do
     |> bold_numbers
   end
 
+  def has_search_terms(article, found_articles) do
+    Enum.member?(found_articles, to_string(article.id))
+  end
+
   defp separate_sections(section) do
     terms = [
             "TITULO",

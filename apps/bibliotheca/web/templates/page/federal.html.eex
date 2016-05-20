@@ -74,7 +74,13 @@
   <br><br>
 
   <%= for article <- join_highlighted_article(@highlights, @articles) do %>
-    <a href="/leyes-federales/<%= article[:article].federal_law_id %>">
+    <%= form_for @conn, law_path(@conn, :toc_from_search), [as: :search], fn f -> %>
+      <%= for found_article <- @articles do %>
+        <%= hidden_input f, :found_articles, value: found_article.id, name: "search[found_articles][]" %>
+      <% end %>
+      <%= hidden_input f, :law_id, value: article[:article].federal_law_id %>
+      <%= submit article[:article].federal_law.name, class: "toc_from_search"%>
+    <% end %>
       <strong><%= article[:article].federal_law.name %></strong>
     </a>
     

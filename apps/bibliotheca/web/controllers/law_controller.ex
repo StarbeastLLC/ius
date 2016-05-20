@@ -79,7 +79,16 @@ defmodule Bibliotheca.LawController do
     articles = FederalArticle.by_law(id)
     contents_table = ContentsTable.index(articles, law)
     render(conn, "toc.html", law: law, articles: articles, 
-                              contents_table: contents_table)
+                              contents_table: contents_table, found_articles: [])
+  end
+
+  def toc_from_search(conn, %{"search" => %{"law_id" => id, "found_articles" => found_articles}}) do
+    law = Repo.get!(FederalLaw, id)
+    articles = FederalArticle.by_law(id)
+    contents_table = ContentsTable.index(articles, law)
+    render(conn, "toc.html", law: law, articles: articles, 
+                              contents_table: contents_table,
+                              found_articles: found_articles)
   end
 
   def show(conn, %{"id" => id}) do
