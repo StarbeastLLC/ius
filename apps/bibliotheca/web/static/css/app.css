@@ -162,7 +162,36 @@
     padding-right: 21%;
     padding-left: 21%;
   }
-  
+
+
+
+
+  .lawcontent {
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 20%;
+  }
+
+  .sections p{
+    text-align: center;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 1%;
+    margin-top: 0%;
+  }
+
+  .articleslist{
+   text-align: justify;
+   margin-left: 20%;
+   margin-right: 15%;
+   margin-bottom: 0%;
+  }
+
+ .articleslist p{
+   margin-bottom: 0%;
+   text-align: left;
+  }
+
 
 }
 

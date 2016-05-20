@@ -14,7 +14,7 @@
       <%= for ct_article <- Enum.at(section, 1) do %>
         <%= if has_search_terms(ct_article, @found_articles) do %>
           <a href="/articulos-federales/<%= ct_article.id %>" style="color:red">
-          [ARTÍCULO <%= ct_article.article_number %>]
+            [ARTÍCULO <%= ct_article.article_number %>]
           </a>
         <% else %>
           <a href="/articulos-federales/<%= ct_article.id %>">
