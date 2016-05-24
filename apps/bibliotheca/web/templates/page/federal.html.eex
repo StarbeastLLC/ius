@@ -14,7 +14,10 @@
     <%= for law <- @laws do %>
       <a href="/leyes-federales/<%= law.id %>">
         <strong><%= law.name %></strong>
-      </a> - <%= radio_button f, :law_id, law.id %>
+      </a> - <%= checkbox f, :selected_laws, name: "search[selected_laws][]",
+                                             checked: "checked",
+                                             unchecked_value: "empty"%>
+      <%= hidden_input f, :laws_ids, value: law.id, name: "search[laws_ids][]" %>
       <br>
     <% end %>
     <%= if @articles_by_law != [] do %>
@@ -34,7 +37,7 @@
     </span><br><br>
     <%= submit "Search" %>
   <% end %>
-  
+
   <%= if @articles_by_law != [] do %>
     <%= form_for @conn, law_path(@conn, :toc_from_search), [as: :search], fn f -> %>
       <%= for found_article <- @articles_by_law do %>
@@ -87,7 +90,7 @@
     <% end %>
       <strong><%= article[:article].federal_law.name %></strong>
     </a>
-    
+
     -
     <em><%= article[:article].article_number %></em>
     <br>
