@@ -1,5 +1,5 @@
 <div class="text-center">
-  <div class="lawname"> 
+  <div class="lawname">
     <strong>
       <a href="/leyes-federales/<%= @law.id %>/articulos">
         <%= @law.name %>
@@ -12,7 +12,7 @@
   <br><br>
 
   <h3>
-    <%= @article.article_number %>
+    Artículo <%= @article.article_number %>
   </h3>
   <p>
     <%= @article.article_body %>

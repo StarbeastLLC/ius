@@ -1,5 +1,5 @@
 <div class="text-center">
-  <div class="lawname"> 
+  <div class="lawname">
     <strong>
       <%= @law.name %>
     </strong>
@@ -8,7 +8,7 @@
     Tabla de contenidos
   </a>
   <br><br>
-  <div class="lawhead"> 
+  <div class="lawhead">
     <p>
       <pre>
         <%= @law.header %>
@@ -20,7 +20,9 @@
     <div class="numarticulo" id="<%= article.article_number %>">
       <em>
         <strong>
-          <%= article.article_number %>
+          <a href="/articulos-federales/<%= article.id %>">
+            Artículo <%= article.article_number %>
+          </a>
         </strong>
       </em>
     </div>

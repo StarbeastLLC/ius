@@ -1,7 +1,7 @@
 defmodule Bibliotheca.LawController do
   use Bibliotheca.Web, :controller
 
-  alias Bibliotheca.{User, FederalArticle, SearchService, 
+  alias Bibliotheca.{User, FederalArticle, SearchService,
                      FederalLaw, Tesis, PageView, ContentsTable}
   alias Lex.LawParser
   require IEx
@@ -78,7 +78,7 @@ defmodule Bibliotheca.LawController do
     law = Repo.get!(FederalLaw, id)
     articles = FederalArticle.by_law(id)
     contents_table = ContentsTable.index(articles, law)
-    render(conn, "toc.html", law: law, articles: articles, 
+    render(conn, "toc.html", law: law, articles: articles,
                               contents_table: contents_table, found_articles: [])
   end
 
@@ -86,7 +86,7 @@ defmodule Bibliotheca.LawController do
     law = Repo.get!(FederalLaw, id)
     articles = FederalArticle.by_law(id)
     contents_table = ContentsTable.index(articles, law)
-    render(conn, "toc.html", law: law, articles: articles, 
+    render(conn, "toc.html", law: law, articles: articles,
                               contents_table: contents_table,
                               found_articles: found_articles)
   end
@@ -95,7 +95,7 @@ defmodule Bibliotheca.LawController do
     law = Repo.get!(FederalLaw, id)
     articles = FederalArticle.by_law(id)
     contents_table = ContentsTable.index(articles, law)
-    render(conn, "show.html", law: law, articles: articles, 
+    render(conn, "show.html", law: law, articles: articles,
                               contents_table: contents_table)
   end
 
