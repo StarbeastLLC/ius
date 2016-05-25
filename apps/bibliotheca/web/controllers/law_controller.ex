@@ -165,7 +165,8 @@ defmodule Bibliotheca.LawController do
     render conn, PageView, "federal.html", articles: [], laws: [], articles_by_law: [], highlights: []
   end
 
-  def search_title(conn, %{"search" => %{"term" => search_term, "law_id" => law_id, "search_level" => search_level}}) do
+  def search_title(conn, %{"search" => %{"term" => search_term, "laws_ids" => law_id,
+                                         "search_level" => search_level, "selected_laws" => selected_laws}}) do
     terms_ = SearchService.separate_terms(search_term)
     law = Repo.get(FederalLaw, law_id)
     case String.to_integer(search_level) do
