@@ -1,11 +1,9 @@
 defmodule Bibliotheca.SearchFilterService do
-  require IEx
   def searchable_laws(laws_ids, selected_laws) do
     selected_laws = parse_checkboxes(selected_laws)
                   |> Enum.zip(laws_ids)
                   |> searchable_laws
                   |> Enum.filter(fn(id)-> id end)
-    IEx.pry
   end
 
   defp searchable_laws(marked_laws) do

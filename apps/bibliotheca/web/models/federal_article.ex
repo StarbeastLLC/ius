@@ -71,12 +71,24 @@ defmodule Bibliotheca.FederalArticle do
     Repo.all(query)
   end
 
+  def multiple_laxe_search(laws_ids, term) do
+    Enum.map(laws_ids, fn(law_id)->
+      laxe_search(law_id, term)
+    end)
+  end
+
   def strict_search(law_id, term) do
     base = strict_query(term)
     query = from(article in base,
     where: article.federal_law_id == ^law_id
     )
     Repo.all(query)
+  end
+
+  def multiple_strict_search(laws_ids, term) do
+    Enum.map(laws_ids, fn(law_id)->
+      strict_search(law_id, term)
+    end)
   end
 
   def by_law(law_id) do
@@ -93,9 +105,9 @@ defmodule Bibliotheca.FederalArticle do
     order_by: [desc: fragment("ts_rank_cd(tsv, to_tsquery('spanish', ?))", ^term)],
     preload: [:federal_law]
     )
-    
+
     from(article in q,
-    select: {fragment("ts_headline(article_body, to_tsquery('spanish', ?), 'HighlightAll=TRUE, 
+    select: {fragment("ts_headline(article_body, to_tsquery('spanish', ?), 'HighlightAll=TRUE,
               StartSel=>>>, StopSel=<<<')", ^term), article})
   end
 
@@ -108,7 +120,7 @@ defmodule Bibliotheca.FederalArticle do
     )
 
    from(article in q,
-   select: {fragment("ts_headline(article_body, to_tsquery('spanish', ?), 'HighlightAll=TRUE, 
+   select: {fragment("ts_headline(article_body, to_tsquery('spanish', ?), 'HighlightAll=TRUE,
               StartSel=>>>, StopSel=<<<')", ^laxe_term), article})
   end
 end

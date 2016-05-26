@@ -169,16 +169,15 @@ defmodule Bibliotheca.LawController do
   def search_title(conn, %{"search" => %{"term" => search_term, "laws_ids" => laws_ids,
                                          "search_level" => search_level, "selected_laws" => selected_laws}}) do
     terms_ = SearchService.separate_terms(search_term)
-    law_id = 1
     searchable_laws = SearchFilter.searchable_laws(laws_ids, selected_laws)
-    law = Repo.get(FederalLaw, law_id)
     case String.to_integer(search_level) do
       # Laxe search
       1 ->
         [laxe_term, _] = search_term
                        |> SearchService.clean_search_term
         # This returns a list of tuples containing {"highlited article", %Bibliotheca.FederalArticle}
-        highlights_articles = FederalArticle.laxe_search(law_id, laxe_term)
+        highlights_articles = FederalArticle.multiple_laxe_search(laws_ids, laxe_term)
+                            |> List.flatten
                             |> Enum.unzip
         {highlights, articles_by_law} = highlights_articles
       # Strict search
@@ -186,7 +185,8 @@ defmodule Bibliotheca.LawController do
         terms = search_term
               |> SearchService.clean_search_term
         # This returns a list of tuples containing {"highlited article", %Bibliotheca.FederalArticle}
-        highlights_articles = FederalArticle.strict_search(law_id, terms)
+        highlights_articles = FederalArticle.multiple_strict_search(laws_ids, terms)
+                            |> List.flatten
                             |> Enum.unzip
         {highlights, articles_by_law} = highlights_articles
     end
