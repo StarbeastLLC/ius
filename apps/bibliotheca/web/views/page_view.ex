@@ -6,8 +6,8 @@ defmodule Bibliotheca.PageView do
   def highlighted_article(article, terms) do
     yellow_start = "<span style='background-color:yellow;'><strong>"
     yellow_end = "</strong></span>"
-    
-    article = Enum.reduce(terms, article, fn(term, article) -> 
+
+    article = Enum.reduce(terms, article, fn(term, article) ->
                 yellow_term =  yellow_start <> term <> yellow_end
                 String.replace(article, term, yellow_term)
               end)
