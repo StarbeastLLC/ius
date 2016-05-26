@@ -72,9 +72,10 @@ defmodule Bibliotheca.FederalArticle do
   end
 
   def multiple_laxe_search(laws_ids, term) do
-    Enum.map(laws_ids, fn(law_id)->
-      laxe_search(law_id, term)
-    end)
+    base = laxe_query(term)
+    query = from(article in base,
+    where: fragment("federal_law_id = ANY(?)", ^laws_ids))
+    Repo.all(query)
   end
 
   def strict_search(law_id, term) do
@@ -86,9 +87,10 @@ defmodule Bibliotheca.FederalArticle do
   end
 
   def multiple_strict_search(laws_ids, term) do
-    Enum.map(laws_ids, fn(law_id)->
-      strict_search(law_id, term)
-    end)
+    base = strict_query(term)
+    query = from(article in base,
+    where: fragment("federal_law_id = ANY(?)", ^laws_ids))
+    Repo.all(query)
   end
 
   def by_law(law_id) do

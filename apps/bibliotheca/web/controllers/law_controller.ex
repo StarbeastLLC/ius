@@ -177,8 +177,8 @@ defmodule Bibliotheca.LawController do
         [laxe_term, _] = search_term
                        |> SearchService.clean_search_term
         # This returns a list of tuples containing {"highlited article", %Bibliotheca.FederalArticle}
-        highlights_articles = FederalArticle.multiple_laxe_search(laws_ids, laxe_term)
-                            |> List.flatten
+        highlights_articles = FederalArticle.multiple_laxe_search(searchable_laws, laxe_term)
+                            #|> List.flatten
                             |> Enum.unzip
         {highlights, articles_by_law} = highlights_articles
       # Strict search
@@ -186,7 +186,7 @@ defmodule Bibliotheca.LawController do
         terms = search_term
               |> SearchService.clean_search_term
         # This returns a list of tuples containing {"highlited article", %Bibliotheca.FederalArticle}
-        highlights_articles = FederalArticle.multiple_strict_search(laws_ids, terms)
+        highlights_articles = FederalArticle.multiple_strict_search(searchable_laws, terms)
                             |> List.flatten
                             |> Enum.unzip
         {highlights, articles_by_law} = highlights_articles
