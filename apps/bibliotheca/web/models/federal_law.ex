@@ -1,6 +1,5 @@
 defmodule Bibliotheca.FederalLaw do
   use Bibliotheca.Web, :model
-
   alias Bibliotheca.{FederalLaw, Repo}
 
   schema "federal_laws" do
@@ -40,7 +39,7 @@ defmodule Bibliotheca.FederalLaw do
 
   def multiple_by_id(ids) do
     Enum.map(ids, fn(id)->
-      Repo.one(FederalLaw, id)
+      Repo.get(FederalLaw, id)
     end)
   end
 end
