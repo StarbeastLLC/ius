@@ -3,6 +3,7 @@ defmodule Bibliotheca.LawController do
 
   alias Bibliotheca.{User, FederalArticle, SearchService,
                      FederalLaw, Tesis, PageView, ContentsTable}
+  alias Bibliotheca.SearchFilterService, as: SearchFilter
   alias Lex.LawParser
   require IEx
 
@@ -165,9 +166,11 @@ defmodule Bibliotheca.LawController do
     render conn, PageView, "federal.html", articles: [], laws: [], articles_by_law: [], highlights: []
   end
 
-  def search_title(conn, %{"search" => %{"term" => search_term, "laws_ids" => law_id,
+  def search_title(conn, %{"search" => %{"term" => search_term, "laws_ids" => laws_ids,
                                          "search_level" => search_level, "selected_laws" => selected_laws}}) do
     terms_ = SearchService.separate_terms(search_term)
+    law_id = 1
+    searchable_laws = SearchFilter.searchable_laws(laws_ids, selected_laws)
     law = Repo.get(FederalLaw, law_id)
     case String.to_integer(search_level) do
       # Laxe search
