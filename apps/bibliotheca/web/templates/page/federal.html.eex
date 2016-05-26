@@ -53,7 +53,11 @@
   <br>
 
   <%= for article <- join_highlighted_article(@highlights, @articles_by_law) do %>
-    <em><%= article[:article].article_number %></em>
+    <em>
+      <a href="/articulos-federales/<%= article[:article].id %>">
+        Artículo <%= article[:article].article_number %>
+      </a>
+    </em>
     <br>
     <pre>
       <%= raw highlighted_article(article[:highlight], @terms) %>
