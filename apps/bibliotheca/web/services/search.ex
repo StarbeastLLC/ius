@@ -19,7 +19,7 @@ defmodule Bibliotheca.SearchService do
   def separate_terms(search_term) do
     String.split(search_term, ~r( [&|] ))
   end
-
+  
   defp postgres_like_array(search_term) do
     search_term
     |> upcase_unaccent
