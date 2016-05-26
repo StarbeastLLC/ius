@@ -32,9 +32,15 @@ defmodule Bibliotheca.FederalLaw do
 
   def strict_search([laxe_term, strict_term]) do
     query = from(law in FederalLaw,
-    where: fragment("to_tsvector('spanish', name) 
+    where: fragment("to_tsvector('spanish', name)
                      @@ to_tsquery('spanish', ?)", ^laxe_term),
     preload: [:federal_articles])
-    Repo.all(query) 
+    Repo.all(query)
+  end
+
+  def multiple_by_id(ids) do
+    Enum.map(ids, fn(id)->
+      Repo.one(FederalLaw, id)
+    end)
   end
 end

@@ -170,6 +170,7 @@ defmodule Bibliotheca.LawController do
                                          "search_level" => search_level, "selected_laws" => selected_laws}}) do
     terms_ = SearchService.separate_terms(search_term)
     searchable_laws = SearchFilter.searchable_laws(laws_ids, selected_laws)
+    laws = FederalLaw.multiple_by_id(searchable_laws)
     case String.to_integer(search_level) do
       # Laxe search
       1 ->
@@ -190,7 +191,7 @@ defmodule Bibliotheca.LawController do
                             |> Enum.unzip
         {highlights, articles_by_law} = highlights_articles
     end
-    render conn, PageView, "federal.html", articles: [], terms: terms_, laws: [law], articles_by_law: articles_by_law, highlights: highlights
+    render conn, PageView, "federal.html", articles: [], terms: terms_, laws: laws, articles_by_law: articles_by_law, highlights: highlights
   end
 
   def search_title(conn, %{"search" => %{"title_term" => search_term}}) do
