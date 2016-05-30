@@ -45,7 +45,7 @@
           <%= hidden_input f, :found_articles, value: found_article.id, name: "search[found_articles][]" %>
         <% end %>
         <%= hidden_input f, :law_id, value: law.id %>
-        <%= submit law.name, class: "toc_from_search"%>
+        <%= submit remove_spaces(law.name), class: "toc_from_search"%>
       <% end %>
     <% end %>
   <% end %>
@@ -63,7 +63,7 @@
           <%= hidden_input f, :found_articles, value: found_article.id, name: "search[found_articles][]" %>
         <% end %>
         <%= hidden_input f, :law_id, value: article[:article].federal_law_id %>
-        <%= submit article[:article].federal_law.name, class: "toc_from_search"%>
+        <%= submit remove_spaces(article[:article].federal_law.name), class: "toc_from_search"%>
       <% end %>
     </em>
     <br>
