@@ -24,6 +24,18 @@ body, form, ul, table {
   color: #337AB7; # link blue
 }
 
+.article-result {
+  border-style:solid;
+  padding:0.8em;
+  border-width:0.5px;
+  border-radius:10px;
+}
+
+.toc-title {
+  font-weight:600;
+  font-size:1.2em;
+}
+
 .tesis-checkbox {
   margin: 15px;
   text-align: center;

@@ -13,7 +13,7 @@
   <%= form_for @conn, law_path(@conn, :search_title), [as: :search], fn f -> %>
     <%= for law <- @laws do %>
       <strong><%= law.name %></strong>
-       -- 
+       --
       <%= checkbox f, :selected_laws, name: "search[selected_laws][]",
                                              checked: "checked",
                                              unchecked_value: "empty"%>
@@ -39,6 +39,7 @@
   <% end %>
   <hr>
 
+  <p class="toc-title">Tablas de contenido con los artículos encontrados</p>
   <%= if @articles_by_law != [] do %>
     <%= for law <- @laws do %>
       <%= form_for @conn, law_path(@conn, :toc_from_search), [as: :search], fn f -> %>
@@ -50,27 +51,32 @@
       <% end %>
     <% end %>
   <% end %>
+
+  <hr>
+
   <p>Artículos encontrados: <%= Enum.count(@articles_by_law) %></p>
   <br>
 
   <%= for article <- join_highlighted_article(@highlights, @articles_by_law) do %>
-    <em>
-      <a href="/articulos-federales/<%= article[:article].id %>">
-        Artículo <%= article[:article].article_number %>
-      </a>
-      <br>
-      <%= form_for @conn, law_path(@conn, :toc_from_search), [as: :search], fn f -> %>
-        <%= for found_article <- @articles_by_law do %>
-          <%= hidden_input f, :found_articles, value: found_article.id, name: "search[found_articles][]" %>
+    <div class="article-result">
+      <em>
+        <a href="/articulos-federales/<%= article[:article].id %>">
+          Artículo <%= article[:article].article_number %>
+        </a>
+        <br>
+        <%= form_for @conn, law_path(@conn, :toc_from_search), [as: :search], fn f -> %>
+          <%= for found_article <- @articles_by_law do %>
+            <%= hidden_input f, :found_articles, value: found_article.id, name: "search[found_articles][]" %>
+          <% end %>
+          <%= hidden_input f, :law_id, value: article[:article].federal_law_id %>
+          <%= submit remove_spaces(article[:article].federal_law.name), class: "toc_from_search, toc-button"%>
         <% end %>
-        <%= hidden_input f, :law_id, value: article[:article].federal_law_id %>
-        <%= submit remove_spaces(article[:article].federal_law.name), class: "toc_from_search, toc-button"%>
-      <% end %>
-    </em>
-    <br>
-    <pre>
-      <%= raw highlighted_article(article[:highlight], @terms) %>
-    </pre>
+      </em>
+      <br>
+      <pre>
+        <%= raw highlighted_article(article[:highlight], @terms) %>
+      </pre>
+    </div>
     <br>
     <br>
   <% end %>
