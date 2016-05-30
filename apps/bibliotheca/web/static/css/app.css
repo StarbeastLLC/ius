@@ -16,6 +16,14 @@ body, form, ul, table {
   text-rendering: optimizeLegibility;
 }
 
+.toc-button {
+  background-color: white;
+  border:none;
+  font-weight: 600;
+  font-style:normal;
+  color: #337AB7; # link blue
+}
+
 .tesis-checkbox {
   margin: 15px;
   text-align: center;
