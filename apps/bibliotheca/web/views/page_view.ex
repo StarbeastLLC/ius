@@ -2,6 +2,7 @@ defmodule Bibliotheca.PageView do
   use Bibliotheca.Web, :view
 
   alias Bibliotheca.SearchService, [as: Search]
+  alias Bibliotheca.{FederalLaw, Repo}
 
   def highlighted_article(article, terms) do
     yellow_start = "<span style='background-color:yellow;'><strong>"
