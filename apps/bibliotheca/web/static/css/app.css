@@ -157,6 +157,10 @@ pre {
   white-space: -moz-pre-wrap;
   white-space: pre-wrap;
   white-space: pre\9;
+  background: white;
+  border:none;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: 1em;
 }
 
 .centered{
