@@ -10,7 +10,11 @@ body, form, ul, table {
   margin-bottom: 20px;
 }
 
-
+* {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: 100%;
+  text-rendering: optimizeLegibility;
+}
 
 .tesis-checkbox {
   margin: 15px;
