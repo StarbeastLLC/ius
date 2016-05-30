@@ -57,6 +57,10 @@
       <a href="/articulos-federales/<%= article[:article].id %>">
         Artículo <%= article[:article].article_number %>
       </a>
+      <br> de la <br>
+      <a href="/leyes-federales/<%= article[:article].federal_law_id %>/articulos">
+        <%= article[:article].federal_law.name%>
+      </a>
     </em>
     <br>
     <pre>
