@@ -9,12 +9,11 @@
   </a>
   <br><br>
   <div class="lawhead">
-    <p>
-      <pre>
-        <%= @law.header %>
-      </pre>
-    </p>
+    <%= for line <- clear_header(@law.header) do %>
+      <p style="text-align:center;"><%= line %></p>
+    <% end %>
   </div>
+  <br>
 
   <%= for article <- @articles do %>
     <div class="numarticulo" id="<%= article.article_number %>">
