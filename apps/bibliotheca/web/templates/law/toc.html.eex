@@ -16,13 +16,19 @@
       <b></p>
       <%= for ct_article <- Enum.at(section, 1) do %>
         <%= if has_search_terms(ct_article, @found_articles) do %>
-          <a href="/articulos-federales/<%= ct_article.id %>" style="color:red">
-            [ARTÍCULO <%= ct_article.article_number %>]
-          </a>
+          <div class="articleslist">
+            <p>
+              <a href="/articulos-federales/<%= ct_article.id %>" style="color:red">
+                [ARTÍCULO <%= ct_article.article_number %>]
+              </a>
+            </p>
+          </div>
         <% else %>
-          <a href="/articulos-federales/<%= ct_article.id %>">
-            [ARTÍCULO <%= ct_article.article_number %>]
-          </a>
+          <div class="articleslist">
+            <a href="/articulos-federales/<%= ct_article.id %>">
+              [ARTÍCULO <%= ct_article.article_number %>]
+            </a>
+          </div>
         <% end %>
       <% end %>
     <% end %>
