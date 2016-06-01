@@ -16,6 +16,10 @@ body, form, ul, table {
   text-rendering: optimizeLegibility;
 }
 
+.article_body {
+  font-family: PragmataPro, monospace;
+}
+
 .toc-button {
   background-color: white;
   border:none;

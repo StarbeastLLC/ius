@@ -26,7 +26,7 @@
       </em>
     </div>
     <div class="textoarticulo">
-      <pre>
+      <pre class="article_body">
         <%= article.article_body %>
       </pre>
     </div>

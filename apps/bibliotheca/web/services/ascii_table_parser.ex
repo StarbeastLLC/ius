@@ -9,8 +9,8 @@ defmodule Bibliotheca.AsciiTableParserService do
     open_span = "<span style=\"font-family: monospace;\">"
     end_span = "</span>"
     text
-    |> String.replace_prefix(~r(+---), open_span <> "+---")
-    |> String.replace_suffix(~r(---+), "---+" <> end_span)
+    |> String.replace_prefix("+---", open_span <> "+---")
+    |> String.replace_suffix("---+", "---+" <> end_span)
   end
 
   defp bold_table(text) do
