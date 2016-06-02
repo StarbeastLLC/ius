@@ -17,7 +17,7 @@ body, form, ul, table {
 }
 
 .article_body {
-  font-family: PragmataPro, monospace;
+  font-family: PragmataPro, sans-serif;;
 }
 
 .toc-button {
