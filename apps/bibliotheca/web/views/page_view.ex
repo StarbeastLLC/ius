@@ -32,4 +32,8 @@ defmodule Bibliotheca.PageView do
     first = Enum.at(articles, 0)
     first.federal_law.name
   end
+
+  def remove_spaces(term) do
+    String.strip(term)
+  end
 end
