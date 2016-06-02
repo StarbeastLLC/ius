@@ -81,7 +81,7 @@
     <br>
   <% end %>
 
-  <!-- General search -->
+  <!-- General search
   <br><hr><br>
 
   <%= form_for @conn, law_path(@conn, :search), [as: :search], fn f -> %>
@@ -121,5 +121,5 @@
     <br>
     <br>
   <% end %>
-
+  -->
 </div>
