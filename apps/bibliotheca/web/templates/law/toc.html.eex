@@ -12,7 +12,7 @@
     <%= for section <- @contents_table do %>
       <br><br>
       <p><b>
-        <%= Enum.at(section, 0) %>
+        <%= Enum.at(section, 0) |> ContentsTable.separate_section |> raw %>
       <b></p>
       <%= for ct_article <- Enum.at(section, 1) do %>
         <%= if has_search_terms(ct_article, @found_articles) do %>

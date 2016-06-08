@@ -10,10 +10,17 @@ defmodule Bibliotheca.ContentsTable do
       _ ->
         {articles_by_section, _} = articles_by_section(contents, articles, law)
         toc = Enum.zip(sections, articles_by_section)
-        Enum.map(toc, fn(x)-> 
+        Enum.map(toc, fn(x)->
           Tuple.to_list(x)
         end)
     end
+  end
+
+  def separate_section(text) do
+    text
+    |> String.replace(" CAPITULO", "<br> CAPITULO")
+    |> String.replace(" CAPÍTULO", "<br> CAPÍTULO")
+    |> String.replace(" Capítulo", "<br> Capítulo")
   end
 
   def real_contents(law) do
@@ -28,10 +35,10 @@ defmodule Bibliotheca.ContentsTable do
     articles_mark_number = Enum.map(contents, fn(x)-> Enum.at(x, 0) end)
                         |> ignore_title_mark
     first_article = ignore_title(articles)
-    Enum.map_reduce(articles_mark_number, first_article.id, fn(x, acc)-> 
+    Enum.map_reduce(articles_mark_number, first_article.id, fn(x, acc)->
       last_article = FederalArticle.by_number(law.id, x)
                    |> Enum.at(0)
-      
+
       articles_by_section = FederalArticle.by_range(acc, last_article.id)
       {articles_by_section, last_article.id + 1}
     end)
