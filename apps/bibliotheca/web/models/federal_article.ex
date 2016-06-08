@@ -103,8 +103,8 @@ defmodule Bibliotheca.FederalArticle do
 
   defp without_unico do
     from(article in FederalArticle,
-    where: article.article_number != "Unico"
-    and article.article_number != "UNICO")
+    where: fragment("article_number NOT LIKE '%Unico%'")
+           and article.article_number != "UNICO")
   end
 
   defp laxe_query(term) do
