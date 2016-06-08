@@ -17,7 +17,7 @@ body, form, ul, table {
 }
 
 .article_body {
-  font-family: PragmataPro, sans-serif;;
+  font-family: PragmataPro, sans-serif;
 }
 
 .toc-button {
@@ -215,7 +215,6 @@ pre {
 }
 
 .articleslist{
- text-align: justify;
  margin-left: 20%;
  margin-right: 15%;
  margin-bottom: 0%;
