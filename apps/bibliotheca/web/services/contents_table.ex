@@ -18,9 +18,8 @@ defmodule Bibliotheca.ContentsTable do
 
   def separate_section(text) do
     text
-    |> String.replace(" CAPITULO", "<br> CAPITULO")
-    |> String.replace(" CAPÍTULO", "<br> CAPÍTULO")
-    |> String.replace(" Capítulo", "<br> Capítulo")
+    |> replace_capitulo
+    |> replace_titulo
   end
 
   def real_contents(law) do
@@ -29,6 +28,20 @@ defmodule Bibliotheca.ContentsTable do
     else
       []
     end
+  end
+
+  defp replace_capitulo(text) do
+    text
+    |> String.replace(" CAPITULO", "<br> CAPITULO")
+    |> String.replace(" CAPÍTULO", "<br> CAPÍTULO")
+    |> String.replace(" Capítulo", "<br> Capítulo")
+  end
+
+  defp replace_titulo(text) do
+    text
+    |> String.replace(" TITULO", "<br> TITULO")
+    |> String.replace(" TÍTULO", "<br> TÍTULO")
+    |> String.replace(" Título", "<br> Título")
   end
 
   defp articles_by_section(contents, articles, law) do
