@@ -14,27 +14,49 @@
 <div class="toc-hierarchy">
   <%= for section <- @contents_table do %>
   <br>
-  <br>
-  <p>
-    <b><%= Enum.at(section, 0) %></b>
-  </p>
-    <%= for ct_article <- Enum.at(section, 1) do %>
-      <%= if has_search_terms(ct_article, @found_articles) do %>
-        <div class="articleslist">
-          <p>
-            <a href="/articulos-federales/<%= ct_article.id %>" style="color:red">
-              [ARTÍCULO <%= ct_article.article_number %>]
-            </a>
-          </p>
-        </div>
-      <% else %>
-        <div class="articleslist">
-          <p>
-            <a href="/articulos-federales/<%= ct_article.id %>">
-              [ARTÍCULO <%= ct_article.article_number %>]
-            </a>
-          </p>
-        </div>
+  <div>
+    <%= for section <- @contents_table do %>
+      <br><br>
+      <p><b>
+        <%= Enum.at(section, 0) |> ContentsTable.separate_section |> raw %>
+      <b></p>
+      <%= for ct_article <- Enum.at(section, 1) do %>
+        <%= if has_search_terms(ct_article, @found_articles) do %>
+          <!-- Law 186 is the Código Penal, the only law with article names -->
+          <%= if @law.id == 186 do %>
+          <div class="articleslist" style="text-align:justify;">
+            <p>
+              <a href="/articulos-federales/<%= ct_article.id %>" style="color:red;">
+                [ARTÍCULO <%= ct_article.article_number %>]
+              </a>
+            </p>
+          </div>
+          <% else %>
+            <div class="articleslist">
+              <p>
+                <a href="/articulos-federales/<%= ct_article.id %>" style="color:red;">
+                  [ARTÍCULO <%= ct_article.article_number %>]
+                </a>
+              </p>
+            </div>
+          <% end %>
+        <% else %>
+
+            <!-- Law 186 is the Código Penal, the only law with article names -->
+            <%= if @law.id == 186 do %>
+              <div class="articleslist" style="text-align:justify;">
+                <a href="/articulos-federales/<%= ct_article.id %>">
+                  [ARTÍCULO <%= ct_article.article_number %>]
+                </a>
+              </div>
+            <% else %>
+              <div class="articleslist">
+                <a href="/articulos-federales/<%= ct_article.id %>">
+                  [ARTÍCULO <%= ct_article.article_number %>]
+                </a>
+              </div>
+            <% end %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>

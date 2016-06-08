@@ -17,7 +17,7 @@ body, form, ul, table {
 }
 
 .article_body {
-  font-family: PragmataPro, sans-serif;;
+  font-family: PragmataPro, sans-serif;
 }
 
 .toc-button {
@@ -198,8 +198,6 @@ pre {
 }
 
 
-
-
 .lawcontent {
   margin-left: 15%;
   margin-right: 15%;
@@ -214,42 +212,16 @@ pre {
   margin-top: 0%;
 }
 
-.articleslist {
- text-align: justify;
- margin-left: 15%;
+
+.articleslist{
+ margin-left: 20%;
  margin-right: 15%;
  margin-bottom: 0%;
 }
 
 .articleslist p{
  margin-bottom: 0%;
- text-align: left;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 .text-center p{
@@ -269,26 +241,10 @@ pre {
   text-align: center;
 }
 
-
 .particular-article-number {
   text-align: center;
 }
 
 .particular-article-body {
   text-align: center;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

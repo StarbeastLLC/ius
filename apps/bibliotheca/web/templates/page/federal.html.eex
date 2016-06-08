@@ -12,7 +12,9 @@
 
   <%= form_for @conn, law_path(@conn, :search_title), [as: :search], fn f -> %>
     <%= for law <- @laws do %>
-      <strong><%= law.name %></strong>
+      <a href="/leyes-federales/<%= law.id %>/articulos" target="_blank">
+        <strong><%= law.name %></strong>
+      </a>
        --
       <%= checkbox f, :selected_laws, name: "search[selected_laws][]",
                                              checked: "checked",

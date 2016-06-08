@@ -4,6 +4,8 @@ defmodule Bibliotheca.LawView do
   alias Bibliotheca.{FederalArticle, Repo, ContentsTable}
   alias Bibliotheca.AsciiTableParserService, as: AsciiTableParser
 
+  require IEx
+
   def json(map) do
     {:ok, json} = Poison.encode(map)
     json
