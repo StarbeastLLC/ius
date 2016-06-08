@@ -34,6 +34,8 @@ defmodule Bibliotheca.PageView do
   end
 
   def remove_spaces(term) do
-    String.strip(term)
+    term
+    |> String.strip # remove leading and trailing spaces
+    |> String.replace ~r(  +), " " # replace multiple spaces in the middle for just one
   end
 end
