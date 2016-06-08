@@ -6,25 +6,33 @@
       </a>
     </strong>
   </div>
-  <a href="/leyes-federales/<%= @law.id %>">
-    Tabla de contenidos
-  </a>
-  <br><br>
+  <div class="toc-link">
+    <a href="/leyes-federales/<%= @law.id %>">
+     Tabla de contenidos
+    </a>
+  </div>
+  <br>
+  <br>
+  <div class="particular-article-number">
+    <h3>
+      Artículo <%= @article.article_number %>
+    </h3>
+  </div>
+  <div class="particular-article-body">
+    <p>
+      <%= @article.article_body %>
+    </p>
+  </div>
 
-  <h3>
-    Artículo <%= @article.article_number %>
-  </h3>
-  <p>
-    <%= @article.article_body %>
-  </p>
 
-  <%= if @article.id - 1 > 0 do %>
-    <a href="/articulos-federales/<%= @article.id - 1 %>">◀︎ Anterior</a>
+    <%= if @article.id - 1 > 0 do %>
+      <a href="/articulos-federales/<%= @article.id - 1 %>">◀︎ Artículo Anterior</a>
     ---
-  <% end %>
+    <% end %>
   <!-- 38475 is the total of articles in DB-->
-  <%= if @article.id + 1 <= 38475 do %>
+    <%= if @article.id + 1 <= 38475 do %>
     ---
-    <a href="/articulos-federales/<%= @article.id + 1 %>">Siguiente ►</a>
-  <% end %>
+      <a href="/articulos-federales/<%= @article.id + 1 %>">Artículo Siguiente ►</a>
+    <% end %>
+
 </div>

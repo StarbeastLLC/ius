@@ -1,38 +1,44 @@
-<div class="text-center">
-  <div class="lawname">
-    <strong>
-      <a href="/leyes-federales/<%= @law.id %>/articulos">
-        <%= @law.name %>
-      </a>
-    </strong>
-  </div>
+<div class="lawname">
+  <strong>
+    <a href="/leyes-federales/<%= @law.id %>/articulos">
+      <%= @law.name %>
+    </a>
+  </strong>
+</div>
+
+
   <br>
   <br>
-  <div>
-    <%= for section <- @contents_table do %>
-      <br><br>
-      <p><b>
-        <%= Enum.at(section, 0) %>
-      <b></p>
-      <%= for ct_article <- Enum.at(section, 1) do %>
-        <%= if has_search_terms(ct_article, @found_articles) do %>
-          <div class="articleslist">
-            <p>
-              <a href="/articulos-federales/<%= ct_article.id %>" style="color:red">
-                [ARTÍCULO <%= ct_article.article_number %>]
-              </a>
-            </p>
-          </div>
-        <% else %>
-          <div class="articleslist">
+
+
+<div class="toc-hierarchy">
+  <%= for section <- @contents_table do %>
+  <br>
+  <br>
+  <p>
+    <b><%= Enum.at(section, 0) %></b>
+  </p>
+    <%= for ct_article <- Enum.at(section, 1) do %>
+      <%= if has_search_terms(ct_article, @found_articles) do %>
+        <div class="articleslist">
+          <p>
+            <a href="/articulos-federales/<%= ct_article.id %>" style="color:red">
+              [ARTÍCULO <%= ct_article.article_number %>]
+            </a>
+          </p>
+        </div>
+      <% else %>
+        <div class="articleslist">
+          <p>
             <a href="/articulos-federales/<%= ct_article.id %>">
               [ARTÍCULO <%= ct_article.article_number %>]
             </a>
-          </div>
-        <% end %>
+          </p>
+        </div>
       <% end %>
     <% end %>
-    <br>
-    <br><br>
-  </div>
+  <% end %>
+  <br>
+  <br>
+  <br>
 </div>

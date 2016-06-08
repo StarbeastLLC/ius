@@ -24,7 +24,7 @@
       <%= hidden_input f, :law_id, value: law_id(@articles_by_law) %>
     <% end %>
     <br>
-    <p>Buscar dentro de esa ley</p>
+    <p>Buscar dentro de la ley seleccionada</p>
     <%= search_input f, :term %>
     <br>
     <br><br>

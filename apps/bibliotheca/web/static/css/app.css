@@ -214,9 +214,9 @@ pre {
   margin-top: 0%;
 }
 
-.articleslist{
+.articleslist {
  text-align: justify;
- margin-left: 20%;
+ margin-left: 15%;
  margin-right: 15%;
  margin-bottom: 0%;
 }
@@ -225,6 +225,70 @@ pre {
  margin-bottom: 0%;
  text-align: left;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.text-center p{
+  text-align: justify;
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+
+.toc-link {
+  text-align: center;
+}
+
+.toc-hierarchy {
+  margin-left: 15%;
+  margin-right: 15%;
+  text-align: center;
+}
+
+
+.particular-article-number {
+  text-align: center;
+}
+
+.particular-article-body {
+  text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
