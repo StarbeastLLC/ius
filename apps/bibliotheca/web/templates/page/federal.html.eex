@@ -82,46 +82,4 @@
     <br>
     <br>
   <% end %>
-
-  <!-- General search
-  <br><hr><br>
-
-  <%= form_for @conn, law_path(@conn, :search), [as: :search], fn f -> %>
-    <p>Buscar dentro de todas las leyes federales</p>
-    <%= search_input f, :term %>
-    <br>
-    <br><br>
-    <p>de manera</p>
-    <br>
-    <span class="tesis-checkbox">
-      <label>LAXA  </label>
-      <%= range_input f, :search_level, default: 1, min: 1, max: 2, step: 1, class: "tesis-slider" %>
-      <label>   RIGUROSA</label>
-    </span><br><br>
-    <%= submit "Search" %>
-  <% end %>
-  <p>Artículos encontrados: <%= Enum.count(@articles) %></p>
-  <br><br>
-
-  <%= for article <- join_highlighted_article(@highlights, @articles) do %>
-    <%= form_for @conn, law_path(@conn, :toc_from_search), [as: :search], fn f -> %>
-      <%= for found_article <- @articles do %>
-        <%= hidden_input f, :found_articles, value: found_article.id, name: "search[found_articles][]" %>
-      <% end %>
-      <%= hidden_input f, :law_id, value: article[:article].federal_law_id %>
-      <%= submit article[:article].federal_law.name, class: "toc_from_search"%>
-    <% end %>
-      <strong><%= article[:article].federal_law.name %></strong>
-    </a>
-
-    -
-    <em><%= article[:article].article_number %></em>
-    <br>
-    <pre>
-      <%= raw highlighted_article(article[:highlight], @terms) %>
-    </pre>
-    <br>
-    <br>
-  <% end %>
-  -->
 </div>
