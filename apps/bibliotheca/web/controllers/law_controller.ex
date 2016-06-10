@@ -150,7 +150,7 @@ defmodule Bibliotheca.LawController do
         highlights_articles = FederalArticle.laxe_search(laxe_term)
                             |> Enum.unzip
         {highlights, articles} = highlights_articles
-        useful_laws = SearchFilter.laws_from_articles(articles)
+        useful_laws = SearchFilter.laws_from_articles(articles) |> FederalLaw.multiple_by_id
 
       # Strict search
       2 ->
@@ -160,7 +160,7 @@ defmodule Bibliotheca.LawController do
         highlights_articles = FederalArticle.strict_search(terms)
                             |> Enum.unzip
         {highlights, articles} = highlights_articles
-        useful_laws = SearchFilter.laws_from_articles(articles)
+        useful_laws = SearchFilter.laws_from_articles(articles) |> FederalLaw.multiple_by_id
     end
     render conn, PageView, "federal.html", articles: articles, terms: terms_, laws: [],
                                            articles_by_law: [], highlights: highlights,
@@ -186,7 +186,7 @@ defmodule Bibliotheca.LawController do
         highlights_articles = FederalArticle.multiple_laxe_search(searchable_laws, laxe_term)
                             |> Enum.unzip
         {highlights, articles_by_law} = highlights_articles
-        useful_laws = SearchFilter.laws_from_articles(articles_by_law)
+        useful_laws = SearchFilter.laws_from_articles(articles_by_law) |> FederalLaw.multiple_by_id
 
       # Strict search
       2 ->
@@ -196,7 +196,7 @@ defmodule Bibliotheca.LawController do
         highlights_articles = FederalArticle.multiple_strict_search(searchable_laws, terms)
                             |> Enum.unzip
         {highlights, articles_by_law} = highlights_articles
-        useful_laws = SearchFilter.laws_from_articles(articles_by_law)
+        useful_laws = SearchFilter.laws_from_articles(articles_by_law) |> FederalLaw.multiple_by_id
     end
     render conn, PageView, "federal.html", articles: [], terms: terms_, laws: laws,
                                            articles_by_law: articles_by_law, highlights: highlights,
