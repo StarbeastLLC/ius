@@ -43,7 +43,7 @@
   <%= if @articles_by_law != [] do %>
     <hr>
     <p class="toc-title">Tablas de contenido con los artículos encontrados</p>
-    <%= for law <- @laws do %>
+    <%= for law <- @useful_laws do %>
       <%= form_for @conn, law_path(@conn, :toc_from_search), [as: :search], fn f -> %>
         <%= for found_article <- @articles_by_law do %>
           <%= hidden_input f, :found_articles, value: found_article.id, name: "search[found_articles][]" %>
