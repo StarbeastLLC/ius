@@ -28,13 +28,6 @@ defmodule Bibliotheca.PageView do
     count
   end
 
-  defp belongs_to_law?(article, law_id) do
-    cond do
-      law_id == article.federal_law_id -> true
-      :else -> false
-    end
-  end
-
   def join_highlighted_article(highlights, articles) do
     Enum.zip(highlights, articles)
     |> Enum.map(fn({highlight, article}) -> [highlight: highlight, article: article] end)
@@ -50,9 +43,26 @@ defmodule Bibliotheca.PageView do
     first.federal_law.name
   end
 
-  def remove_spaces(term) do
+  def law_name_with_results(law_name, articles, law_id) do
+    law_name
+    |> remove_spaces
+    |> append_article_count(articles, law_id)
+  end
+
+  defp remove_spaces(term) do
     term
     |> String.strip # remove leading and trailing spaces
     |> String.replace ~r(  +), " " # replace multiple spaces in the middle for just one
+  end
+
+  defp append_article_count(law_name, articles, law_id) do
+    "#{law_name} - (#{count_law_articles(articles, law_id)})"
+  end
+
+  defp belongs_to_law?(article, law_id) do
+    cond do
+      law_id == article.federal_law_id -> true
+      :else -> false
+    end
   end
 end
