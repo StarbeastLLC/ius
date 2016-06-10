@@ -39,10 +39,10 @@
     </span><br><br>
     <%= submit "Search" %>
   <% end %>
-  <hr>
 
-  <p class="toc-title">Tablas de contenido con los artículos encontrados</p>
   <%= if @articles_by_law != [] do %>
+    <hr>
+    <p class="toc-title">Tablas de contenido con los artículos encontrados</p>
     <%= for law <- @laws do %>
       <%= form_for @conn, law_path(@conn, :toc_from_search), [as: :search], fn f -> %>
         <%= for found_article <- @articles_by_law do %>
@@ -54,10 +54,11 @@
     <% end %>
   <% end %>
 
-  <hr>
-
-  <p>Artículos encontrados: <%= Enum.count(@articles_by_law) %></p>
-  <br>
+  <%= if @articles_by_law != [] do %>
+    <hr>
+    <p>Artículos encontrados: <%= Enum.count(@articles_by_law) %></p>
+    <br>
+  <% end %>
 
   <%= for article <- join_highlighted_article(@highlights, @articles_by_law) do %>
     <div class="article-result">
