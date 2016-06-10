@@ -51,6 +51,7 @@
         <%= hidden_input f, :law_id, value: law.id %>
         <%= submit remove_spaces(law.name), class: "toc_from_search, toc-button"%>
       <% end %>
+      (<%= count_law_articles(@articles_by_law, law.id) %>)
     <% end %>
   <% end %>
 

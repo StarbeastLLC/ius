@@ -19,18 +19,19 @@ defmodule Bibliotheca.PageView do
   end
 
   def count_law_articles(articles, law_id) do
-    Enum.map_reduce(articles, 0, fn(article, count)->
-      case member? = belongs_to_law?(article, law_id) do
-        true -> {member?, count + 1}
-        false -> {member?, count}
-      end
-    end)
+    {_, count} = Enum.map_reduce(articles, 0, fn(article, acc)->
+                  case member? = belongs_to_law?(article, law_id) do
+                    true -> {member?, acc + 1}
+                    false -> {member?, acc}
+                  end
+                end)
+    count
   end
 
   defp belongs_to_law?(article, law_id) do
-    case article.federal_law_id do
-      law_id -> true
-      _ -> false
+    cond do
+      law_id == article.federal_law_id -> true
+      :else -> false
     end
   end
 
