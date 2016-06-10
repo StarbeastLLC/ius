@@ -18,6 +18,22 @@ defmodule Bibliotheca.PageView do
     |> String.replace("<<<", yellow_end)
   end
 
+  def count_law_articles(articles, law_id) do
+    Enum.map_reduce(articles, 0, fn(article, count)->
+      case member? = belongs_to_law?(article, law_id) do
+        true -> {member?, count + 1}
+        false -> {member?, count}
+      end
+    end)
+  end
+
+  defp belongs_to_law?(article, law_id) do
+    case article.federal_law_id do
+      law_id -> true
+      _ -> false
+    end
+  end
+
   def join_highlighted_article(highlights, articles) do
     Enum.zip(highlights, articles)
     |> Enum.map(fn({highlight, article}) -> [highlight: highlight, article: article] end)
