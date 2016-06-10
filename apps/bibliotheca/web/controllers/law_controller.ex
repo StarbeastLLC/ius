@@ -150,6 +150,8 @@ defmodule Bibliotheca.LawController do
         highlights_articles = FederalArticle.laxe_search(laxe_term)
                             |> Enum.unzip
         {highlights, articles} = highlights_articles
+        useful_laws = SearchFilter.laws_from_articles(articles)
+
       # Strict search
       2 ->
         terms = search_term
@@ -158,12 +160,16 @@ defmodule Bibliotheca.LawController do
         highlights_articles = FederalArticle.strict_search(terms)
                             |> Enum.unzip
         {highlights, articles} = highlights_articles
+        useful_laws = SearchFilter.laws_from_articles(articles)
     end
-    render conn, PageView, "federal.html", articles: articles, terms: terms_, laws: [], articles_by_law: [], highlights: highlights
+    render conn, PageView, "federal.html", articles: articles, terms: terms_, laws: [],
+                                           articles_by_law: [], highlights: highlights,
+                                           useful_laws: useful_laws
   end
 
   def search(conn, _params) do
-    render conn, PageView, "federal.html", articles: [], laws: [], articles_by_law: [], highlights: []
+    render conn, PageView, "federal.html", articles: [], laws: [], articles_by_law: [],
+                                           highlights: [], useful_laws: []
   end
 
   def search_title(conn, %{"search" => %{"term" => search_term, "laws_ids" => laws_ids,
@@ -180,6 +186,8 @@ defmodule Bibliotheca.LawController do
         highlights_articles = FederalArticle.multiple_laxe_search(searchable_laws, laxe_term)
                             |> Enum.unzip
         {highlights, articles_by_law} = highlights_articles
+        useful_laws = SearchFilter.laws_from_articles(articles_by_law)
+
       # Strict search
       2 ->
         terms = search_term
@@ -188,8 +196,11 @@ defmodule Bibliotheca.LawController do
         highlights_articles = FederalArticle.multiple_strict_search(searchable_laws, terms)
                             |> Enum.unzip
         {highlights, articles_by_law} = highlights_articles
+        useful_laws = SearchFilter.laws_from_articles(articles_by_law)
     end
-    render conn, PageView, "federal.html", articles: [], terms: terms_, laws: laws, articles_by_law: articles_by_law, highlights: highlights
+    render conn, PageView, "federal.html", articles: [], terms: terms_, laws: laws,
+                                           articles_by_law: articles_by_law, highlights: highlights,
+                                           useful_laws: useful_laws
   end
 
   def search_title(conn, %{"search" => %{"title_term" => search_term}}) do
@@ -198,6 +209,8 @@ defmodule Bibliotheca.LawController do
     laws = search_term
          |> SearchService.clean_search_term
          |> FederalLaw.strict_search
-    render conn, PageView, "federal.html", articles: [], terms: terms, laws: laws, articles_by_law: [], highlights: []
+    render conn, PageView, "federal.html", articles: [], terms: terms, laws: laws,
+                                           articles_by_law: [], highlights: [],
+                                           useful_laws: []
   end
 end
