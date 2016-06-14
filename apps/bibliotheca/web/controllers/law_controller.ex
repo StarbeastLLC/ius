@@ -239,7 +239,9 @@ defmodule Bibliotheca.LawController do
         article_id = get_session(conn, :found_articles) |> Enum.at(position)
         article = Repo.get!(FederalArticle, article_id)
         law = Repo.get!(FederalLaw, article.federal_law_id)
-        render(conn, "show_found_article.html", article: article, law: law)
+        render(conn, "show_found_article.html", article: article, law: law,
+                                                article_ids: article_ids,
+                                                position: position)
       "plus" ->
         conn = found_articles_position_changer(conn, :minus)
         position = get_session(conn, :found_articles_position)
@@ -248,7 +250,7 @@ defmodule Bibliotheca.LawController do
         law = Repo.get!(FederalLaw, article.federal_law_id)
         render(conn, "show_found_article.html", article: article, law: law,
                                                 article_ids: article_ids,
-                                                position: String.to_integer(position))
+                                                position: position)
     end
   end
 
