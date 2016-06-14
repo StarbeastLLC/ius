@@ -51,6 +51,13 @@
         <%= hidden_input f, :law_id, value: law.id %>
         <%= submit law_name_with_results(law.name, @articles_by_law, law.id), class: "toc_from_search, toc-button"%>
       <% end %>
+      <%= form_for @conn, law_path(@conn, :show_found_article), [as: :search], fn f -> %>
+        <%= for found_article <- @articles_by_law do %>
+          <%= hidden_input f, :found_articles, value: found_article.id, name: "search[found_articles][]" %>
+        <% end %>
+        <%= hidden_input f, :law_id, value: law.id %>
+        <%= submit law_name_with_results(law.name, @articles_by_law, law.id), class: "toc_from_search, toc-button"%>
+      <% end %>
     <% end %>
   <% end %>
 
