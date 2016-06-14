@@ -232,12 +232,12 @@ defmodule Bibliotheca.LawController do
     # ':found_articles_position' in the user session
     case operation do
       "minus" ->
-         conn = found_articles_position_changer(conn, :minus)
-         position = get_session(conn, :found_articles_position)
-         article_id = get_session(conn, :found_articles) |> Enum.at(position)
-         article = Repo.get!(FederalArticle, article_id)
-         law = Repo.get!(FederalLaw, article.federal_law_id)
-         render(conn, "show-found-article.html", article: article, law: law)
+        conn = found_articles_position_changer(conn, :minus)
+        position = get_session(conn, :found_articles_position)
+        article_id = get_session(conn, :found_articles) |> Enum.at(position)
+        article = Repo.get!(FederalArticle, article_id)
+        law = Repo.get!(FederalLaw, article.federal_law_id)
+        render(conn, "show-found-article.html", article: article, law: law)
       "plus" ->
         conn = found_articles_position_changer(conn, :minus)
         position = get_session(conn, :found_articles_position)
