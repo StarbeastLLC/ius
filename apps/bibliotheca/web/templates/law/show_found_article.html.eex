@@ -25,7 +25,7 @@
   </div>
 
    <!-- If the article is the first one and 'found_article_position' is at the beginning -->
-    <%= if @article.id - 1 > 0 && @position > 0 do %>
+    <%= if @article.id - 1 > 0 do %>
     <%= form_for @conn, law_path(@conn, :show_found_article), [as: :search], fn f -> %>
       <%= hidden_input f, :position, value: "minus" %>
       <%= submit "◀︎ Artículo Anterior", class: "toc_from_search, toc-button"%>
@@ -34,7 +34,7 @@
     <% end %>
   <!-- If the article is the last one and 'found_article_position' is at the end-->
   <!-- 38475 is the total of articles in DB-->
-    <%= if @article.id + 1 <= 38475 && @position < Enum.count(@article_ids) do %>
+    <%= if @article.id + 1 <= 38475 && @position <= Enum.count(@article_ids) do %>
     ---
       <%= form_for @conn, law_path(@conn, :show_found_article), [as: :search], fn f -> %>
         <%= hidden_input f, :position, value: "minus" %>
