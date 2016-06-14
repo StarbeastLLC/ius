@@ -24,15 +24,16 @@
     </p>
   </div>
 
-
-    <%= if @article.id - 1 > 0 do %>
-      <a href="/articulos-federales/<%= @article.id - 1 %>">◀︎ Artículo Anterior</a>
+   <!-- If the article is the first one and 'found_article_position' is at the beginning -->
+    <%= if @article.id - 1 > 0 && @position > 0 do %>
+      <a href="/articulos-federales/<%= Enum.at(@article_ids, @position - 1) %>">◀︎ Artículo Anterior</a>
     ---
     <% end %>
+  <!-- If the article is the last one and 'found_article_position' is at the end-->
   <!-- 38475 is the total of articles in DB-->
-    <%= if @article.id + 1 <= 38475 do %>
+    <%= if @article.id + 1 <= 38475 && @position < Enum.count(@article_ids) do %>
     ---
-      <a href="/articulos-federales/<%= @article.id + 1 %>">Artículo Siguiente ►</a>
+      <a href="/articulos-federales/<%= Enum.at(@article_ids, @position + 1) %>">Artículo Siguiente ►</a>
     <% end %>
 
 </div>

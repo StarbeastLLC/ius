@@ -247,7 +247,8 @@ defmodule Bibliotheca.LawController do
         article = Repo.get!(FederalArticle, article_id)
         law = Repo.get!(FederalLaw, article.federal_law_id)
         render(conn, "show_found_article.html", article: article, law: law,
-                                                article_ids: article_ids, position: position)
+                                                article_ids: article_ids,
+                                                position: String.to_integer(position))
     end
   end
 
