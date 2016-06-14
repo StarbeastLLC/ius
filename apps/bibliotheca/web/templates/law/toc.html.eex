@@ -12,7 +12,6 @@
 
 
 <div class="toc-hierarchy">
-  <%= for section <- @contents_table do %>
   <br>
   <div>
     <%= for section <- @contents_table do %>
@@ -59,7 +58,6 @@
         <% end %>
       <% end %>
     <% end %>
-  <% end %>
   <br>
   <br>
   <br>
