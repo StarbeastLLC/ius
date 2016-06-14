@@ -24,13 +24,14 @@
     </p>
   </div>
 
-
-    <%= if @article.id - 1 > 0 do %>
+    <% previous = @article.id - 1 %>
+    <%= if previous > 0 && Enum.member?(@articles_by_law, previous) do %>
       <a href="/articulos-federales/<%= @article.id - 1 %>">◀︎ Artículo Anterior</a>
     ---
     <% end %>
   <!-- 38475 is the total of articles in DB-->
-    <%= if @article.id + 1 <= 38475 do %>
+    <% next = @article.id + 1 %>
+    <%= if next <= 38475 && Enum.member?(@articles_by_law, next) do %>
     ---
       <a href="/articulos-federales/<%= @article.id + 1 %>">Artículo Siguiente ►</a>
     <% end %>
