@@ -103,6 +103,7 @@ defmodule Bibliotheca.LawController do
     article = Repo.get!(FederalArticle, id)
     law = Repo.get!(FederalLaw, article.federal_law_id)
     articles_by_law = FederalArticle.by_law(law.id)
+                    |> Enum.map(fn(article)-> article.id end)
     render(conn, "show_article.html", law: law, article: article,
                                       articles_by_law: articles_by_law)
   end
