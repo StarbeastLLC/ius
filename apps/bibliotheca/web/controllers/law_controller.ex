@@ -5,7 +5,6 @@ defmodule Bibliotheca.LawController do
                      FederalLaw, Tesis, PageView, ContentsTable}
   alias Bibliotheca.SearchFilterService, as: SearchFilter
   alias Lex.LawParser
-  require IEx
 
   plug :scrub_params, "law" when action in [:create, :update]
 
@@ -212,5 +211,15 @@ defmodule Bibliotheca.LawController do
     render conn, PageView, "federal.html", articles: [], terms: terms, laws: laws,
                                            articles_by_law: [], highlights: [],
                                            useful_laws: []
+  end
+
+  def show_found_article(conn, %{"search" => %{"article_ids" => article_ids}}) do
+    first_article = Repo.get!(FederalArticle, Enum.at(article_ids, 0))
+    law = Repo.get!(FederalLaw, article.federal_law_id)
+
+    conn
+    |> put_session(:found_articles, article_ids)
+    |> put_session(:found_articles_position, 0)
+    |> render, "show-found-article.html", article: first_article, law: law
   end
 end
