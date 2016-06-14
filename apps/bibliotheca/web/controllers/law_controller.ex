@@ -217,9 +217,34 @@ defmodule Bibliotheca.LawController do
     first_article = Repo.get!(FederalArticle, Enum.at(article_ids, 0))
     law = Repo.get!(FederalLaw, first_article.federal_law_id)
 
+    # Here we save in the user session an array with the ids of the found articles
+    # and the position of the article currently in view
     conn
     |> put_session(:found_articles, article_ids)
     |> put_session(:found_articles_position, 0)
     |> render("show-found-article.html", article: first_article, law: law)
+  end
+
+  def show_found_article(conn, %{"search" => %{"position" => operation}}) do
+    position = get_session(conn, :found_articles_position)
+    article_id = get_session(conn, :found_articles) |> Enum.at(position)
+    # 'operation' can be "minus" and "plus", and it alters the value of
+    # ':found_articles_position' in the user session
+    case operation do
+      "minus" ->
+
+    end
+  end
+
+  defp found_articles_position_changer(conn, :minus) do
+    current_position = get_session(conn, :found_articles_position)
+    conn
+    |> put_session(:found_articles_position, current_position - 1)
+  end
+
+  defp found_articles_position_changer(conn, :plus) do
+    current_position = get_session(conn, :found_articles_position)
+    conn
+    |> put_session(:found_articles_position, current_position + 1)
   end
 end
