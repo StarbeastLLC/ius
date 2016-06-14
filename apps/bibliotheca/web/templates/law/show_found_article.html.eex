@@ -26,14 +26,20 @@
 
    <!-- If the article is the first one and 'found_article_position' is at the beginning -->
     <%= if @article.id - 1 > 0 && @position > 0 do %>
-      <a href="/articulos-federales/<%= Enum.at(@article_ids, @position - 1) %>">◀︎ Artículo Anterior</a>
+    <%= form_for @conn, law_path(@conn, :show_found_article), [as: :search], fn f -> %>
+      <%= hidden_input f, :position, value: "minus" %>
+      <%= submit "◀︎ Artículo Anterior", class: "toc_from_search, toc-button"%>
+    <% end %>
     ---
     <% end %>
   <!-- If the article is the last one and 'found_article_position' is at the end-->
   <!-- 38475 is the total of articles in DB-->
     <%= if @article.id + 1 <= 38475 && @position < Enum.count(@article_ids) do %>
     ---
-      <a href="/articulos-federales/<%= Enum.at(@article_ids, @position + 1) %>">Artículo Siguiente ►</a>
+      <%= form_for @conn, law_path(@conn, :show_found_article), [as: :search], fn f -> %>
+        <%= hidden_input f, :position, value: "minus" %>
+        <%= submit "Artículo Siguiente ►", class: "toc_from_search, toc-button"%>
+      <% end %>
     <% end %>
 
 </div>
