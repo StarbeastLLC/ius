@@ -222,7 +222,7 @@ defmodule Bibliotheca.LawController do
     conn
     |> put_session(:found_articles, article_ids)
     |> put_session(:found_articles_position, 0)
-    |> render("show-found-article.html", article: first_article, law: law)
+    |> render("show_found_article.html", article: first_article, law: law)
   end
 
   def show_found_article(conn, %{"search" => %{"position" => operation}}) do
@@ -237,14 +237,14 @@ defmodule Bibliotheca.LawController do
         article_id = get_session(conn, :found_articles) |> Enum.at(position)
         article = Repo.get!(FederalArticle, article_id)
         law = Repo.get!(FederalLaw, article.federal_law_id)
-        render(conn, "show-found-article.html", article: article, law: law)
+        render(conn, "show_found_article.html", article: article, law: law)
       "plus" ->
         conn = found_articles_position_changer(conn, :minus)
         position = get_session(conn, :found_articles_position)
         article_id = get_session(conn, :found_articles) |> Enum.at(position)
         article = Repo.get!(FederalArticle, article_id)
         law = Repo.get!(FederalLaw, article.federal_law_id)
-        render(conn, "show-found-article.html", article: article, law: law)
+        render(conn, "show_found_article.html", article: article, law: law)
     end
   end
 
