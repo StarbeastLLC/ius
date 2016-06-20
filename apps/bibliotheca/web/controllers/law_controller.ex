@@ -244,7 +244,7 @@ defmodule Bibliotheca.LawController do
                                                 article_ids: article_ids,
                                                 position: position)
       "plus" ->
-        conn = found_articles_position_changer(conn, :minus)
+        conn = found_articles_position_changer(conn, :plus)
         position = get_session(conn, :found_articles_position)
         article_id = Enum.at(article_ids, position)
         article = Repo.get!(FederalArticle, article_id)
