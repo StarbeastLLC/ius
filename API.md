@@ -4,11 +4,14 @@
 
 * Registration
 * Mail verification
-* Login
-* Logout
 * Edit profile
 * Account deletion
-* Facebook
+* Facebook registration
+
+### Sessions
+* Login
+* Logout
+* Facebook login
 
 ### Federal Laws
 * Search law by title
