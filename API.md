@@ -7,8 +7,8 @@
 * Facebook registration (on hold)
 
 ### Sessions
-* Login
-* Logout
+* Login (generate and send device token)
+* Logout (delete device token)
 * Facebook login
 
 ### Federal Laws
