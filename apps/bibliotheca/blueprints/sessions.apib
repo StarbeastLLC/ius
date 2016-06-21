@@ -17,9 +17,24 @@ Log in and log out users. One account can only have two open sessions.
 
 + Response 200 (application/json)
   {
-    "id": 1,
+    "user_id": 1,
     "session_token": "d91602ea-5136-48f2-a929-c5d411f5654c"
   }
 
 + Response 403 (text/plain)
   The user already has two active sessions, they must logout from any of them.
+
+## Log out [/logout]
+
+## Delete session token [POST]
+
++ Request (application/json)
+  {
+    "user_id": 1,
+    "session_token": "d91602ea-5136-48f2-a929-c5d411f5654c"
+  }
+
++ Response 204
+
++ Response 403 (text/plain)
+  The session token sent doesn't match those of the user.
