@@ -3,4 +3,14 @@ HOST: https://lexi.mx/api
 
 # Sessions
 
-Log in and log out users
+Log in and log out users. One account can only have two open sessions.
+
+## Log in [/login]
+
+### Generate, save and send session token [POST]
+
++ Request (application/json)
+  {
+    "email": "alexander@thegreat.com",
+    "password": "*********"
+  }
