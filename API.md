@@ -3,7 +3,7 @@
 ### Users
 * Registration / mail verification
 * Edit profile
-* Account deletion
+* Account cancellation
 * Facebook registration
 
 ### Sessions
