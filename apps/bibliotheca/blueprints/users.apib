@@ -29,50 +29,50 @@ with an url to verify their account.
 
 + Response 201 (application/json)
   + Headers
-      Location: /users/1
+    Location: /users/1
   + Body
-      {
-        "username": "thegreat",
-        "email": "alexander@thegreat.com",
-        "first_name": "Alexander",
-        "last_name": "of Macedon",
-        "state": "Central Macedonia",
-        "accepts_terms": true,
-        "accepts_cookies": true,
-        "rfc": "OATA200703VE7",
-        "legal_name": "Alexander III of Macedon",
-        "legal_address": "13 Km Thessaloniki-Perea, Thermi, Central Macedonia, 57001, Greece",
-        "legal_email": "alexander@thegreat.com",
-        "url": "/users/1",
-        "id": 1
-      }
+    {
+      "username": "thegreat",
+      "email": "alexander@thegreat.com",
+      "first_name": "Alexander",
+      "last_name": "of Macedon",
+      "state": "Central Macedonia",
+      "accepts_terms": true,
+      "accepts_cookies": true,
+      "rfc": "OATA200703VE7",
+      "legal_name": "Alexander III of Macedon",
+      "legal_address": "13 Km Thessaloniki-Perea, Thermi, Central Macedonia, 57001, Greece",
+      "legal_email": "alexander@thegreat.com",
+      "url": "/users/1",
+      "id": 1
+    }
 
 + Response 403 (text/plain)
-      A user with this email is already registered.
+  A user with this email is already registered.
 
 ## Specific User [/users/{user_id}]
 
 + Parameters
-    + user_id (number) - User ID, integer
+  + user_id (number) - User ID, integer
 
 ### Show User Profile [GET]
 
 + Response 200 (application/json)
-      {
-        "username": "thegreat",
-        "email": "alexander@thegreat.com",
-        "first_name": "Alexander",
-        "last_name": "of Macedon",
-        "state": "Central Macedonia",
-        "accepts_terms": true,
-        "accepts_cookies": true,
-        "rfc": "OATA200703VE7",
-        "legal_name": "Alexander III of Macedon",
-        "legal_address": "13 Km Thessaloniki-Perea, Thermi, Central Macedonia, 57001, Greece",
-        "legal_email": "alexander@thegreat.com",
-        "url": "/users/1",
-        "id": 1
-      }
+  {
+    "username": "thegreat",
+    "email": "alexander@thegreat.com",
+    "first_name": "Alexander",
+    "last_name": "of Macedon",
+    "state": "Central Macedonia",
+    "accepts_terms": true,
+    "accepts_cookies": true,
+    "rfc": "OATA200703VE7",
+    "legal_name": "Alexander III of Macedon",
+    "legal_address": "13 Km Thessaloniki-Perea, Thermi, Central Macedonia, 57001, Greece",
+    "legal_email": "alexander@thegreat.com",
+    "url": "/users/1",
+    "id": 1
+  }
 
 + Response 404
 
