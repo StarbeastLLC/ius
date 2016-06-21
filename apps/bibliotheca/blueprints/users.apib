@@ -3,16 +3,23 @@ HOST: https://lexi.mx/api
 
 # Users
 
-Register and users, edit their information, cancel their accounts.
+Actions available for this resource:
+- Register a user
+- Edit its information
+- Cancel its account
+- Change its password
 
 ## Users Collection [/users]
 
 ### Register User [POST]
-Register new users, receives json.
-If the registration is successfull, an email will be send to the user
-with an url to verify their account.
+Create an account for a user.
+If the registration is successful, an email will be sent to the user
+with an url to verify their account. To continue the flow,
+the user must check their email, click the verification link
+and manually return to the app to login.
 
 + Request (application/json)
+
   {
     "username": "thegreat",
     "email": "alexander@thegreat.com",
@@ -27,25 +34,7 @@ with an url to verify their account.
     "legal_email": "alexander@thegreat.com"
   }
 
-+ Response 201 (application/json)
-  + Headers
-    Location: /users/1
-  + Body
-    {
-      "username": "thegreat",
-      "email": "alexander@thegreat.com",
-      "first_name": "Alexander",
-      "last_name": "of Macedon",
-      "state": "Central Macedonia",
-      "accepts_terms": true,
-      "accepts_cookies": true,
-      "rfc": "OATA200703VE7",
-      "legal_name": "Alexander III of Macedon",
-      "legal_address": "13 Km Thessaloniki-Perea, Thermi, Central Macedonia, 57001, Greece",
-      "legal_email": "alexander@thegreat.com",
-      "url": "/users/1",
-      "id": 1
-    }
++ Response 204
 
 + Response 403 (text/plain)
   A user with this email is already registered.
@@ -53,36 +42,44 @@ with an url to verify their account.
 ## Specific User [/users/{user_id}]
 
 + Parameters
-  + user_id (number) - User ID, integer
+  + user_id (integer) - User ID
 
 ### Show User Profile [GET]
+Get the user information to display it in their profile.
+If a user exists with the given ID, we'll send it to you;
+otherwise, a 404 will be returned.
 
 + Response 200 (application/json)
-  {
-    "username": "thegreat",
-    "email": "alexander@thegreat.com",
-    "first_name": "Alexander",
-    "last_name": "of Macedon",
-    "state": "Central Macedonia",
-    "accepts_terms": true,
-    "accepts_cookies": true,
-    "rfc": "OATA200703VE7",
-    "legal_name": "Alexander III of Macedon",
-    "legal_address": "13 Km Thessaloniki-Perea, Thermi, Central Macedonia, 57001, Greece",
-    "legal_email": "alexander@thegreat.com",
-    "url": "/users/1",
-    "id": 1
-  }
+          {
+            "username": "thegreat",
+            "email": "alexander@thegreat.com",
+            "first_name": "Alexander",
+            "last_name": "of Macedon",
+            "state": "Central Macedonia",
+            "accepts_terms": true,
+            "accepts_cookies": true,
+            "rfc": "OATA200703VE7",
+            "legal_name": "Alexander III of Macedon",
+            "legal_address": "13 Km Thessaloniki-Perea, Thermi, Central Macedonia, 57001, Greece",
+            "legal_email": "alexander@thegreat.com",
+            "url": "/users/1",
+            "id": 1
+          }
 
 + Response 404
 
-### Cancel user account [DELETE]
+### Cancel User Account [DELETE]
+Soft-delete users. Expect a 204 if the ID referenced an existing user;
+otherwise, a 404 will be returned.
 
 + Response 204
 
 + Response 404
 
 ### Change user info [PUT]
+Change user information according to the new data you send.
+Expect a 204 if the ID referenced an existing user;
+otherwise, a 404 will be returned.
 
 + Request (application/json)
   {
@@ -92,3 +89,20 @@ with an url to verify their account.
 + Response 204
 
 + Response 404
+
+### Change password [POST]
+On success, we send the user an email with a link to verify the action.
+If the current password sent doesn't match the one saved,
+we'll send you a 409.
+
++ Request (application/json)
+  {
+    "email": "alexander@thegreat.com",
+    "current_password": "*********",
+    "new_password": "*********"
+  }
+
++ Response 204
+
++ Response 409 (text/plain)
+  The current password entered by the user is incorrect.
