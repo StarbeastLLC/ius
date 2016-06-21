@@ -42,7 +42,9 @@ with an url to verify their account.
         "rfc": "OATA200703VE7",
         "legal_name": "Alexander III of Macedon",
         "legal_address": "13 Km Thessaloniki-Perea, Thermi, Central Macedonia, 57001, Greece",
-        "legal_email": "alexander@thegreat.com"
+        "legal_email": "alexander@thegreat.com",
+        "url": "/users/1",
+        "id": 1
       }
 
 + Response 403 (text/plain)
@@ -55,4 +57,27 @@ with an url to verify their account.
 
 ### Show User Profile [GET]
 
-+ Response 200
++ Response 200 (application/json)
+      {
+        "username": "thegreat",
+        "email": "alexander@thegreat.com",
+        "first_name": "Alexander",
+        "last_name": "of Macedon",
+        "state": "Central Macedonia",
+        "accepts_terms": true,
+        "accepts_cookies": true,
+        "rfc": "OATA200703VE7",
+        "legal_name": "Alexander III of Macedon",
+        "legal_address": "13 Km Thessaloniki-Perea, Thermi, Central Macedonia, 57001, Greece",
+        "legal_email": "alexander@thegreat.com",
+        "url": "/users/1",
+        "id": 1
+      }
+
++ Response 404
+
+### Cancel user account [DELETE]
+
++ Response 204
+
++ Response 404
