@@ -1,0 +1,67 @@
+FORMAT: 1A
+HOST: https://lexi.mx/api
+
+# Sessions
+
+Log in and log out users. One account can only have two open sessions.
+
+## Log In [/login]
+
+### Generate, Save and Send Session Token [POST]
+A user can only have two sessions open at once.
+Here we generate one, then save it and send it to you,
+so you can save it in the device session along with the user ID.
+
+
+Unless the user has reached the max amount: in that case, expect a 403.
+In order to login, the user must logout from another open session or
+request the deletion of all the open sessions.
+
++ Request (application/json)
+  {
+    "email": "alexander@thegreat.com",
+    "password": "*********"
+  }
+
++ Response 200 (application/json)
+  {
+    "user_id": 1,
+    "session_token": "d91602ea-5136-48f2-a929-c5d411f5654c"
+  }
+
++ Response 403 (text/plain)
+  The user already has two active sessions, they must logout from any of them.
+
+## Log Out [/logout]
+
+## Delete Session Token [POST]
+Send a valid ID and session token, so we can delete the token in the DB;
+you must delete it from the device session too.
+A 403 will be returned if you send incorrect information.
+
++ Request (application/json)
+  {
+    "user_id": 1,
+    "session_token": "d91602ea-5136-48f2-a929-c5d411f5654c"
+  }
+
++ Response 204
+
++ Response 403 (text/plain)
+  The session token sent doesn't match those of the user.
+
+## Session Reset [/session-reset]
+
+## Delete Saved Session Tokens [POST]
+A user can request to delete all of their open sessions if they can't
+logout manually. Just send the ID of an existent user for a 204;
+otherwise, you'll receive a 404. After that, the user can login normally.
+
++ Request (application/json)
+  {
+    "user_id": 1
+  }
+
++ Response 204
+
++ Response 404
