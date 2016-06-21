@@ -1,9 +1,7 @@
 # Services
 
 ### Users
-
-* Registration
-* Mail verification
+* Registration / mail verification
 * Edit profile
 * Account deletion
 * Facebook registration
@@ -21,3 +19,5 @@
 * Show law TOC
 * Show law with articles
 * Show individual articles
+
+### 
