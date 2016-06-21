@@ -5,9 +5,17 @@ HOST: https://lexi.mx/api
 
 Log in and log out users. One account can only have two open sessions.
 
-## Log in [/login]
+## Log In [/login]
 
-### Generate, save and send session token [POST]
+### Generate, Save and Send Session Token [POST]
+A user can only have two sessions open at once.
+Here we generate one, then save it and send it to you,
+so you can save it in the device session along with the user ID.
+
+
+Unless the user has reached the max amount: in that case, expect a 403.
+In order to login, the user must logout from another open session or
+request the deletion of all the open sessions.
 
 + Request (application/json)
   {
@@ -24,9 +32,12 @@ Log in and log out users. One account can only have two open sessions.
 + Response 403 (text/plain)
   The user already has two active sessions, they must logout from any of them.
 
-## Log out [/logout]
+## Log Out [/logout]
 
-## Delete session token [POST]
+## Delete Session Token [POST]
+Send a valid ID and session token, so we can delete the token in the DB;
+you must delete it from the device session too.
+A 403 will be returned if you send incorrect information.
 
 + Request (application/json)
   {
@@ -41,7 +52,10 @@ Log in and log out users. One account can only have two open sessions.
 
 ## Session Reset [/session-reset]
 
-## Delete saved session tokens [POST]
+## Delete Saved Session Tokens [POST]
+A user can request to delete all of their open sessions if they can't
+logout manually. Just send the ID of an existent user for a 204;
+otherwise, you'll receive a 404. After that, the user can login normally.
 
 + Request (application/json)
   {
@@ -49,3 +63,5 @@ Log in and log out users. One account can only have two open sessions.
   }
 
 + Response 204
+
++ Response 404
