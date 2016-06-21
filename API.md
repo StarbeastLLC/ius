@@ -4,7 +4,7 @@
 * Registration / mail verification
 * Edit profile
 * Account cancellation
-* Facebook registration
+* Facebook registration (on hold)
 
 ### Sessions
 * Login
