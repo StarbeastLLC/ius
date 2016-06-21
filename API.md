@@ -1,14 +1,15 @@
 # Services
 
 ### Users
-
-* Registration
-* Mail verification
-* Login
-* Logout
+* Registration / mail verification
 * Edit profile
-* Account deletion
-* Facebook
+* Account cancellation
+* Facebook registration (on hold)
+
+### Sessions
+* Login (generate and send device token)
+* Logout (delete device token)
+* Facebook login
 
 ### Federal Laws
 * Search law by title
@@ -18,3 +19,5 @@
 * Show law TOC
 * Show law with articles
 * Show individual articles
+
+### 
