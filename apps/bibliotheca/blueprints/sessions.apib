@@ -38,3 +38,14 @@ Log in and log out users. One account can only have two open sessions.
 
 + Response 403 (text/plain)
   The session token sent doesn't match those of the user.
+
+## Session Reset [/session-reset]
+
+## Delete saved session tokens [POST]
+
++ Request (application/json)
+  {
+    "user_id": 1
+  }
+
++ Response 204
