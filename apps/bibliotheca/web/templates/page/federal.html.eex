@@ -2,43 +2,46 @@
 
   <h1>Legislatura Federal</h1>
 
-  <%= form_for @conn, law_path(@conn, :search_title), [as: :search], fn f -> %>
-    <p>Buscar ley por título</p>
-    <%= search_input f, :title_term %>
-    <%= submit "Search" %>
-  <% end %>
-  <p>Leyes encontradas: <%= Enum.count(@laws) %></p>
-
-
-  <%= if Enum.count(@laws) > 0 do %>
+  <%= if @articles_by_law == [] do %>
     <%= form_for @conn, law_path(@conn, :search_title), [as: :search], fn f -> %>
-      <%= for law <- @laws do %>
-        <a href="/leyes-federales/<%= law.id %>" target="_blank">
-          <strong><%= law.name %></strong>
-        </a>
-         --
-        <%= checkbox f, :selected_laws, name: "search[selected_laws][]",
-                                               checked: "checked",
-                                               unchecked_value: "empty"%>
-        <%= hidden_input f, :laws_ids, value: law.id, name: "search[laws_ids][]" %>
-        <br>
-      <% end %>
-      <%= if @articles_by_law != [] do %>
-        <%= hidden_input f, :law_id, value: law_id(@articles_by_law) %>
-      <% end %>
-      <br>
-      <p>Buscar dentro de la ley seleccionada</p>
-      <%= search_input f, :term %>
-      <br>
-      <br><br>
-      <p>de manera</p>
-      <br>
-      <span class="tesis-checkbox">
-        <label>LAXA  </label>
-        <%= range_input f, :search_level, default: 1, min: 1, max: 2, step: 1, class: "tesis-slider" %>
-        <label>   RIGUROSA</label>
-      </span><br><br>
+      <p>Buscar ley por título</p>
+      <%= search_input f, :title_term %>
       <%= submit "Search" %>
+    <% end %>
+    <p>Leyes encontradas: <%= Enum.count(@laws) %></p>
+
+
+    <%= if Enum.count(@laws) > 0 do %>
+      <%= form_for @conn, law_path(@conn, :search_title), [as: :search], fn f -> %>
+        <%= for law <- @laws do %>
+          <a href="/leyes-federales/<%= law.id %>" target="_blank">
+            <strong><%= law.name %></strong>
+          </a>
+           --
+          <%= checkbox f, :selected_laws, name: "search[selected_laws][]",
+                                                 checked: "checked",
+                                                 unchecked_value: "empty"%>
+          <%= hidden_input f, :laws_ids, value: law.id, name: "search[laws_ids][]" %>
+          <br>
+        <% end %>
+        <%= if @articles_by_law != [] do %>
+          <%= hidden_input f, :law_id, value: law_id(@articles_by_law) %>
+        <% end %>
+        <br>
+        <p>Buscar dentro de la ley seleccionada</p>
+        <%= search_input f, :term %>
+        <br>
+        <br><br>
+        <p>de manera</p>
+        <br>
+        <span class="tesis-checkbox">
+          <label>LAXA  </label>
+          <%= range_input f, :search_level, default: 1, min: 1, max: 2, step: 1, class: "tesis-slider" %>
+          <label>   RIGUROSA</label>
+        </span><br><br>
+        <%= submit "Search" %>
+        <% end %>
+      <% end %>
     <% end %>
 
     <%= if @articles_by_law != [] do %>
@@ -93,4 +96,3 @@
       <br>
     <% end %>
   </div>
-<% end %>
