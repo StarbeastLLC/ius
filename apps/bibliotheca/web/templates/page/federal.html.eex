@@ -10,85 +10,87 @@
   <p>Leyes encontradas: <%= Enum.count(@laws) %></p>
 
 
-  <%= form_for @conn, law_path(@conn, :search_title), [as: :search], fn f -> %>
-    <%= for law <- @laws do %>
-      <a href="/leyes-federales/<%= law.id %>" target="_blank">
-        <strong><%= law.name %></strong>
-      </a>
-       --
-      <%= checkbox f, :selected_laws, name: "search[selected_laws][]",
-                                             checked: "checked",
-                                             unchecked_value: "empty"%>
-      <%= hidden_input f, :laws_ids, value: law.id, name: "search[laws_ids][]" %>
-      <br>
-    <% end %>
-    <%= if @articles_by_law != [] do %>
-      <%= hidden_input f, :law_id, value: law_id(@articles_by_law) %>
-    <% end %>
-    <br>
-    <p>Buscar dentro de la ley seleccionada</p>
-    <%= search_input f, :term %>
-    <br>
-    <br><br>
-    <p>de manera</p>
-    <br>
-    <span class="tesis-checkbox">
-      <label>LAXA  </label>
-      <%= range_input f, :search_level, default: 1, min: 1, max: 2, step: 1, class: "tesis-slider" %>
-      <label>   RIGUROSA</label>
-    </span><br><br>
-    <%= submit "Search" %>
-  <% end %>
-
-  <%= if @articles_by_law != [] do %>
-    <hr>
-    <p class="toc-title">Tablas de contenido con los artículos encontrados</p>
-    <!-- Generate TOC with highlighted articles -->
-    <%= for law <- @useful_laws do %>
-      <%= form_for @conn, law_path(@conn, :toc_from_search), [as: :search], fn f -> %>
-        <%= for found_article <- @articles_by_law do %>
-          <%= hidden_input f, :found_articles, value: found_article.id, name: "search[found_articles][]" %>
-        <% end %>
-        <%= hidden_input f, :law_id, value: law.id %>
-        <%= submit remove_spaces(law.name), class: "toc_from_search, toc-button"%>
-      <% end %>
-      <!-- Generate found articles show -->
-      <%= form_for @conn, law_path(@conn, :show_found_article), [as: :search], fn f -> %>
-        <%= for found_article <- @articles_by_law do %>
-          <%= hidden_input f, :article_ids, value: found_article.id, name: "search[article_ids][]" %>
-        <% end %>
-        <%= submit count_law_articles(@articles_by_law, law.id), class: "toc_from_search, toc-button"%>
-      <% end %>
-    <% end %>
-  <% end %>
-
-  <%= if @articles_by_law != [] do %>
-    <hr>
-    <p>Artículos encontrados: <%= Enum.count(@articles_by_law) %></p>
-    <br>
-  <% end %>
-
-  <%= for article <- join_highlighted_article(@highlights, @articles_by_law) do %>
-    <div class="article-result">
-      <em>
-        <a href="/articulos-federales/<%= article[:article].id %>">
-          Artículo <%= article[:article].article_number %>
+  <%= if Enum.count(@laws) > 0 do %>
+    <%= form_for @conn, law_path(@conn, :search_title), [as: :search], fn f -> %>
+      <%= for law <- @laws do %>
+        <a href="/leyes-federales/<%= law.id %>" target="_blank">
+          <strong><%= law.name %></strong>
         </a>
+         --
+        <%= checkbox f, :selected_laws, name: "search[selected_laws][]",
+                                               checked: "checked",
+                                               unchecked_value: "empty"%>
+        <%= hidden_input f, :laws_ids, value: law.id, name: "search[laws_ids][]" %>
         <br>
+      <% end %>
+      <%= if @articles_by_law != [] do %>
+        <%= hidden_input f, :law_id, value: law_id(@articles_by_law) %>
+      <% end %>
+      <br>
+      <p>Buscar dentro de la ley seleccionada</p>
+      <%= search_input f, :term %>
+      <br>
+      <br><br>
+      <p>de manera</p>
+      <br>
+      <span class="tesis-checkbox">
+        <label>LAXA  </label>
+        <%= range_input f, :search_level, default: 1, min: 1, max: 2, step: 1, class: "tesis-slider" %>
+        <label>   RIGUROSA</label>
+      </span><br><br>
+      <%= submit "Search" %>
+    <% end %>
+
+    <%= if @articles_by_law != [] do %>
+      <hr>
+      <p class="toc-title">Tablas de contenido con los artículos encontrados</p>
+      <!-- Generate TOC with highlighted articles -->
+      <%= for law <- @useful_laws do %>
         <%= form_for @conn, law_path(@conn, :toc_from_search), [as: :search], fn f -> %>
           <%= for found_article <- @articles_by_law do %>
             <%= hidden_input f, :found_articles, value: found_article.id, name: "search[found_articles][]" %>
           <% end %>
-          <%= hidden_input f, :law_id, value: article[:article].federal_law_id %>
-          <%= submit remove_spaces(article[:article].federal_law.name), class: "toc_from_search, toc-button"%>
+          <%= hidden_input f, :law_id, value: law.id %>
+          <%= submit remove_spaces(law.name), class: "toc_from_search, toc-button"%>
         <% end %>
-      </em>
+        <!-- Generate found articles show -->
+        <%= form_for @conn, law_path(@conn, :show_found_article), [as: :search], fn f -> %>
+          <%= for found_article <- @articles_by_law do %>
+            <%= hidden_input f, :article_ids, value: found_article.id, name: "search[article_ids][]" %>
+          <% end %>
+          <%= submit count_law_articles(@articles_by_law, law.id), class: "toc_from_search, toc-button"%>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= if @articles_by_law != [] do %>
+      <hr>
+      <p>Artículos encontrados: <%= Enum.count(@articles_by_law) %></p>
       <br>
-      <pre>
-        <%= raw highlighted_article(article[:highlight], @terms) %>
-      </pre>
-    </div>
-    <br>
-    <br>
-  <% end %>
-</div>
+    <% end %>
+
+    <%= for article <- join_highlighted_article(@highlights, @articles_by_law) do %>
+      <div class="article-result">
+        <em>
+          <a href="/articulos-federales/<%= article[:article].id %>">
+            Artículo <%= article[:article].article_number %>
+          </a>
+          <br>
+          <%= form_for @conn, law_path(@conn, :toc_from_search), [as: :search], fn f -> %>
+            <%= for found_article <- @articles_by_law do %>
+              <%= hidden_input f, :found_articles, value: found_article.id, name: "search[found_articles][]" %>
+            <% end %>
+            <%= hidden_input f, :law_id, value: article[:article].federal_law_id %>
+            <%= submit remove_spaces(article[:article].federal_law.name), class: "toc_from_search, toc-button"%>
+          <% end %>
+        </em>
+        <br>
+        <pre>
+          <%= raw highlighted_article(article[:highlight], @terms) %>
+        </pre>
+      </div>
+      <br>
+      <br>
+    <% end %>
+  </div>
+<% end %>
