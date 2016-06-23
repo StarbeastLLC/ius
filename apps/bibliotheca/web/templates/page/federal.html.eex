@@ -12,7 +12,7 @@
 
   <%= form_for @conn, law_path(@conn, :search_title), [as: :search], fn f -> %>
     <%= for law <- @laws do %>
-      <a href="/leyes-federales/<%= law.id %>/articulos" target="_blank">
+      <a href="/leyes-federales/<%= law.id %>" target="_blank">
         <strong><%= law.name %></strong>
       </a>
        --
