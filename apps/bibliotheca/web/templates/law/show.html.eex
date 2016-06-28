@@ -5,7 +5,7 @@
     </strong>
   </div>
   <div class="lawtimes">
-    Fecha de reforma: <%= @law.reform_date %>
+    Fecha de reforma: <span id="reform-date"><%= @law.reform_date %></span>
     <br>
     Última actualización: <%= @law.updated_at %>
   </div>
