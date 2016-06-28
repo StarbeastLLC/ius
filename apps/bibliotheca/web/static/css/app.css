@@ -158,6 +158,12 @@ form.link, form.button {
   text-align: center;
 }
 
+.lawtimes {
+  margin-bottom: 3%;
+  margin-top: 1%;
+  text-align:center;
+}
+
 .lawhead {
   font-size: 14px;
   margin-right: 27%;

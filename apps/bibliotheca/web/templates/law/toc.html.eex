@@ -5,11 +5,11 @@
     </a>
   </strong>
 </div>
-
-
+<div class="lawtimes">
+  Fecha de reforma: <%= @law.reform_date %>
   <br>
-  <br>
-
+  Última actualización: <%= @law.updated_at %>
+</div>
 
 <div class="toc-hierarchy">
   <br>

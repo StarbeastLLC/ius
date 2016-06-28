@@ -4,6 +4,11 @@
       <%= @law.name %>
     </strong>
   </div>
+  <div class="lawtimes">
+    Fecha de reforma: <%= @law.reform_date %>
+    <br>
+    Última actualización: <%= @law.updated_at %>
+  </div>
   <a href="/leyes-federales/<%= @law.id %>">
     Tabla de contenidos
   </a>
