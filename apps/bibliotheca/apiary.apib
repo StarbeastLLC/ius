@@ -1,0 +1,175 @@
+FORMAT: 1A
+HOST: https://lexi.mx/v1/api
+
+# Lexi
+
+## Users Collection [/users]
+
+### Register User [POST]
+Create an account for a user.
+If the registration is successful, an email will be sent to the user
+with an url to verify their account. To continue the flow,
+the user must check their email, click the verification link
+and manually return to the app to login.
+
++ Request (application/json)
+
+      {
+        "username": "thegreat",
+        "email": "alexander@thegreat.com",
+        "first_name": "Alexander",
+        "last_name": "of Macedon",
+        "state": "Central Macedonia",
+        "accepts_terms": true,
+        "accepts_cookies": true,
+        "rfc": "OATA200703VE7",
+        "legal_name": "Alexander III of Macedon",
+        "legal_address": "13 Km Thessaloniki-Perea, Thermi, Central Macedonia, 57001, Greece",
+        "legal_email": "alexander@thegreat.com"
+      }
+
++ Response 201 (application/json)
+  + Headers
+      Location: /users/1
+  + Body
+      {
+        "username": "thegreat",
+        "email": "alexander@thegreat.com",
+        "first_name": "Alexander",
+        "last_name": "of Macedon",
+        "state": "Central Macedonia",
+        "accepts_terms": true,
+        "accepts_cookies": true,
+        "rfc": "OATA200703VE7",
+        "legal_name": "Alexander III of Macedon",
+        "legal_address": "13 Km Thessaloniki-Perea, Thermi, Central Macedonia, 57001, Greece",
+        "legal_email": "alexander@thegreat.com",
+        "url": "/users/1",
+        "id": 1
+      }
+
++ Response 403 (text/plain)
+  A user with this email is already registered.
+
+## Specific User [/users/{user_id}]
+
++ Parameters
+  + user_id (integer) - User ID
+
+### Show User Profile [GET]
+Get the user information to display it in their profile.
+If a user exists with the given ID, we'll send it to you;
+otherwise, a 404 will be returned.
+
++ Response 200 (application/json)
+    {
+      "username": "thegreat",
+      "email": "alexander@thegreat.com",
+      "first_name": "Alexander",
+      "last_name": "of Macedon",
+      "state": "Central Macedonia",
+      "accepts_terms": true,
+      "accepts_cookies": true,
+      "rfc": "OATA200703VE7",
+      "legal_name": "Alexander III of Macedon",
+      "legal_address": "13 Km Thessaloniki-Perea, Thermi, Central Macedonia, 57001, Greece",
+      "legal_email": "alexander@thegreat.com",
+      "url": "/users/1",
+      "id": 1
+    }
+
++ Response 404
+
+### Cancel User Account [DELETE]
+Soft-delete users. Expect a 200 if the ID referenced an existing user;
+otherwise, a 404 will be returned.
+
++ Response 200
+
++ Response 404
+
+### Change User Info [PUT]
+Change user information according to the new data you send.
+Expect a 204 if the ID referenced an existing user;
+otherwise, a 404 will be returned.
+
++ Request (application/json)
+  {
+    "username": "themighty"
+  }
+
++ Response 204
+
++ Response 404
+
+### Change Password [POST]
+On success, we send the user an email with a link to verify the action.
+If the current password sent doesn't match the one saved,
+we'll send you a 403.
+
++ Request (application/json)
+  {
+    "email": "alexander@thegreat.com",
+    "current_password": "*********",
+    "new_password": "*********"
+  }
+
++ Response 204
+
++ Response 403 (text/plain)
+  The current password entered by the user is incorrect.
+
+## User Sessions [/users/{user_id}/sessions]
+
++ Parameters
+  + user_id (integer) - User ID
+
+### Generate, Save and Send Session Token [POST]
+A user can only have two sessions open at once.
+Here we generate one, then save it and send it to you,
+so you can save it in the device session along with the user ID.
+
+
+Unless the user has reached the max amount: in that case, expect a 403.
+In order to login, the user must logout from another open session or
+request the deletion of all the open sessions.
+
++ Request (application/json)
+  {
+    "email": "alexander@thegreat.com",
+    "password": "*********"
+  }
+
++ Response 200 (application/json)
+  {
+    "user_id": 1,
+    "session_token": "d91602ea-5136-48f2-a929-c5d411f5654c"
+  }
+
++ Response 403 (text/plain)
+  The user already has two active sessions, they must logout from any of them.
+
+## Delete All Saved Session Tokens [DELETE]
+A user can request to delete all of their open sessions if they can't
+logout manually. After that, the user can login
+(request the creation of new session token) normally.
+
++ Response 200
+
+## Specific User Session [/users/{user_id}/sessions/{user_session_token}]
+
++ Parameters
+  + user_id (integer) - User ID
+  + user_session_token (string) - User session token
+
++ Response 404
+
+## Delete Session Token [DELETE]
+Send a valid ID and session token, so we can delete the token in the DB;
+you must delete it from the device session too.
+A 403 will be returned if you send incorrect information.
+
++ Response 200
+
++ Response 403 (text/plain)
+  The session token sent doesn't match those of the user.

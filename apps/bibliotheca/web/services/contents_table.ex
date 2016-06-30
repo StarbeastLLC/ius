@@ -51,7 +51,6 @@ defmodule Bibliotheca.ContentsTable do
     Enum.map_reduce(articles_mark_number, first_article.id, fn(x, acc)->
       last_article = FederalArticle.by_number(law.id, x)
                    |> Enum.at(0)
-
       articles_by_section = FederalArticle.by_range(acc, last_article.id)
       {articles_by_section, last_article.id + 1}
     end)
