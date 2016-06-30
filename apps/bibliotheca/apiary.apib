@@ -173,3 +173,82 @@ A 403 will be returned if you send incorrect information.
 
 + Response 403 (text/plain)
   The session token sent doesn't match those of the user.
+
+## Federal Laws [/leyes-federales]
+
+## Specific Federal Law [/leyes-federales/{law_id}]
+
++ Parameters
+  + law_id (integer) - Law ID
+
+## Show Law Table of Contents [GET]
+A 200 will be sent along with the law TOC if the id provided
+is valid; otherwise, expect a 404.
+
++ Response 200 (application/json)
+  {
+    "law_id": 123,
+    "law_name": "LEY GENERAL PARA LA PREVENCIÓN Y GESTIÓN INTEGRAL DE LOS RESIDUOS",
+    "reform_date": "22-05-2015",
+    "updated_at": "18-05-2016",
+    "sections":
+      [
+        {
+          "section_name": "TITULO PRIMERO DISPOSICIONES GENERALES
+                           CAPITULO UNICO OBJETO Y AMBITO DE APLICACION DE LA LEY",
+          "articles":
+            [
+              {
+                "article_id": 13429,
+                "article_name": "ARTÍCULO 1",
+                "url": "/leyes-federales/123/articulos/13429"
+              },
+              {
+                "article_id": 13430,
+                "article_name": "ARTÍCULO 2",
+                "url": "/leyes-federales/123/articulos/13430"
+              },
+              ...
+            ]
+        },
+        ...
+      ]
+  }
+
++ Response 404
+
+## Articles in Specific Federal Law [/leyes-federales/{law_id}/articulos]
+
++ Parameters
+  + law_id (integer) - Law ID
+
+## Show Full Law [GET]
+A 200 will be sent along with the law if the id provided
+is valid; otherwise, expect a 404.
+
++ Response 200 (application/json)
+  {
+    "law_id": 123,
+    "law_name": "LEY GENERAL PARA LA PREVENCIÓN Y GESTIÓN INTEGRAL DE LOS RESIDUOS",
+    "reform_date": "22-05-2015",
+    "updated_at": "18-05-2016",
+    "header": "Nueva Ley publicada en el Diario Oficial de la Federación el ...",
+    "articles":
+      [
+        {
+          "article_id": 13429,
+          "article_name": "ARTÍCULO 1",
+          "url": "/leyes-federales/123/articulos/13429",
+          "content": "La presente Ley es reglamentaria de las disposiciones de la ..."
+        },
+        {
+          "article_id": 13430,
+          "article_name": "ARTÍCULO 2",
+          "url": "/leyes-federales/123/articulos/13430",
+          "content": "En la formulación y conducción de la política en ..."
+        },
+        ...
+      ]
+  }
+
++ Response 404
